@@ -14,7 +14,7 @@ ENABLE_LOGGING="true"
 LOG_FILE="bumpster.log"
 
 # Automatically delete feature branches after merge (default: false)
-DELETE_FEATURE_BRANCH_AFTER_MERGE="true"
+DELETE_FEATURE_BRANCH_AFTER_MERGE="false"
 
 # Ask before deleting feature branches (default: true)
 ASK_BEFORE_DELETING_FEATURE_BRANCH="true"

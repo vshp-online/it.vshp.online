@@ -3,6 +3,7 @@ Thumbs.db
 desktop.ini
 node_modules
 build
+*.log
 
 # VuePress default temp directory
 .vuepress/.temp
