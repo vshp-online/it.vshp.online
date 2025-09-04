@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ru-RU">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="generator" content="VuePress 2.0.0-rc.24" />
+    <style>
+      :root {
+        --vp-c-bg: #fff;
+      }
+
+      [data-theme='dark'] {
+        --vp-c-bg: #1b1b1f;
+      }
+
+      html,
+      body {
+        background-color: var(--vp-c-bg);
+      }
+    </style>
+    <script>
+      const useChoice = localStorage.getItem('vuepress-color-scheme')
+      const systemStatus =
+        'matchMedia' in window
+          ? window.matchMedia('(prefers-color-scheme: dark)').matches
+          : false
+
+      if (useChoice === 'light') {
+        document.documentElement.dataset.theme = 'light'
+      } else if (useChoice === 'dark' || systemStatus) {
+        document.documentElement.dataset.theme = 'dark'
+      }
+    </script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebPage","name":"","description":"404 Not Found"}</script><meta property="og:url" content="https://it.vshp.online/404.html"><meta property="og:site_name" content="Сайт кафедры ИТ"><meta property="og:description" content="404 Not Found"><meta property="og:type" content="website"><meta property="og:locale" content="ru-RU"><title>Сайт кафедры ИТ</title><meta name="description" content="404 Not Found">
+    <link rel="preload" href="/assets/style-C5uOVRCY.css" as="style"><link rel="stylesheet" href="/assets/style-C5uOVRCY.css">
+    <link rel="modulepreload" href="/assets/app-SFWOaN11.js"><link rel="modulepreload" href="/assets/404.html-DVStI9cM.js">
+    <link rel="prefetch" href="/assets/LICENSE.html-iCGy1c5m.js" as="script"><link rel="prefetch" href="/assets/index.html-DsnDjMqY.js" as="script">
+  </head>
+  <body>
+    <div id="app"><!--[--><div class="vp-theme-container" vp-container data-v-91f12681><main class="page" data-v-91f12681><div vp-content data-v-91f12681><h1 data-v-91f12681>404</h1><blockquote data-v-91f12681>There&#39;s nothing here.</blockquote><a class="route-link" href="/" data-v-91f12681>Take me home</a></div></main></div><!--[--><!----><!--]--><!--]--></div>
+    <script type="module" src="/assets/app-SFWOaN11.js" defer></script>
+  </body>
+</html>
