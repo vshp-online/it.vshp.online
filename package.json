@@ -1,6 +1,6 @@
 {
   "name": "it.vshp.online",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "main": "index.js",
   "repository": "git@github.com:vshp-online/it.vshp.online.git",
   "author": "PAVEL TKACHEV <phoenixweiss@ya.ru>",
