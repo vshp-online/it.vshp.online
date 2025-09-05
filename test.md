@@ -42,6 +42,49 @@ console.log('Hello, VuePress!')
 
 :::
 
+## Табы для кода
+
+::: code-tabs
+
+@tab JavaScript
+
+```js
+const name = 'VuePress'
+console.log(`Hello, ${name}!`)
+```
+
+@tab TypeScript
+
+```ts
+const name: string = 'VuePress'
+
+console.log(`Hello, ${name}!`)
+```
+
+:::
+
+## Табы с контентом
+
+::: tabs
+
+@tab Tab1
+
+This is the content of Tab1.
+
+```js
+console.log('Hello, VuePress!')
+```
+
+@tab Tab2
+
+This is the content of Tab2.
+
+- List item 1
+- List item 2
+- List item 3
+
+:::
+
 ## Диаграммы Mermaid
 
 ### Структура кафедры
