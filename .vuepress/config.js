@@ -25,6 +25,16 @@ export default defineUserConfig({
     ],
   }),
 
+  head: [
+    [
+      "link",
+      {
+        rel: "icon",
+        href: "/images/logo.svg",
+      },
+    ],
+  ],
+
   base: "/",
   lang: "ru-RU",
   title: "Сайт кафедры ИТ",
@@ -35,10 +45,8 @@ export default defineUserConfig({
     "!.vuepress",
     "!node_modules",
     // игнорируем весь каталог лицензии...
-    '!VSHP-EMLicense/**',
+    "!VSHP-EMLicense/**",
     // ...но явно включаем сам файл лицензии
-    'VSHP-EMLicense/LICENSE.md',
+    "VSHP-EMLicense/LICENSE.md",
   ],
-
-
 });
