@@ -6,8 +6,15 @@
   "author": "PAVEL TKACHEV <phoenixweiss@ya.ru>",
   "license": "VSHP-EMLicense",
   "private": true,
+  "config": {
+    "vshpLicenseRepo": "https://github.com/vshp-online/VSHP-EMLicense.git",
+    "vshpLicenseRef": "1.0.0",
+    "vshpLicensePrefix": "VSHP-EMLicense"
+  },
   "scripts": {
+    "license:update": "node scripts/license-update.js",
     "dev": "vuepress dev .",
+    "prebuild": "yarn license:update",
     "build": "vuepress build .",
     "predeploy": "yarn build",
     "deploy": "gh-pages -d ./.vuepress/dist"

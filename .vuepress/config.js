@@ -29,5 +29,16 @@ export default defineUserConfig({
   lang: "ru-RU",
   title: "Сайт кафедры ИТ",
 
-  pagePatterns: ["**/*.md", "!README.md", "!.vuepress", "!node_modules"],
+  pagePatterns: [
+    "**/*.md",
+    "!README.md",
+    "!.vuepress",
+    "!node_modules",
+    // игнорируем весь каталог лицензии...
+    '!VSHP-EMLicense/**',
+    // ...но явно включаем сам файл лицензии
+    'VSHP-EMLicense/LICENSE.md',
+  ],
+
+
 });
