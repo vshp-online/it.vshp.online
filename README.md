@@ -38,6 +38,9 @@ yarn serve
 
 # Развертывание текущей версии на GithubPages
 yarn deploy
+
+# Для интерактивного обновления зависимостей
+yarn upgrade-interactive
 ```
 
 ---

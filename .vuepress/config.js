@@ -3,6 +3,8 @@ import { defaultTheme } from "@vuepress/theme-default";
 import { defineUserConfig } from "vuepress";
 
 export default defineUserConfig({
+  plugins: [],
+
   bundler: viteBundler(),
   theme: defaultTheme({
     repo: "https://github.com/vshp-online/it.vshp.online",
@@ -35,6 +37,8 @@ export default defineUserConfig({
     ],
   ],
 
+  public: `./public`,
+
   base: "/",
   lang: "ru-RU",
   title: "Сайт кафедры ИТ",
@@ -43,10 +47,8 @@ export default defineUserConfig({
     "**/*.md",
     "!README.md",
     "!.vuepress",
+    "!public",
     "!node_modules",
-    // игнорируем весь каталог лицензии...
-    "!VSHP-EMLicense/**",
-    // ...но явно включаем сам файл лицензии
-    "VSHP-EMLicense/LICENSE.md",
+    "!VSHP-EMLicense/README.md"
   ],
 });
