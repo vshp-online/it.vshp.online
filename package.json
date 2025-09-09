@@ -15,7 +15,7 @@
   "scripts": {
     "license:update": "node scripts/license-update.js",
     "dev": "vuepress dev .",
-    "prebuild": "yarn license:update",
+    "prebuild": "GIT_MERGE_AUTOEDIT=no yarn license:update",
     "build": "vuepress build .",
     "preserve": "yarn build",
     "serve": "serve ./.vuepress/dist",

@@ -47,7 +47,7 @@ function readConfig() {
 
   try {
     // тянем нужный тег/ветку в subtree
-    run(`git subtree pull --prefix ${prefix} ${repo} ${ref} --squash`);
+    run(`git subtree pull --prefix ${prefix} ${repo} ${ref} --squash -m "sync VSHP-EMLicense to ${ref}"`);
 
     // маленький лог: покажем версию из LICENSE.md (если есть)
     const licPath = join(prefix, 'LICENSE.md');
