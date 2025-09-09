@@ -29,7 +29,6 @@ https://github.com/vshp-online/VSHP-EMLicense/blob/<TAG>/LICENSE.md
   https://github.com/vshp-online/VSHP-EMLicense/blob/1.0.0/LICENSE.md
   ```
 
-
 ### 2. Скопировать вручную
 
 Скачайте `LICENSE.md` из нужного тега и добавьте в свой проект (например, в корень или в каталог публикуемых материалов).
@@ -88,7 +87,7 @@ git subtree pull --prefix licenses/VSHP-EMLicense \
 
 > **Только для сотрудников кафедры, работающих с данным репозиторием!**
 
-**Семантика версий:** `X.Y.Z`
+**Семантика версий:** `X.Y(.Z)`
 
 - `X` — несовместимые изменения.
 - `Y` — совместимые уточнения/дополнения.
@@ -96,7 +95,7 @@ git subtree pull --prefix licenses/VSHP-EMLicense \
 
 **Правила:**
 
-- Теги строго в формате **`X.Y.Z`** и **не переписываются** (immutable).
+- Теги строго в формате **`X.Y.Z`**, без префикса `v` и **не переписываются** (immutable).
 - Ветка `main` всегда содержит актуальный текст лицензии.
 - Даты — в формате **YYYY-MM-DD**.
 
@@ -119,10 +118,28 @@ git subtree pull --prefix licenses/VSHP-EMLicense \
    git push origin 1.1.1
    ```
 
-5. (Опционально) создайте GitHub Release для тега:
+5. Сформируйте PDF для релиза:
+
+   - Установите утилиту для конвертации Markdown → PDF (если не установлена):
+
+     ```bash
+     npm i -g md-to-pdf
+     ```
+
+   - Сгенерируйте PDF из `LICENSE.md`:
+
+     ```bash
+     npx md-to-pdf LICENSE.md --pdf-options '{"format":"A4","margin":"16mm"}'
+     ```
+
+   - В результате появится файл `LICENSE.pdf` рядом с `LICENSE.md`.
+   - На шаге создания релиза прикрепите `LICENSE.pdf` как asset.
+
+6. Создайте GitHub Release для тега:
 
    - Title: `VSHP-EMLicense 1.1.1`
    - Notes: краткий список изменений
+   - Прикрепите asset: `LICENSE.pdf` (сгенерирован на предыдущем шаге).
 
 ## Контакты
 
