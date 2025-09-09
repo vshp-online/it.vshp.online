@@ -8,10 +8,20 @@ import { viteBundler } from "@vuepress/bundler-vite";
 import { defaultTheme } from "@vuepress/theme-default";
 
 // https://ecosystem.vuejs.press/plugins/markdown/markdown-chart/
-import { markdownChartPlugin } from '@vuepress/plugin-markdown-chart';
+import { markdownChartPlugin } from "@vuepress/plugin-markdown-chart";
 
 // https://ecosystem.vuejs.press/plugins/markdown/markdown-math.html
-import { markdownMathPlugin } from '@vuepress/plugin-markdown-math';
+import { markdownMathPlugin } from "@vuepress/plugin-markdown-math";
+
+import fs from 'node:fs'
+import path from 'node:path'
+
+const pkg = JSON.parse(
+  fs.readFileSync(path.resolve(process.cwd(), 'package.json'), 'utf8')
+)
+
+const APP_VERSION = pkg.version ?? 'dev'
+const VSHP_EML_VERSION = pkg.config.vshpLicenseRef ?? ''
 
 export default defineUserConfig({
   plugins: [
@@ -30,16 +40,28 @@ export default defineUserConfig({
       plantuml: false,
     }),
     markdownMathPlugin({
-      type: 'katex',
+      type: "katex",
       copy: true,
       mhchem: true,
       katexOptions: {
         throwOnError: false,
-      }
+      },
     }),
   ],
 
-  bundler: viteBundler(),
+  bundler: viteBundler({
+    viteOptions: {
+      publicDir: "public",
+      define: {
+        __APP_VERSION__: JSON.stringify(APP_VERSION),
+        __VSHP_EML_VERSION__: JSON.stringify(VSHP_EML_VERSION),
+      },
+      build: {
+        chunkSizeWarningLimit: 800,
+      },
+    },
+  }),
+
   theme: defaultTheme({
     repo: "https://github.com/vshp-online/it.vshp.online",
     logo: "/images/logo.svg",
@@ -70,6 +92,14 @@ export default defineUserConfig({
       },
     ],
   ],
+
+  alias: {
+    // заменяем дефолтный футер главной
+    '@theme/VPHomeFooter.vue': path.resolve(
+      __dirname,
+      './components/SiteFooter.vue'
+    ),
+  },
 
   public: `./public`,
 

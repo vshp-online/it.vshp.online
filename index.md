@@ -22,11 +22,4 @@ actions:
 #   - title: Математика в действии
 #     details: Дискретная математика, вероятность и статистика как инструменты инженера и исследователя.
 
-footerHtml: true
-footer: |
-  © Кафедра информационных технологий ЧУВО «ВШП», 2025.
-  <br>
-  Материалы доступны в соответствии с лицензией:
-  <br>
-  <a href="/VSHP-EMLicense/LICENSE"><img src="https://flat.badgen.net/static/%D0%9B%D0%B8%D1%86%D0%B5%D0%BD%D0%B7%D0%B8%D1%8F/VSHP-EMLicense-1.1.0/781F18"></a>
 ---
