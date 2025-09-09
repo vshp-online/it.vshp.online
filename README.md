@@ -30,6 +30,9 @@ yarn
 # Запуск локального дев-сервера на http://localhost:8080
 yarn dev
 
+# Обновить версию лицензии до config.vshpLicenseRef из package.json
+yarn license:update
+
 # Сборка статики
 yarn build
 

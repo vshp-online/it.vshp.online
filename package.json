@@ -9,7 +9,7 @@
   "private": true,
   "config": {
     "vshpLicenseRepo": "https://github.com/vshp-online/VSHP-EMLicense.git",
-    "vshpLicenseRef": "1.0.0",
+    "vshpLicenseRef": "1.1.0",
     "vshpLicensePrefix": "VSHP-EMLicense"
   },
   "scripts": {
