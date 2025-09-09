@@ -13,18 +13,25 @@ import { markdownChartPlugin } from "@vuepress/plugin-markdown-chart";
 // https://ecosystem.vuejs.press/plugins/markdown/markdown-math.html
 import { markdownMathPlugin } from "@vuepress/plugin-markdown-math";
 
-import fs from 'node:fs'
-import path from 'node:path'
+// https://ecosystem.vuejs.press/plugins/markdown/markdown-ext.html
+import { markdownExtPlugin } from "@vuepress/plugin-markdown-ext";
+
+import fs from "node:fs";
+import path from "node:path";
 
 const pkg = JSON.parse(
-  fs.readFileSync(path.resolve(process.cwd(), 'package.json'), 'utf8')
-)
+  fs.readFileSync(path.resolve(process.cwd(), "package.json"), "utf8")
+);
 
-const APP_VERSION = pkg.version ?? 'dev'
-const VSHP_EML_VERSION = pkg.config.vshpLicenseRef ?? ''
+const APP_VERSION = pkg.version ?? "dev";
+const VSHP_EML_VERSION = pkg.config.vshpLicenseRef ?? "";
 
 export default defineUserConfig({
   plugins: [
+    markdownExtPlugin({
+      gfm: true,
+      vPre: true,
+    }),
     markdownChartPlugin({
       // Enable Chart.js
       chartjs: false,
@@ -95,9 +102,9 @@ export default defineUserConfig({
 
   alias: {
     // заменяем дефолтный футер главной
-    '@theme/VPHomeFooter.vue': path.resolve(
+    "@theme/VPHomeFooter.vue": path.resolve(
       __dirname,
-      './components/SiteFooter.vue'
+      "./components/SiteFooter.vue"
     ),
   },
 

@@ -328,6 +328,13 @@
   dependencies:
     "@types/markdown-it" "^14.1.2"
 
+"@mdit/plugin-footnote@^0.22.2":
+  version "0.22.2"
+  resolved "https://registry.yarnpkg.com/@mdit/plugin-footnote/-/plugin-footnote-0.22.2.tgz#140ea8867cc96cad91060a835f493a4e2dd5e9c3"
+  integrity sha512-lHB6AV61QruvrWXIu/oWncltH2ED8cBUuvX4IO+5TvtWSyyc6wOm3ErPqqTFJqy1SJ1p21oLNcqRGdPF+S3N4w==
+  dependencies:
+    "@types/markdown-it" "^14.1.2"
+
 "@mdit/plugin-katex-slim@^0.23.1":
   version "0.23.1"
   resolved "https://registry.yarnpkg.com/@mdit/plugin-katex-slim/-/plugin-katex-slim-0.23.1.tgz#4ffb0d641a6ce51d988a16324e71ac15ef61c789"
@@ -360,6 +367,13 @@
   integrity sha512-3BbC3GTCiws2HsFG+BsXhuss6O90OLIvnBRrKP4IQtMIWlcEaxDf1nNvYYFt3sWipSGI4JuO3S7BxQ1dZkabKg==
   dependencies:
     "@mdit/helper" "0.22.1"
+    "@types/markdown-it" "^14.1.2"
+
+"@mdit/plugin-tasklist@^0.22.1":
+  version "0.22.1"
+  resolved "https://registry.yarnpkg.com/@mdit/plugin-tasklist/-/plugin-tasklist-0.22.1.tgz#0d6f538dd2750ce0984248958b736a662676ca90"
+  integrity sha512-mn09Sm0fMV6ql3wb6TuoAai4gmnybvq09KeHa2ckBKKO/fwqVqCvOUI2yvZc3IrYMR+4B2WlBtyCBk5v11H9Uw==
+  dependencies:
     "@types/markdown-it" "^14.1.2"
 
 "@mdit/plugin-tex@0.22.1":
@@ -1247,6 +1261,18 @@
     "@vuepress/helper" "2.0.0-rc.112"
     "@vueuse/core" "^13.5.0"
     vue "^3.5.17"
+
+"@vuepress/plugin-markdown-ext@^2.0.0-rc.112":
+  version "2.0.0-rc.112"
+  resolved "https://registry.yarnpkg.com/@vuepress/plugin-markdown-ext/-/plugin-markdown-ext-2.0.0-rc.112.tgz#382e1b3da664ef225fef1bb167f4eb4a7d5294ea"
+  integrity sha512-fMaBKLmg/ux6s/PNDuIdBEogZOYys7sajZLnr7Xfp1gtQV/GnXAabBoBAINWbdy4Un0RRaMgLcqokR2AeS2poQ==
+  dependencies:
+    "@mdit/plugin-container" "^0.22.1"
+    "@mdit/plugin-footnote" "^0.22.2"
+    "@mdit/plugin-tasklist" "^0.22.1"
+    "@types/markdown-it" "^14.1.2"
+    "@vuepress/helper" "2.0.0-rc.112"
+    js-yaml "^4.1.0"
 
 "@vuepress/plugin-markdown-hint@2.0.0-rc.112":
   version "2.0.0-rc.112"
@@ -2761,6 +2787,13 @@ js-yaml@^3.13.1:
   dependencies:
     argparse "^1.0.7"
     esprima "^4.0.0"
+
+js-yaml@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-4.1.0.tgz#c1fb65f8f5017901cdd2c951864ba18458a10602"
+  integrity sha512-wpxZs9NoxZaJESJGIZTyDEaYpl0FKSA+FB9aJiyemKhMwkxQg63h4T1KJgUGHpTqPDNRcmmYLugrRjJlBtWvRA==
+  dependencies:
+    argparse "^2.0.1"
 
 json-schema-traverse@^1.0.0:
   version "1.0.0"

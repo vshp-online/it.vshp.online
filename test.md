@@ -113,63 +113,297 @@ $$
 
 ## Диаграммы Mermaid
 
-### Структура кафедры
+### Flowchart
 
 ```mermaid
-flowchart TD
-  %% Руководство кафедрой
-  IT_dept["Кафедра информационных технологий<br/><i>Заведующий кафедрой: Ткачев П.С.</i>"]
-
-  %% Учебно-методические группы
-  subgraph UMGs ["Учебно-методические группы"]
-    direction LR
-    UMG_Math["Математических дисциплин<br/><i>Руководитель: Зубов Н.Н.</i>"]
-    UMG_Prog["Теории и практики программирования<br/><i>Руководитель: Бакланов А.А.</i>"]
-    UMG_DB["Информационных систем и баз данных<br/><i>Руководитель: Ткачев П.С.</i>"]
-    UMG_Arch["Аппаратной архитектуры, операционных систем и сетей<br/><i>Руководитель: Пашков А.Е.</i>"]
-  end
-
-  %% Технический отдел
-  Tech_dept["Отдел технического обеспечения<br/><i>Руководитель: Честных В.В.</i>"]
-
-  %% Связи
-  IT_dept --> UMGs
-  IT_dept --> Tech_dept
+---
+title: Flowchart
+---
+flowchart TB
+    c1-->a2
+    subgraph one
+    a1-->a2
+    end
+    subgraph two
+    b1-->b2
+    end
+    subgraph three
+    c1-->c2
+    end
+    one --> two
+    three --> two
+    two --> c2
 ```
 
-### Структура ВШП
+### Sequence Diagram
 
-```mermaid
-flowchart TD
+```sequence Greetings
+Alice ->> Bob: Hello Bob, how are you?
+Bob-->>John: How about you John?
+Bob--x Alice: I am good thanks!
+Bob-x John: I am good thanks!
+Note right of John: Bob thinks a long<br/>long time, so long<br/>that the text does<br/>not fit on a row.
 
-%% Высшее руководство
-Founders["Учредители"] --> Rector["Ректор"]
-
-%% Подчинённые ректору
-Rector --> Vice_Rector_IT["Проректор по информатизации"]
-Rector --> Technical_Director["Технический директор"]
-Rector --> Head_IT_Department["Заведующий кафедрой информационных технологий<br/><i>Ткачев П.С.</i>"]
-
-%% Подразделения технического директора
-Technical_Director --> Head_Tech_Support["Руководитель отдела технического обеспечения<br/><i>Честных В.В.</i>"]
-Head_Tech_Support --> Lab_Assistant["Лаборант"]
-
-%% Структура кафедры ИТ
-Head_IT_Department --> Senior_IT_Lecturer["Старший преподаватель кафедры ИТ"]
-Senior_IT_Lecturer --> Practice_Specialist["Специалист по организации практической подготовки студентов"]
-
-subgraph IT_Department["Кафедра информационных технологий"]
-  direction TB
-  Head_IT_Department
-
-  subgraph Methodological_Groups["Учебно-методические группы"]
-    direction LR
-    Math_Group["Математических дисциплин<br/><i>Зубов Н.Н.</i>"]
-    Programming_Group["Теории и практики программирования<br/><i>Бакланов А.А.</i>"]
-    DB_Group["Информационных систем и баз данных<br/><i>Ткачев П.С.</i>"]
-    Hardware_Group["Аппаратной архитектуры, ОС и сетей<br/><i>Пашков А.Е.</i>"]
-  end
-
-  Head_IT_Department --> Methodological_Groups
-end
+Bob-->Alice: Checking with John...
+Alice->John: Yes... John, how are you?
 ```
+
+### Class Diagram
+
+```class Animal Example
+note "From Duck till Zebra"
+Animal <|-- Duck
+note for Duck "can fly\ncan swim\ncan dive\ncan help in debugging"
+Animal <|-- Fish
+Animal <|-- Zebra
+Animal : +int age
+Animal : +String gender
+Animal: +isMammal()
+Animal: +mate()
+class Duck{
+  +String beakColor
+  +swim()
+  +quack()
+}
+class Fish{
+  -int sizeInFeet
+  -canEat()
+}
+class Zebra{
+  +bool is_wild
+  +run()
+}
+```
+
+### State Diagram
+
+```state Check if n is negative
+
+state if_state <<choice>>
+[*] --> IsPositive
+IsPositive --> if_state
+if_state --> False: if n < 0
+if_state --> True : if n >= 0
+```
+
+### Entity Relationship Diagrams
+
+```er Er Example
+CAR ||--o{ NAMED-DRIVER : allows
+CAR {
+    string registrationNumber
+    string make
+    string model
+}
+PERSON ||--o{ NAMED-DRIVER : is
+PERSON {
+    string firstName
+    string lastName
+    int age
+}
+```
+
+### User Journey Diagram
+
+```journey
+title My working day
+section Go to work
+  Make tea: 5: Me
+  Go upstairs: 3: Me
+  Do work: 1: Me, Cat
+section Go home
+  Go downstairs: 5: Me
+  Sit down: 5: Me
+```
+
+### Gantt Diagrams
+
+```gantt
+dateFormat  YYYY-MM-DD
+title       Adding GANTT diagram functionality to mermaid
+excludes    weekends
+%% (`excludes` accepts specific dates in YYYY-MM-DD format, days of the week ("sunday") or "weekends", but not the word "weekdays".)
+
+section A section
+Completed task            :done,    des1, 2014-01-06,2014-01-08
+Active task               :active,  des2, 2014-01-09, 3d
+Future task               :         des3, after des2, 5d
+Future task2              :         des4, after des3, 5d
+
+section Critical tasks
+Completed task in the critical line :crit, done, 2014-01-06,24h
+Implement parser                    :crit, done, after des1, 2d
+Create tests for parser             :crit, active, 3d
+Future task in critical line        :crit, 5d
+Create tests for renderer           :2d
+Add to mermaid                      :1d
+
+section Documentation
+Describe gantt syntax               :active, a1, after des1, 3d
+Add gantt diagram to demo page      :after a1  , 20h
+Add another diagram to demo page    :doc1, after a1  , 48h
+
+section Last section
+Describe gantt syntax               :after doc1, 3d
+Add gantt diagram to demo page      :20h
+Add another diagram to demo page    :48h
+```
+
+### Pie Chart Diagrams
+
+```pie
+title What Voldemort doesn't have?
+  "FRIENDS" : 2
+  "FAMILY" : 3
+  "NOSE" : 45
+```
+
+### Git Graph Diagrams
+
+```git-graph
+commit
+branch hotfix
+checkout hotfix
+commit
+branch develop
+checkout develop
+commit id:"ash" tag:"abc"
+branch featureB
+checkout featureB
+commit type:HIGHLIGHT
+checkout main
+checkout hotfix
+commit type:NORMAL
+checkout develop
+commit type:REVERSE
+checkout featureB
+commit
+checkout main
+merge hotfix
+checkout featureB
+commit
+checkout develop
+branch featureA
+commit
+checkout develop
+merge hotfix
+checkout featureA
+commit
+checkout featureB
+commit
+checkout develop
+merge featureA
+branch release
+checkout release
+commit
+checkout main
+commit
+checkout release
+merge main
+checkout develop
+merge release
+```
+
+### Timeline
+
+```timeline
+title Timeline of Industrial Revolution
+section 17th-20th century
+    Industry 1.0 : Machinery, Water power, Steam <br>power
+    Industry 2.0 : Electricity, Internal combustion engine, Mass production
+    Industry 3.0 : Electronics, Computers, Automation
+section 21st century
+    Industry 4.0 : Internet, Robotics, Internet of Things
+    Industry 5.0 : Artificial intelligence, Big data,3D printing
+```
+
+### Quadrant Chart
+
+```quadrant
+title Reach and engagement of campaigns
+x-axis Low Reach --> High Reach
+y-axis Low Engagement --> High Engagement
+quadrant-1 We should expand
+quadrant-2 Need to promote
+quadrant-3 Re-evaluate
+quadrant-4 May be improved
+Campaign A: [0.3, 0.6]
+Campaign B: [0.45, 0.23]
+Campaign C: [0.57, 0.69]
+Campaign D: [0.78, 0.34]
+Campaign E: [0.40, 0.34]
+Campaign F: [0.35, 0.78]
+```
+
+### XY Chart
+
+```xy
+title "Sales Revenue"
+x-axis [jan, feb, mar, apr, may, jun, jul, aug, sep, oct, nov, dec]
+y-axis "Revenue (in $)" 4000 --> 11000
+bar [5000, 6000, 7500, 8200, 9500, 10500, 11000, 10200, 9200, 8500, 7000, 6000]
+line [5000, 6000, 7500, 8200, 9500, 10500, 11000, 10200, 9200, 8500, 7000, 6000]
+```
+
+### Packet Chart
+
+```packet
+title UDP Packet
+0-15: "Source Port"
+16-31: "Destination Port"
+32-47: "Length"
+48-63: "Checksum"
+64-95: "Data (variable length)"
+```
+
+### Radar Chart
+
+```radar
+---
+config:
+  radar:
+    axisScaleFactor: 0.25
+    curveTension: 0.1
+  theme: base
+  themeVariables:
+    cScale0: "#FF0000"
+    cScale1: "#00FF00"
+    cScale2: "#0000FF"
+    radar:
+      curveOpacity: 0
+---
+
+axis A, B, C, D, E
+curve c1{1,2,3,4,5}
+curve c2{5,4,3,2,1}
+curve c3{3,3,3,3,3}
+```
+
+## Сноски
+
+Контент с первой сноской[^first].
+
+Контент со второй сноской[^second].
+
+Сноска внутри^[Описание сноски] текстового блока.
+
+Ещё одна вторая сноска[^second].
+
+[^first]: Описание **первой сноски**
+
+    и даже многострочное.
+
+[^second]: Описание второй сноски.
+
+## Чеклисты
+
+- [ ] Пункт А
+- [x] Пункт Б
+
+## Отключение интерполяции в блоке
+
+::: v-pre
+
+{{ abc }}
+
+:::
