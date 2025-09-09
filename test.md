@@ -3,35 +3,35 @@
 ## Контейнеры
 
 ::: tip
-This is a tip
+Текст совета
 :::
 
 ::: warning
-This is a warning
+Текст примечания
 :::
 
 ::: danger
-This is a dangerous warning
+Текст предупреждения
 :::
 
 ::: info
-This is an information.
+Текст инфо
 :::
 
 ::: important
-This is an important message
+Текст важно
 :::
 
 ::: note
-This is a note
+Текст заметки
 :::
 
 ::: details
-This is a details block
+Текст подробнее
 :::
 
 ::: danger Произвольный заголовок 1
-Danger zone, do not proceed
+Текст произвольного заголовка 1
 :::
 
 ::: details Произвольный заголовок 2
@@ -50,6 +50,7 @@ console.log('Hello, VuePress!')
 
 ```js
 const name = 'VuePress'
+
 console.log(`Hello, ${name}!`)
 ```
 
@@ -67,23 +68,48 @@ console.log(`Hello, ${name}!`)
 
 ::: tabs
 
-@tab Tab1
+@tab Таб 1
 
-This is the content of Tab1.
+Контент первого таба.
 
 ```js
 console.log('Hello, VuePress!')
 ```
 
-@tab Tab2
+@tab Таб 2
 
-This is the content of Tab2.
+Контент второго таба.
 
-- List item 1
-- List item 2
-- List item 3
+- Пункт списка 1
+- Пункт списка 2
+- Пункт списка 3
 
 :::
+
+## Математические формулы
+
+### Инлайновые
+
+Euler's identity $e^{i\pi}+1=0$ is a beautiful formula in $\mathbb{R}^2$.
+
+### Мультистрочные
+
+$$
+\frac {\partial^r} {\partial \omega^r} \left(\frac {y^{\omega}} {\omega}\right)
+= \left(\frac {y^{\omega}} {\omega}\right) \left\{(\log y)^r + \sum_{i=1}^r \frac {(-1)^ Ir \cdots (r-i+1) (\log y)^{ri}} {\omega^i} \right\}
+$$
+
+## Химические выражения
+
+### Инлайновые
+
+$\ce{CO2 + C -> 2 CO}$
+
+### Мультистрочные
+
+$$
+\ce{Zn^2+  <=>[+ 2OH-][+ 2H+]  $\underset{\text{amphoteres Hydroxid}}{\ce{Zn(OH)2 v}}$  <=>[+ 2OH-][+ 2H+]  $\underset{\text{Hydroxozikat}}{\ce{[Zn(OH)4]^2-}}$}
+$$
 
 ## Диаграммы Mermaid
 

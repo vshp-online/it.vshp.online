@@ -1,9 +1,43 @@
-import { viteBundler } from "@vuepress/bundler-vite";
-import { defaultTheme } from "@vuepress/theme-default";
+// https://vuepress.vuejs.org/reference/config.html
 import { defineUserConfig } from "vuepress";
 
+// https://vuepress.vuejs.org/reference/bundler/vite.html
+import { viteBundler } from "@vuepress/bundler-vite";
+
+// https://ecosystem.vuejs.press/themes/default/
+import { defaultTheme } from "@vuepress/theme-default";
+
+// https://ecosystem.vuejs.press/plugins/markdown/markdown-chart/
+import { markdownChartPlugin } from '@vuepress/plugin-markdown-chart';
+
+// https://ecosystem.vuejs.press/plugins/markdown/markdown-math.html
+import { markdownMathPlugin } from '@vuepress/plugin-markdown-math';
+
 export default defineUserConfig({
-  plugins: [],
+  plugins: [
+    markdownChartPlugin({
+      // Enable Chart.js
+      chartjs: false,
+      // Enable ECharts
+      echarts: false,
+      // Enable Flowchart.js
+      flowchart: false,
+      // Enable Markmap
+      markmap: false,
+      // Enable Mermaid
+      mermaid: true,
+      // Enable PlantUML
+      plantuml: false,
+    }),
+    markdownMathPlugin({
+      type: 'katex',
+      copy: true,
+      mhchem: true,
+      katexOptions: {
+        throwOnError: false,
+      }
+    }),
+  ],
 
   bundler: viteBundler(),
   theme: defaultTheme({
@@ -49,6 +83,6 @@ export default defineUserConfig({
     "!.vuepress",
     "!public",
     "!node_modules",
-    "!VSHP-EMLicense/README.md"
+    "!VSHP-EMLicense/README.md",
   ],
 });

@@ -24,8 +24,12 @@
   },
   "devDependencies": {
     "@vuepress/bundler-vite": "^2.0.0-rc.24",
+    "@vuepress/plugin-markdown-chart": "^2.0.0-rc.112",
+    "@vuepress/plugin-markdown-math": "^2.0.0-rc.112",
     "@vuepress/theme-default": "^2.0.0-rc.112",
     "gh-pages": "^6.3.0",
+    "katex": "^0.16.22",
+    "mermaid": "^11.11.0",
     "sass-embedded": "^1.92.0",
     "serve": "^14.2.5",
     "vue": "^3.5.21",
