@@ -16,6 +16,12 @@ import { markdownMathPlugin } from "@vuepress/plugin-markdown-math";
 // https://ecosystem.vuejs.press/plugins/markdown/markdown-ext.html
 import { markdownExtPlugin } from "@vuepress/plugin-markdown-ext";
 
+// https://ecosystem.vuejs.press/plugins/markdown/prismjs.html
+import { prismjsPlugin } from "@vuepress/plugin-prismjs";
+
+// https://ecosystem.vuejs.press/plugins/markdown/markdown-preview.html
+import { markdownPreviewPlugin } from "@vuepress/plugin-markdown-preview";
+
 import fs from "node:fs";
 import path from "node:path";
 
@@ -28,6 +34,26 @@ const VSHP_EML_VERSION = pkg.config.vshpLicenseRef ?? "";
 
 export default defineUserConfig({
   plugins: [
+    prismjsPlugin({
+      themes: { light: "one-light", dark: "one-dark" },
+      collapsedLines: false,
+      notationDiff: true,
+      notationFocus: true,
+      notationHighlight: true,
+      notationErrorLevel: true,
+      notationWordHighlight: true,
+      preloadLanguages: [
+        "html",
+        "css",
+        "javascript",
+        "typescript",
+        "bash",
+        "json",
+        "diff",
+        "vue",
+      ],
+    }),
+    markdownPreviewPlugin(),
     markdownExtPlugin({
       gfm: true,
       vPre: true,

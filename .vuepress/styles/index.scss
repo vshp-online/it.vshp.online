@@ -29,9 +29,9 @@
 
 ::-webkit-scrollbar-thumb {
   border-radius: 6px;
-  background: var(--vp-c-accent-bg);
+  background: var(--vp-c-accent);
 
   &:active {
-    background: var(--vp-c-accent-hover);
+    background: var(--vp-c-accent-bg);
   }
 }

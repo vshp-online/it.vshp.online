@@ -42,6 +42,162 @@ console.log('Hello, VuePress!')
 
 :::
 
+## Проверка превью блоков кода
+
+### Несколько блоков подряд
+
+::: preview HTML / CSS / JS
+
+```html
+<div class="card">Hello</div>
+```
+
+```css
+.card { color: #333; }
+```
+
+```js
+console.log('hi')
+```
+
+:::
+
+### Один конкретный блок кода
+
+::: preview JS
+
+```js
+console.log('hi')
+```
+
+:::
+
+## Подсветка синтаксиса Prism
+
+### Обычный блок кода JS
+
+```js
+import { defaultTheme } from '@vuepress/theme-default'
+import { defineUserConfig } from 'vuepress'
+
+export default defineUserConfig({
+  title: 'Hello, VuePress',
+
+  theme: defaultTheme({
+    logo: 'https://vuepress.vuejs.org/images/hero.png',
+  }),
+})
+```
+
+### Блок кода JS без номеров строк
+
+```js :no-line-numbers
+import { defaultTheme } from '@vuepress/theme-default'
+import { defineUserConfig } from 'vuepress'
+
+export default defineUserConfig({
+  title: 'Hello, VuePress',
+
+  theme: defaultTheme({
+    logo: 'https://vuepress.vuejs.org/images/hero.png',
+  }),
+})
+```
+
+### Выделение конкретных строк (2,7-9)
+
+```js {2,7-9}
+import { defaultTheme } from '@vuepress/theme-default'
+import { defineUserConfig } from 'vuepress'
+
+export default defineUserConfig({
+  title: 'Hello, VuePress',
+
+  theme: defaultTheme({
+    logo: 'https://vuepress.vuejs.org/images/hero.png',
+  }),
+})
+```
+
+### Сворачивание кода после N строки (3)
+
+```js :collapsed-lines=3
+import { defaultTheme } from '@vuepress/theme-default'
+import { defineUserConfig } from 'vuepress'
+
+export default defineUserConfig({
+  title: 'Hello, VuePress',
+
+  theme: defaultTheme({
+    logo: 'https://vuepress.vuejs.org/images/hero.png',
+  }),
+})
+```
+
+### Блок кода с произвольным заголовком
+
+```js title=".vuepress/config.js"
+import { defaultTheme } from '@vuepress/theme-default'
+import { defineUserConfig } from 'vuepress'
+
+export default defineUserConfig({
+  title: 'Hello, VuePress',
+
+  theme: defaultTheme({
+    logo: 'https://vuepress.vuejs.org/images/hero.png',
+  }),
+})
+```
+
+### Отображение добавленных и удаленных строк кода
+
+Лучше всего отключать номера строк при помощи `:no-line-numbers`!
+
+```js :no-line-numbers
+// Обычный комментарий в коде
+console.log('hello') // [!code --]
+console.log('hi!') // [!code ++]
+console.log('goodbye')
+```
+
+### Отображение фокуса и выделения на строках кода
+
+Лучше всего отключать номера строк при помощи `:no-line-numbers`!
+
+```js :no-line-numbers
+// Обычный комментарий в коде
+console.log('Not focused')
+console.log('Focused') // [!code focus]
+console.log('Not focused')
+```
+
+```js :no-line-numbers
+// Обычный комментарий в коде
+console.log('Not focused')
+console.log('Highlighted') // [!code highlight]
+console.log('Not focused')
+```
+
+### Отображение уровней ошибок в коде
+
+Лучше всего отключать номера строк при помощи `:no-line-numbers`!
+
+```js :no-line-numbers
+// Обычный комментарий в коде
+console.log('No errors or warnings')
+console.warn('Warning') // [!code warning]
+console.error('Error') // [!code error]
+```
+
+### Выделение отдельных слов в кода
+
+Чувствительно к регистру! Используются регулярные выражения.
+
+```js /Hello World/ /msg/
+const msg = 'Hello World'
+console.log(msg) // prints Hello World
+```
+
 ## Табы для кода
 
 ::: code-tabs
@@ -90,30 +246,48 @@ console.log('Hello, VuePress!')
 
 ### Инлайновые
 
+::: preview Посмотреть код
+
 Euler's identity $e^{i\pi}+1=0$ is a beautiful formula in $\mathbb{R}^2$.
 
+:::
+
 ### Мультистрочные
+
+::: preview Посмотреть код
 
 $$
 \frac {\partial^r} {\partial \omega^r} \left(\frac {y^{\omega}} {\omega}\right)
 = \left(\frac {y^{\omega}} {\omega}\right) \left\{(\log y)^r + \sum_{i=1}^r \frac {(-1)^ Ir \cdots (r-i+1) (\log y)^{ri}} {\omega^i} \right\}
 $$
 
+:::
+
 ## Химические выражения
 
 ### Инлайновые
 
+::: preview Посмотреть код
+
 $\ce{CO2 + C -> 2 CO}$
 
+:::
+
 ### Мультистрочные
+
+::: preview Посмотреть код
 
 $$
 \ce{Zn^2+  <=>[+ 2OH-][+ 2H+]  $\underset{\text{amphoteres Hydroxid}}{\ce{Zn(OH)2 v}}$  <=>[+ 2OH-][+ 2H+]  $\underset{\text{Hydroxozikat}}{\ce{[Zn(OH)4]^2-}}$}
 $$
 
+:::
+
 ## Диаграммы Mermaid
 
 ### Flowchart
+
+::: preview Посмотреть код
 
 ```mermaid
 ---
@@ -136,7 +310,11 @@ flowchart TB
     two --> c2
 ```
 
+:::
+
 ### Sequence Diagram
+
+::: preview Посмотреть код
 
 ```mermaid
 ---
@@ -154,7 +332,11 @@ sequenceDiagram
   Alice->John: Yes... John, how are you?
 ```
 
+:::
+
 ### Class Diagram
+
+::: preview Посмотреть код
 
 ```mermaid
 ---
@@ -186,7 +368,11 @@ classDiagram
   }
 ```
 
+:::
+
 ### State Diagram
+
+::: preview Посмотреть код
 
 ```mermaid
 ---
@@ -201,7 +387,11 @@ stateDiagram
   if_state --> True : if n >= 0
 ```
 
+:::
+
 ### Entity Relationship Diagram
+
+::: preview Посмотреть код
 
 ```mermaid
 ---
@@ -223,7 +413,11 @@ erDiagram
   }
 ```
 
+:::
+
 ### User Journey Diagram
+
+::: preview Посмотреть код
 
 ```mermaid
 ---
@@ -241,7 +435,11 @@ journey
     Sit down: 5: Me
 ```
 
+:::
+
 ### Gantt Diagram
+
+::: preview Посмотреть код
 
 ```mermaid
 ---
@@ -278,7 +476,11 @@ gantt
   Add another diagram to demo page    :48h
 ```
 
+:::
+
 ### Pie Chart Diagram
+
+::: preview Посмотреть код
 
 ```mermaid
 ---
@@ -291,7 +493,11 @@ pie
   "Rats" : 15
 ```
 
+:::
+
 ### Quadrant Chart
+
+::: preview Посмотреть код
 
 ```mermaid
 ---
@@ -313,7 +519,11 @@ quadrantChart
   Campaign F: [0.35, 0.78]
 ```
 
+:::
+
 ### Requirement Diagram
+
+::: preview Посмотреть код
 
 ```mermaid
 ---
@@ -389,7 +599,11 @@ requirementDiagram
   test_req <- copies - test_entity2
 ```
 
+:::
+
 ### Git Graph Diagram
+
+::: preview Посмотреть код
 
 ```mermaid
 ---
@@ -442,7 +656,11 @@ gitGraph
   merge release
 ```
 
+:::
+
 ### Timeline Diagram
+
+::: preview Посмотреть код
 
 ```mermaid
 ---
@@ -459,9 +677,13 @@ timeline
     Industry 5.0 : Artificial intelligence, Big data,3D printing
 ```
 
+:::
+
 ### Sankey diagram
 
 Кириллица пока не поддерживается!
+
+::: preview Посмотреть код
 
 ```mermaid
 ---
@@ -480,7 +702,11 @@ CPE,Registered,20
 CPE,NoShow,5
 ```
 
+:::
+
 ### XY Chart
+
+::: preview Посмотреть код
 
 ```mermaid
 ---
@@ -494,7 +720,11 @@ bar [5000, 6000, 7500, 8200, 9500, 10500, 11000, 10200, 9200, 8500, 7000, 6000]
 line [5000, 6000, 7500, 8200, 9500, 10500, 11000, 10200, 9200, 8500, 7000, 6000]
 ```
 
+:::
+
 ### Packet Diagram
+
+::: preview Посмотреть код
 
 ```mermaid
 ---
@@ -520,6 +750,8 @@ packet
 160-191: "(Options and Padding)"
 192-255: "Data (variable length)"
 ```
+
+:::
 
 ## Сноски
 
