@@ -109,12 +109,11 @@ export default defineUserConfig({
         text: "Направления подготовки",
         link: "/study",
       },
-      {
-        text: "Учебные материалы",
-        activeMatch: "^/disciplines/",
-        prefix: "/disciplines/",
-        children: ["it03/", "mdk1101/"],
-      },
+    {
+      text: 'Учебные материалы',
+      link: '/disciplines/',
+      activeMatch: '^/disciplines/'
+    },
       {
         text: "О кафедре",
         link: "/about",
