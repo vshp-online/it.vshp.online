@@ -6,7 +6,7 @@ heroImage: /images/IT_dpt.png
 heroText: Кафедра Информационных Технологий
 tagline: Программирование — это искусство создавать порядок из хаоса / Алан Кей
 actions:
-  - text: Учебные материалы
+  - text: Направления подготовки
     link: /study
     type: primary
 
