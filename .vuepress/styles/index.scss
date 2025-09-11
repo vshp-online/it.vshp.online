@@ -35,3 +35,29 @@
     background: var(--vp-c-accent-bg);
   }
 }
+
+// Иконки в шапке
+.nav-icon {
+  display: flex;
+  margin: auto;
+  margin-inline-start: 1rem;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+
+  &:hover {
+    opacity: 0.8;
+  }
+  img {
+    display: block;
+    width: 20px;
+    height: 20px;
+  }
+}
+
+[data-theme="dark"] {
+  .nav-icon img {
+    filter: invert(1);
+  }
+}

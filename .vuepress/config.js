@@ -96,32 +96,27 @@ export default defineUserConfig({
   }),
 
   theme: defaultTheme({
-    repo: "https://github.com/vshp-online/it.vshp.online",
+    docsRepo: "https://github.com/vshp-online/it.vshp.online",
     logo: "/images/logo.svg",
     hostname: "https://it.vshp.online",
     editLink: false,
     contributors: false,
     navbar: [
       {
-        text: "Главная",
-        link: "/",
-      },
-      {
         text: "Направления подготовки",
         link: "/study",
       },
-    {
-      text: 'Учебные материалы',
-      link: '/disciplines/',
-      activeMatch: '^/disciplines/'
-    },
+      {
+        text: "Учебные материалы",
+        link: "/disciplines/",
+        activeMatch: "^/disciplines/",
+      },
       {
         text: "О кафедре",
         link: "/about",
       },
     ],
   }),
-
   head: [
     [
       "link",

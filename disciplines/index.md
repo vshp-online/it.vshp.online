@@ -1,3 +1,7 @@
+---
+sidebar: false
+---
+
 # Учебные материалы
 
 ::: warning
