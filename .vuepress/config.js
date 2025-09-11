@@ -100,6 +100,7 @@ export default defineUserConfig({
     logo: "/images/logo.svg",
     hostname: "https://it.vshp.online",
     editLink: false,
+    contributors: false,
     navbar: [
       {
         text: "Главная",
