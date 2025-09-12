@@ -16,6 +16,7 @@
     "Мультистрочные",
     "подзапросами",
     "Подзапросы",
+    "подпапок",
     "Републикация",
     "роуты",
     "скроллбара",
@@ -42,13 +43,16 @@
     "mathbb",
     "mhchem",
     "Mindmap",
+    "oaicite",
     "reqs",
     "Sankey",
+    "segs",
     "shiki",
     "shikijs",
     "verifymethod",
     "VSHP",
     "vuepress",
+    "vueuse",
     "xychart"
   ]
 }
