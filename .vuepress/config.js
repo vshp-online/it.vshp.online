@@ -104,6 +104,9 @@ export default defineUserConfig({
     hostname: "https://it.vshp.online",
     editLink: false,
     contributors: false,
+    themePlugins: {
+      prismjs: false,
+    },
     navbar: [
       {
         text: "Направления подготовки",
