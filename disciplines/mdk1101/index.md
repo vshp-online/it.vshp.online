@@ -1,3 +1,8 @@
+---
+sidebar: false
+prev: '/disciplines/it03/'
+---
+
 # МДК.11.01 - Технология разработки и защиты баз данных
 
 ::: warning

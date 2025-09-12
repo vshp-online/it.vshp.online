@@ -30,6 +30,7 @@
     "@vuepress/plugin-markdown-preview": "^2.0.0-rc.112",
     "@vuepress/plugin-prismjs": "^2.0.0-rc.112",
     "@vuepress/theme-default": "^2.0.0-rc.112",
+    "@vueuse/core": "^13.9.0",
     "gh-pages": "^6.3.0",
     "katex": "^0.16.22",
     "markdown-it": "^14.1.0",
@@ -37,6 +38,7 @@
     "sass-embedded": "^1.92.0",
     "serve": "^14.2.5",
     "vue": "^3.5.21",
+    "vue-router": "^4.5.1",
     "vuepress": "^2.0.0-rc.24"
   }
 }

@@ -1,3 +1,8 @@
+---
+sidebar: false
+next: '/disciplines/mdk1101/'
+---
+
 # ИТ.03 - Основы проектирования баз данных
 
 ::: warning

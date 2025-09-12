@@ -24,6 +24,9 @@ import { markdownPreviewPlugin } from "@vuepress/plugin-markdown-preview";
 
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { dirname } from "node:path";
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const pkg = JSON.parse(
   fs.readFileSync(path.resolve(process.cwd(), "package.json"), "utf8")
@@ -128,6 +131,11 @@ export default defineUserConfig({
   ],
 
   alias: {
+    // заменяем постраничную навигацию
+    "@theme/VPPageNav.vue": path.resolve(
+      __dirname,
+      "./components/AutoSiblingNav.vue"
+    ),
     // заменяем дефолтный футер главной
     "@theme/VPHomeFooter.vue": path.resolve(
       __dirname,
