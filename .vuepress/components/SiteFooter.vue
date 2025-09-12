@@ -1,6 +1,7 @@
 <script setup>
 const appVersion = __APP_VERSION__;
 const vshpEmlVersion = __VSHP_EML_VERSION__;
+const year = new Date().getFullYear();
 
 import { usePageData } from "@vuepress/client";
 import { computed } from "vue";
@@ -10,19 +11,19 @@ const page = usePageData();
 const HIDE = [
   /^\/vshp-emlicense\/license(?:\.html|\/)?$/i,
   /^\/license(?:\.html|\/)?$/i,
-]
+];
 
 const hide = computed(() => {
-  const p = (page.value.path || '').toLowerCase()
-  return HIDE.some(rx => rx.test(p))
-})
+  const p = (page.value.path || "").toLowerCase();
+  return HIDE.some((rx) => rx.test(p));
+});
 </script>
 
 <template>
   <footer v-if="!hide" class="site-footer">
     <div>
       <span
-        >© Кафедра информационных технологий ЧУВО «ВШП», 2025. Версия:
+        >© Кафедра информационных технологий ЧУВО «ВШП», {{ year }}. Версия:
         {{ appVersion }}</span
       >
       <br />
