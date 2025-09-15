@@ -25,6 +25,9 @@ import { markdownPreviewPlugin } from "@vuepress/plugin-markdown-preview";
 // https://ecosystem.vuejs.press/plugins/markdown/markdown-include.html
 import { markdownIncludePlugin } from '@vuepress/plugin-markdown-include';
 
+// https://ecosystem.vuejs.press/plugins/search/search.html
+import { searchPlugin } from '@vuepress/plugin-search';
+
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -38,8 +41,28 @@ const pkg = JSON.parse(
 const APP_VERSION = pkg.version ?? "dev";
 const VSHP_EML_VERSION = pkg.config.vshpLicenseRef ?? "";
 
+const EXCLUDE_FROM_SEARCH = ['/', '/test'];
+
+// приводим page.path к базовому виду:
+// '/', '/a', '/a/', '/a.html', '/a/index.html' → '/', '/a'
+const normalize = (p) => {
+  if (!p) return '/';
+  let s = String(p).replace(/[#?].*$/, '');
+  // убираем '.html' и '/index.html'
+  s = s.replace(/(?:\/index)?\.html$/i, '');
+  // убираем хвостовой слэш
+  s = s.replace(/\/+$/, '');
+  return s === '' ? '/' : s;
+};
+
+const EXCLUDE_SET = new Set(EXCLUDE_FROM_SEARCH.map(normalize));
+
 export default defineUserConfig({
   plugins: [
+    searchPlugin({
+      isSearchable: (page) => page.frontmatter?.search !== false && !EXCLUDE_SET.has(normalize(page.path)),
+      maxSuggestions: 6
+    }),
     markdownIncludePlugin({
       useComment: false
     }),

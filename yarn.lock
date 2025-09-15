@@ -1378,6 +1378,15 @@
     "@vuepress/highlighter-helper" "2.0.0-rc.112"
     prismjs "^1.30.0"
 
+"@vuepress/plugin-search@^2.0.0-rc.112":
+  version "2.0.0-rc.112"
+  resolved "https://registry.yarnpkg.com/@vuepress/plugin-search/-/plugin-search-2.0.0-rc.112.tgz#63509c9fc8cb5fe823d1638a21d2f19a6c8e0b71"
+  integrity sha512-liQxClnwXRn3V8I3OORvS2/OwHSx2pi0c3F/V/ji++Zy4DVpSEzhMJAfHkHmo1KKzokqakSBiJz8bQudp5ZMFw==
+  dependencies:
+    "@vuepress/helper" "2.0.0-rc.112"
+    chokidar "^4.0.3"
+    vue "^3.5.17"
+
 "@vuepress/plugin-seo@2.0.0-rc.112":
   version "2.0.0-rc.112"
   resolved "https://registry.yarnpkg.com/@vuepress/plugin-seo/-/plugin-seo-2.0.0-rc.112.tgz#0adb3cdd9cdfb17eccf2f6e17f7cb3f4842fca48"
