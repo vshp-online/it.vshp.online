@@ -1,47 +1,5 @@
 # Страница тестирования возможностей
 
-## Контейнеры
-
-::: tip
-Текст совета
-:::
-
-::: warning
-Текст примечания
-:::
-
-::: danger
-Текст предупреждения
-:::
-
-::: info
-Текст инфо
-:::
-
-::: important
-Текст важно
-:::
-
-::: note
-Текст заметки
-:::
-
-::: details
-Текст подробнее
-:::
-
-::: danger Произвольный заголовок 1
-Текст произвольного заголовка 1
-:::
-
-::: details Произвольный заголовок 2
-
-```ts
-console.log('Hello, VuePress!')
-```
-
-:::
-
 ## Проверка превью блоков кода
 
 ### Несколько блоков подряд
@@ -72,9 +30,71 @@ console.log('hi')
 
 :::
 
+## Контейнеры
+
+::: preview Посмотреть код
+  ::: tip
+  Текст совета
+  :::
+:::
+
+::: preview Посмотреть код
+  ::: warning
+  Текст примечания
+  :::
+:::
+
+::: preview Посмотреть код
+  ::: danger
+  Текст предупреждения
+  :::
+:::
+
+::: preview Посмотреть код
+  ::: info
+  Текст инфо
+  :::
+:::
+
+::: preview Посмотреть код
+  ::: important
+  Текст важно
+  :::
+:::
+
+::: preview Посмотреть код
+  ::: note
+  Текст заметки
+  :::
+:::
+
+::: preview Посмотреть код
+  ::: details
+  Текст подробнее
+  :::
+:::
+
+::: preview Посмотреть код
+  ::: danger Произвольный заголовок 1
+  Текст произвольного заголовка 1
+  :::
+:::
+
+::: preview Посмотреть код
+  ::: details Произвольный заголовок 2
+
+  ```ts
+  console.log('Hello, VuePress!')
+  ```
+
+  :::
+:::
+
 ## Подсветка синтаксиса Prism
 
 ### Обычный блок кода JS
+
+::: preview Посмотреть код
 
 ```js
 import { defaultTheme } from '@vuepress/theme-default'
@@ -89,7 +109,11 @@ export default defineUserConfig({
 })
 ```
 
+:::
+
 ### Блок кода JS без номеров строк
+
+::: preview Посмотреть код
 
 ```js :no-line-numbers
 import { defaultTheme } from '@vuepress/theme-default'
@@ -104,7 +128,11 @@ export default defineUserConfig({
 })
 ```
 
+:::
+
 ### Выделение конкретных строк (2,7-9)
+
+::: preview Посмотреть код
 
 ```js {2,7-9}
 import { defaultTheme } from '@vuepress/theme-default'
@@ -119,7 +147,11 @@ export default defineUserConfig({
 })
 ```
 
+:::
+
 ### Сворачивание кода после N строки (3)
+
+::: preview Посмотреть код
 
 ```js :collapsed-lines=3
 import { defaultTheme } from '@vuepress/theme-default'
@@ -134,7 +166,11 @@ export default defineUserConfig({
 })
 ```
 
+:::
+
 ### Блок кода с произвольным заголовком
+
+::: preview Посмотреть код
 
 ```js title=".vuepress/config.js"
 import { defaultTheme } from '@vuepress/theme-default'
@@ -149,20 +185,70 @@ export default defineUserConfig({
 })
 ```
 
+:::
+
+### Выделение отдельных слов в кода
+
+Чувствительно к регистру! Используются регулярные выражения.
+
+::: preview Посмотреть код
+
+```js /Hello World/ /msg/
+const msg = 'Hello World'
+console.log(msg) // prints Hello World
+```
+
+:::
+
+## Расширенные возможности Prism
+
 ### Отображение добавленных и удаленных строк кода
 
 Лучше всего отключать номера строк при помощи `:no-line-numbers`!
 
+<VPPreview title="Посмотреть код">
+<template #code>
+
+````md
 ```js :no-line-numbers
 // Обычный комментарий в коде
-console.log('hello') // [!code --]
-console.log('hi!') // [!code ++]
+console.log('hi') // [\!code --]
+console.log('hello') // [\!code ++]
 console.log('goodbye')
 ```
+````
+
+</template>
+<template #content>
+
+```js :no-line-numbers
+// Обычный комментарий в коде
+console.log('hi') // [!code --]
+console.log('hello') // [!code ++]
+console.log('goodbye')
+```
+
+</template>
+</VPPreview>
 
 ### Отображение фокуса и выделения на строках кода
 
 Лучше всего отключать номера строк при помощи `:no-line-numbers`!
+
+<VPPreview title="Посмотреть код">
+<template #code>
+
+````md
+```js :no-line-numbers
+// Обычный комментарий в коде
+console.log('Not focused')
+console.log('Focused') // [\!code focus]
+console.log('Not focused')
+```
+````
+
+</template>
+<template #content>
 
 ```js :no-line-numbers
 // Обычный комментарий в коде
@@ -171,16 +257,52 @@ console.log('Focused') // [!code focus]
 console.log('Not focused')
 ```
 
+</template>
+</VPPreview>
+
+<VPPreview title="Посмотреть код">
+<template #code>
+
+````md
 ```js :no-line-numbers
 // Обычный комментарий в коде
-console.log('Not focused')
-console.log('Highlighted') // [!code highlight]
-console.log('Not focused')
+console.log('Not highlighted')
+console.log('Highlighted') // [\!code highlight]
+console.log('Not highlighted')
 ```
+````
+
+</template>
+<template #content>
+
+```js :no-line-numbers
+// Обычный комментарий в коде
+console.log('Not highlighted')
+console.log('Highlighted') // [!code highlight]
+console.log('Not highlighted')
+```
+
+</template>
+</VPPreview>
 
 ### Отображение уровней ошибок в коде
 
 Лучше всего отключать номера строк при помощи `:no-line-numbers`!
+
+<VPPreview title="Посмотреть код">
+<template #code>
+
+````md
+```js :no-line-numbers
+// Обычный комментарий в коде
+console.log('No errors or warnings')
+console.warn('Warning') // [\!code warning]
+console.error('Error') // [\!code error]
+```
+````
+
+</template>
+<template #content>
 
 ```js :no-line-numbers
 // Обычный комментарий в коде
@@ -189,57 +311,55 @@ console.warn('Warning') // [!code warning]
 console.error('Error') // [!code error]
 ```
 
-### Выделение отдельных слов в кода
-
-Чувствительно к регистру! Используются регулярные выражения.
-
-```js /Hello World/ /msg/
-const msg = 'Hello World'
-console.log(msg) // prints Hello World
-```
+</template>
+</VPPreview>
 
 ## Табы для кода
 
-::: code-tabs
+::: preview Посмотреть код
+  ::: code-tabs
 
-@tab JavaScript
+  @tab JavaScript
 
-```js
-const name = 'VuePress'
+  ```js
+  const name = 'VuePress'
 
-console.log(`Hello, ${name}!`)
-```
+  console.log(`Hello, ${name}!`)
+  ```
 
-@tab TypeScript
+  @tab TypeScript
 
-```ts
-const name: string = 'VuePress'
+  ```ts
+  const name: string = 'VuePress'
 
-console.log(`Hello, ${name}!`)
-```
+  console.log(`Hello, ${name}!`)
+  ```
 
+  :::
 :::
 
 ## Табы с контентом
 
-::: tabs
+::: preview Посмотреть код
+  ::: tabs
 
-@tab Таб 1
+  @tab Таб 1
 
-Контент первого таба.
+  Контент первого таба.
 
-```js
-console.log('Hello, VuePress!')
-```
+  ```js
+  console.log('Hello, VuePress!')
+  ```
 
-@tab Таб 2
+  @tab Таб 2
 
-Контент второго таба.
+  Контент второго таба.
 
-- Пункт списка 1
-- Пункт списка 2
-- Пункт списка 3
+  - Пункт списка 1
+  - Пункт списка 2
+  - Пункт списка 3
 
+  :::
 :::
 
 ## Математические формулы
@@ -755,6 +875,8 @@ packet
 
 ## Сноски
 
+::: preview Посмотреть код
+
 Контент с первой сноской[^first].
 
 Контент со второй сноской[^second].
@@ -764,20 +886,27 @@ packet
 Ещё одна вторая сноска[^second].
 
 [^first]: Описание **первой сноски**
-
-    и даже многострочное.
+  и даже многострочное.
 
 [^second]: Описание второй сноски.
 
+:::
+
 ## Чеклисты
+
+::: preview Посмотреть код
 
 - [ ] Пункт А
 - [x] Пункт Б
 
+:::
+
 ## Отключение интерполяции в блоке
 
-::: v-pre
+::: preview Посмотреть код
+  ::: v-pre
 
-{{ abc }}
+  {{ abc }}
 
+  :::
 :::
