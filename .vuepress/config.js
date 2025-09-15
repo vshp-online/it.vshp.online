@@ -22,6 +22,9 @@ import { prismjsPlugin } from "@vuepress/plugin-prismjs";
 // https://ecosystem.vuejs.press/plugins/markdown/markdown-preview.html
 import { markdownPreviewPlugin } from "@vuepress/plugin-markdown-preview";
 
+// https://ecosystem.vuejs.press/plugins/markdown/markdown-include.html
+import { markdownIncludePlugin } from '@vuepress/plugin-markdown-include';
+
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -37,6 +40,9 @@ const VSHP_EML_VERSION = pkg.config.vshpLicenseRef ?? "";
 
 export default defineUserConfig({
   plugins: [
+    markdownIncludePlugin({
+      useComment: false
+    }),
     prismjsPlugin({
       themes: { light: "one-light", dark: "one-dark" },
       collapsedLines: false,
