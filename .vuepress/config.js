@@ -23,13 +23,16 @@ import { prismjsPlugin } from "@vuepress/plugin-prismjs";
 import { markdownPreviewPlugin } from "@vuepress/plugin-markdown-preview";
 
 // https://ecosystem.vuejs.press/plugins/markdown/markdown-include.html
-import { markdownIncludePlugin } from '@vuepress/plugin-markdown-include';
+import { markdownIncludePlugin } from "@vuepress/plugin-markdown-include";
 
 // https://ecosystem.vuejs.press/plugins/search/search.html
-import { searchPlugin } from '@vuepress/plugin-search';
+import { searchPlugin } from "@vuepress/plugin-search";
 
 // https://ecosystem.vuejs.press/plugins/markdown/markdown-image.html
-import { markdownImagePlugin } from '@vuepress/plugin-markdown-image';
+import { markdownImagePlugin } from "@vuepress/plugin-markdown-image";
+
+// https://ecosystem.vuejs.press/plugins/markdown/markdown-container.html
+import { markdownContainerPlugin } from "@vuepress/plugin-markdown-container";
 
 import fs from "node:fs";
 import path from "node:path";
@@ -44,24 +47,27 @@ const pkg = JSON.parse(
 const APP_VERSION = pkg.version ?? "dev";
 const VSHP_EML_VERSION = pkg.config.vshpLicenseRef ?? "";
 
-const EXCLUDE_FROM_SEARCH = ['/', '/test'];
+const EXCLUDE_FROM_SEARCH = ["/", "/test"];
 
 // приводим page.path к базовому виду:
 // '/', '/a', '/a/', '/a.html', '/a/index.html' → '/', '/a'
 const normalize = (p) => {
-  if (!p) return '/';
-  let s = String(p).replace(/[#?].*$/, '');
+  if (!p) return "/";
+  let s = String(p).replace(/[#?].*$/, "");
   // убираем '.html' и '/index.html'
-  s = s.replace(/(?:\/index)?\.html$/i, '');
+  s = s.replace(/(?:\/index)?\.html$/i, "");
   // убираем хвостовой слэш
-  s = s.replace(/\/+$/, '');
-  return s === '' ? '/' : s;
+  s = s.replace(/\/+$/, "");
+  return s === "" ? "/" : s;
 };
 
 const EXCLUDE_SET = new Set(EXCLUDE_FROM_SEARCH.map(normalize));
 
 export default defineUserConfig({
   plugins: [
+    markdownContainerPlugin({
+      type: 'mermaid-wide'
+    }),
     markdownImagePlugin({
       // Enable figure
       figure: true,
@@ -72,14 +78,16 @@ export default defineUserConfig({
       // Enable image size
       size: true,
       // Enable Obsidian Syntax for image size
-      obsidianSize: true
+      obsidianSize: true,
     }),
     searchPlugin({
-      isSearchable: (page) => page.frontmatter?.search !== false && !EXCLUDE_SET.has(normalize(page.path)),
-      maxSuggestions: 6
+      isSearchable: (page) =>
+        page.frontmatter?.search !== false &&
+        !EXCLUDE_SET.has(normalize(page.path)),
+      maxSuggestions: 6,
     }),
     markdownIncludePlugin({
-      useComment: false
+      useComment: false,
     }),
     prismjsPlugin({
       themes: { light: "one-light", dark: "one-dark" },

@@ -405,6 +405,91 @@ $$
 
 ## Диаграммы Mermaid
 
+### Класс для Zoom-in / Zoom-out больших диаграмм
+
+Изначально 100% ширины страницы, появляется скролл при клике.
+
+<VPPreview title="Посмотреть код">
+<template #code>
+
+````md
+::: mermaid-wide
+
+```mermaid
+erDiagram
+    Orders["Заказы"] {
+        int order_id PK "ID заказа"
+        float total_amount "Сумма заказа"
+        int client_id FK "ID клиента"
+        int restaurant_id FK "ID ресторана"
+        int courier_id FK "ID курьера"
+        string order_city "Город заказа"
+    }
+    Clients["Клиенты"] {
+        int client_id PK "ID клиента"
+        string client_phone "Телефон клиента"
+        string client_email "Почта клиента"
+    }
+    Couriers["Курьеры"] {
+        int courier_id PK "ID курьера"
+        string courier_phone "Телефон курьера"
+        string courier_city "Город курьера"
+    }
+    Restaurants["Рестораны"] {
+        int restaurant_id PK "ID ресторана"
+        string restaurant_name "Название ресторана"
+        string restaurant_type "Тип ресторана"
+        string restaurant_city "Город ресторана"
+    }
+    Orders ||--|| Clients : "содержит"
+    Orders ||--|| Couriers : "доставляется"
+    Orders ||--|| Restaurants : "обрабатывается"
+```
+
+:::
+````
+
+</template>
+<template #content>
+
+::: mermaid-wide
+
+```mermaid
+erDiagram
+    Orders["Заказы"] {
+        int order_id PK "ID заказа"
+        float total_amount "Сумма заказа"
+        int client_id FK "ID клиента"
+        int restaurant_id FK "ID ресторана"
+        int courier_id FK "ID курьера"
+        string order_city "Город заказа"
+    }
+    Clients["Клиенты"] {
+        int client_id PK "ID клиента"
+        string client_phone "Телефон клиента"
+        string client_email "Почта клиента"
+    }
+    Couriers["Курьеры"] {
+        int courier_id PK "ID курьера"
+        string courier_phone "Телефон курьера"
+        string courier_city "Город курьера"
+    }
+    Restaurants["Рестораны"] {
+        int restaurant_id PK "ID ресторана"
+        string restaurant_name "Название ресторана"
+        string restaurant_type "Тип ресторана"
+        string restaurant_city "Город ресторана"
+    }
+    Orders ||--|| Clients : "содержит"
+    Orders ||--|| Couriers : "доставляется"
+    Orders ||--|| Restaurants : "обрабатывается"
+```
+
+:::
+
+</template>
+</VPPreview>
+
 ### Flowchart
 
 ::: preview Посмотреть код
