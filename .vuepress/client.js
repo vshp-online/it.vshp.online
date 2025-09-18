@@ -34,8 +34,9 @@ function initSimpleMermaid(sel = ".custom-container.mermaid-wide") {
 
     root.addEventListener("click", (e) => {
       // не реагируем на клики по preview/download
-      if (e.target instanceof Element && e.target.closest(".mermaid-actions"))
+      if (e.target instanceof Element && e.target.closest(".mermaid-actions")) {
         return;
+      }
 
       const moved = Math.hypot(e.clientX - downX, e.clientY - downY) > 3;
       const scrolled =
@@ -47,49 +48,27 @@ function initSimpleMermaid(sel = ".custom-container.mermaid-wide") {
       root.classList.toggle("expanded", willExpand);
       if (willExpand) scroller.focus?.();
     });
-
-    // --- Курсор у краёв скроллбаров (только в expanded) ---
-    const HOT = 12; // px от правого/нижнего края
-    const onPointerMove = (ev) => {
-      if (!root.classList.contains("expanded")) {
-        scroller.style.cursor = ""; // сброс к базовому (из CSS)
-        return;
-      }
-      const r = scroller.getBoundingClientRect();
-      const hasX = scroller.scrollWidth > scroller.clientWidth;
-      const hasY = scroller.scrollHeight > scroller.clientHeight;
-
-      const nearBottom = hasX && ev.clientY > r.bottom - HOT;
-      const nearRight = hasY && ev.clientX > r.right - HOT;
-
-      let cur = "zoom-out";
-      if (nearRight) cur = "ns-resize";
-      else if (nearBottom) cur = "ew-resize";
-
-      scroller.style.cursor = cur; // ставим под указателем
-    };
-    const resetCursor = () => {
-      scroller.style.cursor = "";
-    };
-
-    scroller.addEventListener("pointermove", onPointerMove, { passive: true });
-    scroller.addEventListener("pointerleave", resetCursor, { passive: true });
-
-    // При сворачивании — вернуть базовый курсор
-    new MutationObserver(() => {
-      if (!root.classList.contains("expanded")) resetCursor();
-    }).observe(root, { attributes: true, attributeFilter: ["class"] });
   });
 }
 
 export default defineClientConfig({
   layouts: { Layout },
   setup() {
-    if (typeof window !== "undefined") {
-      requestAnimationFrame(() => initSimpleMermaid());
-    }
+    if (typeof __VUEPRESS_SSR__ !== "undefined" && __VUEPRESS_SSR__) return;
+    const raf = (fn) =>
+      typeof window !== "undefined" &&
+      typeof window.requestAnimationFrame === "function"
+        ? window.requestAnimationFrame(fn)
+        : setTimeout(fn, 0);
+    raf(() => initSimpleMermaid());
   },
   enhance({ router }) {
-    router.afterEach(() => requestAnimationFrame(() => initSimpleMermaid()));
+    if (typeof __VUEPRESS_SSR__ !== "undefined" && __VUEPRESS_SSR__) return;
+    const raf = (fn) =>
+      typeof window !== "undefined" &&
+      typeof window.requestAnimationFrame === "function"
+        ? window.requestAnimationFrame(fn)
+        : setTimeout(fn, 0);
+    router.afterEach(() => raf(() => initSimpleMermaid()));
   },
 });
