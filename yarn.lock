@@ -335,10 +335,38 @@
   dependencies:
     "@types/markdown-it" "^14.1.2"
 
+"@mdit/plugin-figure@^0.22.1":
+  version "0.22.1"
+  resolved "https://registry.yarnpkg.com/@mdit/plugin-figure/-/plugin-figure-0.22.1.tgz#1b8a9cbc655fb84db83e94d3ab8e95a20d45d6cf"
+  integrity sha512-z7uqtKsQ/ILkdM4pLrfuvz2eAhtwNzRPT9xnixFosrMgF7CEHbBtFTF6nc2ht1mOqCTRqoIL+FWg8InYMiBPhQ==
+  dependencies:
+    "@types/markdown-it" "^14.1.2"
+
 "@mdit/plugin-footnote@^0.22.2":
   version "0.22.2"
   resolved "https://registry.yarnpkg.com/@mdit/plugin-footnote/-/plugin-footnote-0.22.2.tgz#140ea8867cc96cad91060a835f493a4e2dd5e9c3"
   integrity sha512-lHB6AV61QruvrWXIu/oWncltH2ED8cBUuvX4IO+5TvtWSyyc6wOm3ErPqqTFJqy1SJ1p21oLNcqRGdPF+S3N4w==
+  dependencies:
+    "@types/markdown-it" "^14.1.2"
+
+"@mdit/plugin-img-lazyload@^0.22.1":
+  version "0.22.1"
+  resolved "https://registry.yarnpkg.com/@mdit/plugin-img-lazyload/-/plugin-img-lazyload-0.22.1.tgz#3be61e6cc03a272aaaa9dfa7416f336ef0fd2742"
+  integrity sha512-ombpBQqR1zYjtr4/7s8EvIVx/ymtiflWksXropYz81o0I9Bm9Os1UPuNgjwfT/DEhIit4HMaJhjpKhGkYrOKgA==
+  dependencies:
+    "@types/markdown-it" "^14.1.2"
+
+"@mdit/plugin-img-mark@^0.22.1":
+  version "0.22.1"
+  resolved "https://registry.yarnpkg.com/@mdit/plugin-img-mark/-/plugin-img-mark-0.22.1.tgz#a85359fa713f85df2cad5b3c16891515116279e9"
+  integrity sha512-C6i9Tl39pKetoH83XBkj5/hfN+uK6N8Fw8ltyERNki916vzUCci/09NfrT92MF/AfJPoDJQYALy7qdgOVjnT9Q==
+  dependencies:
+    "@types/markdown-it" "^14.1.2"
+
+"@mdit/plugin-img-size@^0.22.2":
+  version "0.22.2"
+  resolved "https://registry.yarnpkg.com/@mdit/plugin-img-size/-/plugin-img-size-0.22.2.tgz#92649e75dd21d22fc326dc0aff1e8eafd1ae26a9"
+  integrity sha512-+2+HpV5wZ3ZvFAs2alOiftDO635UbbOTr9uRQ0LZi/1lIZzKa0GE8sxYmtAZXRkdbGCj1uN6puoT7Bc7fdBs7Q==
   dependencies:
     "@types/markdown-it" "^14.1.2"
 
@@ -1300,6 +1328,18 @@
     "@types/markdown-it" "^14.1.2"
     "@vuepress/helper" "2.0.0-rc.112"
     "@vueuse/core" "^13.5.0"
+
+"@vuepress/plugin-markdown-image@^2.0.0-rc.112":
+  version "2.0.0-rc.112"
+  resolved "https://registry.yarnpkg.com/@vuepress/plugin-markdown-image/-/plugin-markdown-image-2.0.0-rc.112.tgz#9a17415185d1bf5ffbb282f42755e5083b1e28d6"
+  integrity sha512-E2Qju3SKtCLvRkBM1ZvtBWvOZW+eoIr2n1ZBawxcj9k1Zt74vvEy0BP7pKOSP5Qu9bwY6W1MAnT3H+R3QaDP+g==
+  dependencies:
+    "@mdit/plugin-figure" "^0.22.1"
+    "@mdit/plugin-img-lazyload" "^0.22.1"
+    "@mdit/plugin-img-mark" "^0.22.1"
+    "@mdit/plugin-img-size" "^0.22.2"
+    "@types/markdown-it" "^14.1.2"
+    "@vuepress/helper" "2.0.0-rc.112"
 
 "@vuepress/plugin-markdown-include@^2.0.0-rc.112":
   version "2.0.0-rc.112"

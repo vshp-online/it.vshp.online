@@ -28,6 +28,9 @@ import { markdownIncludePlugin } from '@vuepress/plugin-markdown-include';
 // https://ecosystem.vuejs.press/plugins/search/search.html
 import { searchPlugin } from '@vuepress/plugin-search';
 
+// https://ecosystem.vuejs.press/plugins/markdown/markdown-image.html
+import { markdownImagePlugin } from '@vuepress/plugin-markdown-image';
+
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -59,6 +62,18 @@ const EXCLUDE_SET = new Set(EXCLUDE_FROM_SEARCH.map(normalize));
 
 export default defineUserConfig({
   plugins: [
+    markdownImagePlugin({
+      // Enable figure
+      figure: true,
+      // Enable image lazyload
+      lazyload: true,
+      // Enable image mark
+      mark: true,
+      // Enable image size
+      size: true,
+      // Enable Obsidian Syntax for image size
+      obsidianSize: true
+    }),
     searchPlugin({
       isSearchable: (page) => page.frontmatter?.search !== false && !EXCLUDE_SET.has(normalize(page.path)),
       maxSuggestions: 6
