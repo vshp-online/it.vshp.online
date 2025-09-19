@@ -6,7 +6,7 @@ if (typeof window !== "undefined" && import.meta.env.DEV) {
   console.log(`Версия сайта: ${__APP_VERSION__}`);
 }
 
-function initSimpleMermaid(sel = ".custom-container.mermaid-wide") {
+function initSimpleMermaid(sel = ".mermaid-wrapper") {
   // мышь/трекпад? (любой «точный» указатель)
   const isFine = window.matchMedia?.("(any-pointer: fine)")?.matches ?? true;
 
@@ -14,7 +14,7 @@ function initSimpleMermaid(sel = ".custom-container.mermaid-wide") {
     if (root.__inited) return;
     root.__inited = true;
 
-    const scroller = root.querySelector(".mermaid-content, .mermaid") || root;
+    const scroller = root.querySelector(".mermaid-content") || root;
 
     // Мобайл/тач — ничего не навешиваем: нативный свайп
     if (!isFine) return;

@@ -66,7 +66,7 @@ const EXCLUDE_SET = new Set(EXCLUDE_FROM_SEARCH.map(normalize));
 export default defineUserConfig({
   plugins: [
     markdownContainerPlugin({
-      type: 'mermaid-wide'
+      type: 'my-custom-type'
     }),
     markdownImagePlugin({
       // Enable figure

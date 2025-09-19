@@ -1,3 +1,5 @@
+@use './mermaid.scss';
+
 :root {
   // accent colors
   --vp-c-accent: #8d282e;
@@ -69,83 +71,5 @@
 
   p {
     line-height: 1.45;
-  }
-}
-
-/* Внешняя обёртка */
-.custom-container.mermaid-wide {
-  position: relative;
-}
-
-.custom-container.mermaid-wide .mermaid-content {
-  scrollbar-gutter: stable both-edges; /* резерв под полосы */
-}
-
-/* контейнеры НЕ должны подстраиваться под ширину SVG */
-.custom-container.mermaid-wide .mermaid-wrapper {
-  width: 100%;
-  max-width: 100%;
-}
-
-/* Скроллим именно внутренний контейнер (тот, что оборачивает SVG Mermaid) */
-.custom-container.mermaid-wide .mermaid-content {
-  max-height: 60vh;
-  overflow: auto;
-  width: 100%;              /* <- важно */
-  max-width: 100%;          /* <- важно */
-  /* не прокручивать страницу при упоре в край */
-  overscroll-behavior: contain;
-  /* плавный инерционный скролл на iOS */
-  -webkit-overflow-scrolling: touch;
-  /* не выделять подписи/текст внутри SVG */
-  user-select: none;
-  scrollbar-gutter: stable both-edges;
-}
-
-/* Базово вписываемся в ширину */
-.custom-container.mermaid-wide .mermaid-content svg {
-  display: block;
-  width: 100%;
-  max-width: 100%;
-  height: auto;
-}
-
-/* По клику на контейнер — «развернуть» до нативной ширины (появится горизонтальный скролл) */
-.custom-container.mermaid-wide.expanded .mermaid-content svg {
-  width: max-content !important;   /* <- ключевой момент */
-  max-width: none !important;
-}
-
-/* курсоры только на устройствах с точным указателем (мышь/трекпад) */
-@media (any-hover: hover) and (any-pointer: fine) {
-  /* до клика — увеличиваем */
-  .custom-container.mermaid-wide .mermaid-wrapper {
-    cursor: zoom-in;
-  }
-
-  /* после клика — уменьшаем (только на враппере) */
-  .custom-container.mermaid-wide.expanded .mermaid-wrapper {
-    cursor: zoom-out;
-  }
-
-  /* чтобы дети SVG не перебивали курсор */
-  .custom-container.mermaid-wide .mermaid-wrapper *,
-  .custom-container.mermaid-wide .mermaid-content *,
-  .custom-container.mermaid-wide .mermaid * {
-    cursor: inherit !important;
-  }
-}
-
-.mermaid-zoom-controls {
-  display: none;
-}
-
-.custom-container .mermaid-actions {
-  cursor: default;
-}
-
-.mermaid-actions button {
-  @media (max-width: 480px) {
-    display: none !important;
   }
 }
