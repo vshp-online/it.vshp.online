@@ -34,6 +34,15 @@ import { markdownImagePlugin } from "@vuepress/plugin-markdown-image";
 // https://ecosystem.vuejs.press/plugins/markdown/markdown-container.html
 import { markdownContainerPlugin } from "@vuepress/plugin-markdown-container";
 
+import YAML from "yaml";
+
+function loadYaml(relPath, fallback = []) {
+  const file = path.resolve(__dirname, relPath);
+  const src = fs.readFileSync(file, "utf8");
+  const data = YAML.parse(src);
+  return Array.isArray(data) ? data : fallback;
+}
+
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -63,10 +72,12 @@ const normalize = (p) => {
 
 const EXCLUDE_SET = new Set(EXCLUDE_FROM_SEARCH.map(normalize));
 
+const navbar = loadYaml("./navbar.yml");
+
 export default defineUserConfig({
   plugins: [
     markdownContainerPlugin({
-      type: 'my-custom-type'
+      type: "my-custom-type",
     }),
     markdownImagePlugin({
       // Enable figure
@@ -159,21 +170,7 @@ export default defineUserConfig({
     themePlugins: {
       prismjs: false,
     },
-    navbar: [
-      {
-        text: "Направления подготовки",
-        link: "/study",
-      },
-      {
-        text: "Учебные материалы",
-        link: "/disciplines/",
-        activeMatch: "^/disciplines/",
-      },
-      {
-        text: "О кафедре",
-        link: "/about",
-      },
-    ],
+    navbar,
   }),
   head: [
     [
