@@ -27,9 +27,7 @@
 
 ::: details exam_var_2_data.sql
 
-```sql :collapsed-lines=5
-@include: ./includes/exam_var_2_data.sql
-```
+@[code sql:collapsed-lines=5](./includes/exam_var_2_data.sql)
 
 :::
 

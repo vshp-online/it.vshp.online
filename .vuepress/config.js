@@ -98,7 +98,8 @@ export default defineUserConfig({
       maxSuggestions: 6,
     }),
     markdownIncludePlugin({
-      useComment: false,
+      useComment: true,
+      deep: false
     }),
     prismjsPlugin({
       themes: { light: "one-light", dark: "one-dark" },

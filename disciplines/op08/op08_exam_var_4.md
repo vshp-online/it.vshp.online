@@ -31,9 +31,7 @@
 
 ::: details exam_var_4_data.sql
 
-```sql :collapsed-lines=5
-@include: ./includes/exam_var_4_data.sql
-```
+@[code sql:collapsed-lines=5](./includes/exam_var_4_data.sql)
 
 :::
 

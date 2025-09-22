@@ -2,6 +2,14 @@
 
 ## Проверка превью блоков кода
 
+### Импорт блоков кода
+
+::: preview Посмотреть код
+
+@[code{6-13} js{6}:no-line-numbers](./scripts/license-update.js)
+
+:::
+
 ### Несколько блоков подряд
 
 ::: preview HTML / CSS / JS
