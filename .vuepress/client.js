@@ -1,6 +1,10 @@
 import { defineClientConfig } from "vuepress/client";
+
 // https://ecosystem.vuejs.press/themes/default/extending.html#layout-slots
 import Layout from "./layouts/Layout.vue";
+
+// Кастомный компонент рендера Railroad-диаграмм
+import RailroadDiagram from "./components/RailroadDiagram.vue";
 
 if (typeof window !== "undefined" && import.meta.env.DEV) {
   console.log(`Версия сайта: ${__APP_VERSION__}`);
@@ -62,7 +66,10 @@ export default defineClientConfig({
         : setTimeout(fn, 0);
     raf(() => initSimpleMermaid());
   },
-  enhance({ router }) {
+  enhance({ app, router }) {
+    // прокидывает компонент RailroadDiagram
+    app.component("RailroadDiagram", RailroadDiagram);
+
     if (typeof __VUEPRESS_SSR__ !== "undefined" && __VUEPRESS_SSR__) return;
     const raf = (fn) =>
       typeof window !== "undefined" &&

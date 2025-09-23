@@ -31,9 +31,6 @@ import { searchPlugin } from "@vuepress/plugin-search";
 // https://ecosystem.vuejs.press/plugins/markdown/markdown-image.html
 import { markdownImagePlugin } from "@vuepress/plugin-markdown-image";
 
-// https://ecosystem.vuejs.press/plugins/markdown/markdown-container.html
-import { markdownContainerPlugin } from "@vuepress/plugin-markdown-container";
-
 import YAML from "yaml";
 
 function loadYaml(relPath, fallback = []) {
@@ -45,6 +42,7 @@ function loadYaml(relPath, fallback = []) {
 
 import fs from "node:fs";
 import path from "node:path";
+import { Buffer } from 'node:buffer';
 import { fileURLToPath } from "node:url";
 import { dirname } from "node:path";
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -74,11 +72,31 @@ const EXCLUDE_SET = new Set(EXCLUDE_FROM_SEARCH.map(normalize));
 
 const navbar = loadYaml("./navbar.yml");
 
+const railroadFencePlugin = () => ({
+  name: 'railroad-fence',
+  extendsMarkdown: (md) => {
+    const orig = md.renderer.rules.fence?.bind(md.renderer.rules)
+    md.renderer.rules.fence = (tokens, idx, options, env, self) => {
+      const token = tokens[idx]
+      const info = (token.info || '').trim()
+      const [lang] = info.split(/\s+/)
+
+      // только ```railroad
+      if (lang !== 'railroad') {
+        return orig ? orig(tokens, idx, options, env, self)
+                    : self.renderToken(tokens, idx, options)
+      }
+
+      const b64 = Buffer.from(token.content, 'utf8').toString('base64')
+      // Никаких <pre><code> — просто проп b64
+      return `<ClientOnly><RailroadDiagram b64="${b64}"/></ClientOnly>`
+    }
+  }
+})
+
 export default defineUserConfig({
   plugins: [
-    markdownContainerPlugin({
-      type: "my-custom-type",
-    }),
+    railroadFencePlugin(),
     markdownImagePlugin({
       // Enable figure
       figure: true,
@@ -99,7 +117,7 @@ export default defineUserConfig({
     }),
     markdownIncludePlugin({
       useComment: true,
-      deep: false
+      deep: false,
     }),
     prismjsPlugin({
       themes: { light: "one-light", dark: "one-dark" },

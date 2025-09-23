@@ -25,7 +25,6 @@
   "devDependencies": {
     "@vuepress/bundler-vite": "^2.0.0-rc.24",
     "@vuepress/plugin-markdown-chart": "^2.0.0-rc.112",
-    "@vuepress/plugin-markdown-container": "^2.0.0-rc.112",
     "@vuepress/plugin-markdown-ext": "^2.0.0-rc.112",
     "@vuepress/plugin-markdown-image": "^2.0.0-rc.112",
     "@vuepress/plugin-markdown-include": "^2.0.0-rc.112",
@@ -39,6 +38,7 @@
     "katex": "^0.16.22",
     "markdown-it": "^14.1.0",
     "mermaid": "^11.11.0",
+    "railroad-diagrams": "^1.0.0",
     "sass-embedded": "^1.92.0",
     "serve": "^14.2.5",
     "vue": "^3.5.21",
