@@ -256,7 +256,7 @@ WHERE <условие>;
 | 6  | Новикова Анна      | 19  | female |
 | 7  | Фёдоров Михаил     | 20  | male   |
 
-::: details Код создания данный таблицы на языке SQL в диалекте SQLite
+::: details Код создания данной таблицы на языке SQL в диалекте SQLite
   @[code sql](./includes/students_sqlite_tiny.sql)
 :::
 
