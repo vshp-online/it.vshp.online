@@ -218,7 +218,7 @@ export default defineUserConfig({
 
   base: "/",
   lang: "ru-RU",
-  title: "Сайт кафедры ИТ",
+  title: "Кафедра ИТ",
 
   pagePatterns: [
     "**/*.md",

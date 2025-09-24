@@ -1,14 +1,16 @@
 - text: "Обучение"
-  link: "/study"
-
-- text: "Учебные материалы"
   link: "/disciplines/"
   activeMatch: "^/disciplines/"
 
 - text: "Кафедра"
-  link: "/about"
-
-- text: "Ресурсы"
   children:
+    - text: "О кафедре"
+      link: "/department/about"
+    - text: "Направления подготовки"
+      link: "/department/curriculum"
+    - text: "Структура кафедры"
+      link: "/department/structure"
+    - text: "Обращение к студентам"
+      link: "/department/welcome"
     - text: "Официальный сайт «ВШП»"
       link: "https://vshp.online"
