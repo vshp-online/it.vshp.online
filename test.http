@@ -1,0 +1,7 @@
+GET http://it.vshp.online HTTP/1.1
+User-Agent: rest-client
+Content-Type: application/json
+
+###
+
+GET http://it.vshp.online/test HTTP/1.1
