@@ -1,0 +1,11 @@
+@host = http://it.vshp.online
+
+### Основной запрос
+
+GET /
+User-Agent: rest-client
+Content-Type: application/json
+
+### Запрос к тесту
+
+GET /test HTTP/1.1
