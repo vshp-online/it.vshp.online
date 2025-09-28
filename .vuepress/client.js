@@ -6,6 +6,9 @@ import Layout from "./layouts/Layout.vue";
 // Кастомный компонент рендера Railroad-диаграмм
 import RailroadDiagram from "./components/RailroadDiagram.vue";
 
+// Кастомный компонент для markdown-ext
+import Pill from "./components/Pill.vue";
+
 if (typeof window !== "undefined" && import.meta.env.DEV) {
   console.log(`Версия сайта: ${__APP_VERSION__}`);
 }
@@ -69,6 +72,9 @@ export default defineClientConfig({
   enhance({ app, router }) {
     // прокидывает компонент RailroadDiagram
     app.component("RailroadDiagram", RailroadDiagram);
+
+    // Кастомный компонент Pill
+    app.component("Pill", Pill);
 
     if (typeof __VUEPRESS_SSR__ !== "undefined" && __VUEPRESS_SSR__) return;
     const raf = (fn) =>

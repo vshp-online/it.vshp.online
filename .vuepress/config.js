@@ -42,7 +42,7 @@ function loadYaml(relPath, fallback = []) {
 
 import fs from "node:fs";
 import path from "node:path";
-import { Buffer } from 'node:buffer';
+import { Buffer } from "node:buffer";
 import { fileURLToPath } from "node:url";
 import { dirname } from "node:path";
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -54,7 +54,7 @@ const pkg = JSON.parse(
 const APP_VERSION = pkg.version ?? "dev";
 const VSHP_EML_VERSION = pkg.config.vshpLicenseRef ?? "";
 
-const EXCLUDE_FROM_SEARCH = ["/", "/test"];
+const EXCLUDE_FROM_SEARCH = ["/", "/test/"];
 
 // приводим page.path к базовому виду:
 // '/', '/a', '/a/', '/a.html', '/a/index.html' → '/', '/a'
@@ -68,31 +68,39 @@ const normalize = (p) => {
   return s === "" ? "/" : s;
 };
 
-const EXCLUDE_SET = new Set(EXCLUDE_FROM_SEARCH.map(normalize));
+const EXCLUDE_PREFIXES = EXCLUDE_FROM_SEARCH.map(normalize);
+
+const isExcluded = (p) => {
+  const n = normalize(p);
+  return EXCLUDE_PREFIXES.some(
+    (prefix) => n === prefix || n.startsWith(prefix + "/")
+  );
+};
 
 const navbar = loadYaml("./navbar.yml");
 
 const railroadFencePlugin = () => ({
-  name: 'railroad-fence',
+  name: "railroad-fence",
   extendsMarkdown: (md) => {
-    const orig = md.renderer.rules.fence?.bind(md.renderer.rules)
+    const orig = md.renderer.rules.fence?.bind(md.renderer.rules);
     md.renderer.rules.fence = (tokens, idx, options, env, self) => {
-      const token = tokens[idx]
-      const info = (token.info || '').trim()
-      const [lang] = info.split(/\s+/)
+      const token = tokens[idx];
+      const info = (token.info || "").trim();
+      const [lang] = info.split(/\s+/);
 
       // только ```railroad
-      if (lang !== 'railroad') {
-        return orig ? orig(tokens, idx, options, env, self)
-                    : self.renderToken(tokens, idx, options)
+      if (lang !== "railroad") {
+        return orig
+          ? orig(tokens, idx, options, env, self)
+          : self.renderToken(tokens, idx, options);
       }
 
-      const b64 = Buffer.from(token.content, 'utf8').toString('base64')
+      const b64 = Buffer.from(token.content, "utf8").toString("base64");
       // Никаких <pre><code> — просто проп b64
-      return `<ClientOnly><RailroadDiagram b64="${b64}"/></ClientOnly>`
-    }
-  }
-})
+      return `<ClientOnly><RailroadDiagram b64="${b64}"/></ClientOnly>`;
+    };
+  },
+});
 
 export default defineUserConfig({
   plugins: [
@@ -111,8 +119,7 @@ export default defineUserConfig({
     }),
     searchPlugin({
       isSearchable: (page) =>
-        page.frontmatter?.search !== false &&
-        !EXCLUDE_SET.has(normalize(page.path)),
+        page.frontmatter?.search !== false && !isExcluded(page.path),
       maxSuggestions: 6,
     }),
     markdownIncludePlugin({
@@ -141,6 +148,7 @@ export default defineUserConfig({
     markdownPreviewPlugin(),
     markdownExtPlugin({
       gfm: true,
+      component: true,
       vPre: true,
     }),
     markdownChartPlugin({
