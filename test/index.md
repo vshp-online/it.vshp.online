@@ -1,5 +1,6 @@
 # Раздел тестирования возможностей системы
 
+- [Интеграция codapi](./markdown-codapi.md)
 - [Расширенные возможности Markdown](./markdown-ext.md)
 - [Хинт-Контейнеры](./markdown-hint-containers.md)
 - [Вставка содержимого файла в Markdown](./markdown-include.md)

@@ -1,0 +1,7 @@
+pre > code[contenteditable="true"] .line:last-child {
+  display: none;
+}
+
+code[contenteditable="true"]:focus {
+  outline: none !important;
+}

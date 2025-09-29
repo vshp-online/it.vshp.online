@@ -15,6 +15,16 @@
   resolved "https://registry.yarnpkg.com/@antfu/utils/-/utils-9.2.1.tgz#0a73683cf0a8c4cd38397b002439488229651cdb"
   integrity sha512-TMilPqXyii1AsiEii6l6ubRzbo76p6oshUSYPaKsmXDavyMLqjzVDkcp3pHp5ELMUNJHATcEOGxKTTsX9yYhGg==
 
+"@antonz/codapi@^0.19.10":
+  version "0.19.10"
+  resolved "https://registry.yarnpkg.com/@antonz/codapi/-/codapi-0.19.10.tgz#1ddad974fb38248a3848003d336c904fd99e3ddb"
+  integrity sha512-NZzxyU5vNQPK6wlv6Cc6QnCGCQgIYfidQZb3QyAU96IuVc5nJWa0Izgnd2c3/MrFf6j1syCGDFCiDxTEUwY8Iw==
+
+"@antonz/runno@^0.6.1":
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/@antonz/runno/-/runno-0.6.1.tgz#1f804fd7132005f124e9ae8bf8c31236c422a0d0"
+  integrity sha512-ioM0x0ZI42avZqKdaY2ETJnI30kQPNL/UbuFxNdW9guFepHSQU5NkOKorqIR7tG7KSln3lgZRwhJj2BC7WjhIg==
+
 "@babel/helper-string-parser@^7.27.1":
   version "7.27.1"
   resolved "https://registry.yarnpkg.com/@babel/helper-string-parser/-/helper-string-parser-7.27.1.tgz#54da796097ab19ce67ed9f88b47bb2ec49367687"
@@ -1385,6 +1395,14 @@
     "@vuepress/helper" "2.0.0-rc.112"
     "@vueuse/core" "^13.5.0"
     vue "^3.5.17"
+
+"@vuepress/plugin-markdown-container@^2.0.0-rc.112":
+  version "2.0.0-rc.112"
+  resolved "https://registry.yarnpkg.com/@vuepress/plugin-markdown-container/-/plugin-markdown-container-2.0.0-rc.112.tgz#1001c2901b14054f0ce2068115bacabbc9d08d02"
+  integrity sha512-1q1i/iWWfl7G6RfusvNW3weH3StXLI3N+tD1N7bTROXY1EjzahV+TM/TEPQYMbyvp/2hO1OtEmJBt5OgZ96HhQ==
+  dependencies:
+    "@types/markdown-it" "^14.1.2"
+    markdown-it-container "^4.0.0"
 
 "@vuepress/plugin-markdown-ext@^2.0.0-rc.112":
   version "2.0.0-rc.112"
@@ -3077,6 +3095,11 @@ markdown-it-anchor@^9.2.0:
   version "9.2.0"
   resolved "https://registry.yarnpkg.com/markdown-it-anchor/-/markdown-it-anchor-9.2.0.tgz#89375d9a2a79336403ab7c4fd36b1965cc45e5c8"
   integrity sha512-sa2ErMQ6kKOA4l31gLGYliFQrMKkqSO0ZJgGhDHKijPf0pNFM9vghjAh3gn26pS4JDRs7Iwa9S36gxm3vgZTzg==
+
+markdown-it-container@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/markdown-it-container/-/markdown-it-container-4.0.0.tgz#3912394f7da6e8ef3b43a0f58b1d0ded851f2a38"
+  integrity sha512-HaNccxUH0l7BNGYbFbjmGpf5aLHAMTinqRZQAEQbMr2cdD3z91Q6kIo1oUn1CQndkT03jat6ckrdRYuwwqLlQw==
 
 markdown-it-emoji@^3.0.0:
   version "3.0.0"
