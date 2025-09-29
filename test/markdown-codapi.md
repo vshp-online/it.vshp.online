@@ -2,18 +2,34 @@
 
 https://codapi.org/
 
-## Простой пример
+## Python в браузере
 
-```python
-# Комментарий
-print("Hello from Python!")
-```
+### С отображением line-numbers (по-умолчанию)
 
-::: play sandbox=python editor=basic
+::: preview Посмотреть код
 
-```python
-# Комментарий
-print("Hello from Python!")
-```
+  ::: play sandbox=python editor=basic
+
+  ```python
+  # Комментарий
+  print("Hello from Python!")
+  ```
+
+  :::
+
+:::
+
+### Без отображения line-numbers
+
+::: preview Посмотреть код
+
+  ::: play sandbox=python editor=basic
+
+  ```python :no-line-numbers
+  # Комментарий
+  print("Hello from Python!")
+  ```
+
+  :::
 
 :::
