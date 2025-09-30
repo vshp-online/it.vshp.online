@@ -5,3 +5,9 @@ pre > code[contenteditable="true"] .line:last-child {
 code[contenteditable="true"]:focus {
   outline: none !important;
 }
+
+/* Показываем цифры из data-line в стандартной vuepress-обёртке, только когда мы её пересобираем */
+.line-numbers.ln-runtime .line-number::before {
+  content: attr(data-line) !important;
+  counter-increment: none !important;
+}
