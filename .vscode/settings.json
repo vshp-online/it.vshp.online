@@ -135,6 +135,7 @@
     "SYSDATETIME",
     "SYSTIMESTAMP",
     "unzoom",
+    "varchar",
     "verifymethod",
     "VSHP",
     "vuepress",

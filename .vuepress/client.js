@@ -6,6 +6,7 @@ import Pill from "./components/Pill.vue";
 import Prism from "prismjs";
 import "prismjs/components/prism-python";
 import "prismjs/components/prism-sql";
+import "prismjs/components/prism-http";
 import "prismjs/plugins/line-numbers/prism-line-numbers";
 
 import { initEditablePrism, rescanEditablePrism } from "./client/editablePrism";

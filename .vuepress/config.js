@@ -168,10 +168,11 @@ export default defineUserConfig({
         const dep = attrs["depends-on"]
           ? ` depends-on="${attrs["depends-on"]}"`
           : "";
+        const template = attrs.template ? ` template="${attrs.template}"` : "";
         const engine = attrs.engine ? ` engine="${attrs.engine}"` : "";
 
         // ВАЖНО: <codapi-snippet> должен идти ПОСЛЕ <pre><code>, чтобы «прицепиться» к нему
-        return `<codapi-snippet sandbox="${sandbox}" editor="${editor}"${id}${dep}${engine}></codapi-snippet>\n`;
+        return `<codapi-snippet sandbox="${sandbox}" editor="${editor}"${id}${dep}${engine}${template}></codapi-snippet>\n`;
       },
     }),
     railroadFencePlugin(),
@@ -250,7 +251,7 @@ export default defineUserConfig({
       template: {
         compilerOptions: {
           // говорим Vue: <codapi-snippet> — кастомный элемент
-          isCustomElement: (tag) => tag === 'codapi-snippet',
+          isCustomElement: (tag) => tag === "codapi-snippet",
         },
       },
     },
