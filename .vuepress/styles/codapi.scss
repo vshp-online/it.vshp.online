@@ -17,3 +17,35 @@ codapi-output > pre {
   border-radius: 5px;
   background-color: rgb(255, 251, 240);
 }
+
+codapi-toolbar button {
+  position: relative;
+  color: transparent; /* скрыть текст */
+  padding: 0.5rem 1rem;
+  background-color: var(--vp-c-accent);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--vp-c-accent-hover);
+  }
+}
+
+codapi-toolbar button::after {
+  content: ""; /* SVG через data URI */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 2em;
+  height: 2em;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23FFFFFF' d='M8 5v14l11-7z'%2F%3E%3C%2Fsvg%3E")
+    no-repeat center center;
+  background-size: contain;
+  pointer-events: none;
+}
+
+codapi-toolbar a[href="#edit"] {
+  display: none !important;
+}
