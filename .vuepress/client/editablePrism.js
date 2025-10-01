@@ -4,40 +4,19 @@ import { getCaretOffsetIn, setCaretOffsetIn } from "./selection.js";
 function insertNewlineAtCaret(codeEl) {
   const sel = window.getSelection?.();
   if (!sel || sel.rangeCount === 0) return false;
-
-  // если фокус не внутри codeEl — не трогаем
   const r0 = sel.getRangeAt(0);
   if (!codeEl.contains(r0.startContainer)) return false;
 
-  // считаем смещение в плоском тексте
-  const walker = document.createTreeWalker(codeEl, NodeFilter.SHOW_TEXT);
-  let node,
-    pos = 0,
-    targetNode = null,
-    targetOffset = 0;
+  const nl = document.createTextNode("\n");
+  const r = r0.cloneRange();
+  r.deleteContents();
+  r.insertNode(nl);
 
-  while ((node = walker.nextNode())) {
-    if (node === r0.startContainer) {
-      targetNode = node;
-      targetOffset = r0.startOffset;
-      break;
-    }
-    pos += node.nodeValue.length;
-  }
-  if (!targetNode) return false;
-
-  // вставляем '\n' в текущий текстовый узел (или разбиваем узел)
-  const val = targetNode.nodeValue;
-  const before = val.slice(0, targetOffset);
-  const after = val.slice(targetOffset);
-  targetNode.nodeValue = before + "\n" + after;
-
-  // ставим каретку после вставленного перевода
-  const rng = document.createRange();
-  rng.setStart(targetNode, targetOffset + 1);
-  rng.collapse(true);
+  const after = document.createRange();
+  after.setStartAfter(nl);
+  after.collapse(true);
   sel.removeAllRanges();
-  sel.addRange(rng);
+  sel.addRange(after);
   return true;
 }
 
@@ -71,7 +50,7 @@ export function initEditablePrism({ Prism, selector, debounceMs = 250 }) {
     if (!wrapper) return;
     wrapper.classList.add("ln-runtime");
 
-    const need = lineCount(codeEl.textContent || "");
+    const need = lineCount(codeEl.textContent || "") - 1;
     if (wrapper.childElementCount === need) return;
 
     const frag = document.createDocumentFragment();
@@ -138,16 +117,18 @@ export function initEditablePrism({ Prism, selector, debounceMs = 250 }) {
         (it === "insertText" && /** @type {any} */ (e).data === "\n");
 
       if (isEnter && e.cancelable) {
-        // ВАЖНО: отменяем нативные <div>/<br> от браузера и сами вставляем '\n'
-        e.preventDefault();
+        e.preventDefault(); // глушим нативные <div>/<br> на Enter (CE) :contentReference[oaicite:1]{index=1}
         if (insertNewlineAtCaret(code)) {
-          // сразу подсветка и номера — без rAF, т.к. DOM уже наш
-          rehighlight(code);
+          // даём движку зафиксировать новую каретку → потом подсветка и пересчёт
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              rehighlight(code); // Prism.highlightElement + восстановление каретки
+            });
+          });
         }
         return;
       }
 
-      // Удаления: после факта — на следующий кадр
       if (it && it.startsWith("delete")) {
         requestAnimationFrame(() => rehighlight(code));
       }
@@ -208,7 +189,7 @@ export function rescanEditablePrism(Prism, selector) {
             ":scope > .line-numbers"
           );
           if (!wrapper) return;
-          const need = (el.textContent ?? "").split("\n").length;
+          const need = (el.textContent ?? "").split("\n").length - 1;
           if (wrapper.childElementCount !== need) {
             const frag = document.createDocumentFragment();
             for (let i = 1; i <= need; i++) {
