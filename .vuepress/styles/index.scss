@@ -1,5 +1,6 @@
-@use './mermaid.scss';
-@use './codapi.scss';
+@use "./dark-theme.scss";
+@use "./mermaid.scss";
+@use "./codapi.scss";
 
 :root {
   // accent colors
@@ -58,12 +59,6 @@
     display: block;
     width: 20px;
     height: 20px;
-  }
-}
-
-[data-theme="dark"] {
-  .nav-icon img {
-    filter: invert(1);
   }
 }
 

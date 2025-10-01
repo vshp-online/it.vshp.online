@@ -11,3 +11,9 @@ code[contenteditable="true"]:focus {
   content: attr(data-line) !important;
   counter-increment: none !important;
 }
+
+codapi-output > pre {
+  padding: 8px 16px;
+  border-radius: 5px;
+  background-color: rgb(255, 251, 240);
+}

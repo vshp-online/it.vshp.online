@@ -1,0 +1,10 @@
+[data-theme="dark"] {
+
+  .nav-icon img {
+    filter: invert(1);
+  }
+
+  codapi-output > pre {
+    background-color: rgb(40, 39, 35);
+  }
+}
