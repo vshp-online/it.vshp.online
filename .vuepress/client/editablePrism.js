@@ -1,76 +1,83 @@
 import { debounce } from "./debounce.js";
 import { getCaretOffsetIn, setCaretOffsetIn } from "./selection.js";
 
-function insertNewlineAtCaret(codeEl) {
-  const sel = window.getSelection?.();
-  if (!sel || sel.rangeCount === 0) return false;
-  const r0 = sel.getRangeAt(0);
-  if (!codeEl.contains(r0.startContainer)) return false;
-
-  const nl = document.createTextNode("\n");
-  const r = r0.cloneRange();
-  r.deleteContents();
-  r.insertNode(nl);
-
-  const after = document.createRange();
-  after.setStartAfter(nl);
-  after.collapse(true);
-  sel.removeAllRanges();
-  sel.addRange(after);
-  return true;
-}
-
 export function initEditablePrism({ Prism, selector, debounceMs = 250 }) {
   let composing = false;
-  let enterJustHappened = false;
+  let enterGuard = false;
 
-  function getEditableCodeFromEvent(e, selector) {
+  function getEditableCodeFromEvent(e, sel) {
     if (typeof e.composedPath === "function") {
-      for (const node of e.composedPath()) {
-        if (node && node.nodeType === 1) {
-          const el = /** @type {Element} */ (node);
-          if (el.matches?.(selector)) return el;
-          const hit = el.closest?.(selector);
+      for (const n of e.composedPath()) {
+        if (n && n.nodeType === 1) {
+          const el = /** @type {Element} */ (n);
+          if (el.matches?.(sel)) return el;
+          const hit = el.closest?.(sel);
           if (hit) return hit;
         }
       }
     }
     const el = e.target instanceof Element ? e.target : e.target?.parentElement;
-    return el?.closest?.(selector) || null;
+    return el?.closest?.(sel) || null;
   }
 
-  function lineCount(text) {
-    return (text ?? "").split("\n").length;
+  const visibleLineCount = (text) => {
+    const parts = (text ?? "").split("\n");
+    if (parts.length === 0) return 1;
+    const endsEmpty = parts[parts.length - 1] === "";
+    const n = endsEmpty ? parts.length - 1 : parts.length;
+    return Math.max(1, n);
+  };
+
+  function findWrapperFor(preEl) {
+    if (!preEl || !preEl.parentElement) return null;
+    const parent = preEl.parentElement;
+    for (const el of Array.from(parent.children)) {
+      if (el !== preEl && el.classList?.contains("line-numbers")) return el;
+    }
+    return null;
   }
 
   function syncVuePressLineNumbers(preEl, codeEl) {
-    const wrapper = preEl.parentElement?.querySelector(
-      ":scope > .line-numbers"
-    );
+    const wrapper =
+      findWrapperFor(preEl) ||
+      preEl.parentElement?.querySelector(":scope > .line-numbers");
     if (!wrapper) return;
-    wrapper.classList.add("ln-runtime");
 
-    const need = lineCount(codeEl.textContent || "") - 1;
-    if (wrapper.childElementCount === need) return;
+    const need = visibleLineCount(codeEl.textContent || "");
+    const first = wrapper.firstElementChild;
+    const hasOurChildren =
+      !!first &&
+      first.classList.contains("line-number") &&
+      first.hasAttribute("data-line");
 
-    const frag = document.createDocumentFragment();
-    for (let i = 1; i <= need; i++) {
-      const div = document.createElement("div");
-      div.className = "line-number";
-      div.setAttribute("data-line", String(i));
-      frag.appendChild(div);
+    if (!hasOurChildren || wrapper.childElementCount !== need) {
+      const frag = document.createDocumentFragment();
+      for (let i = 1; i <= need; i++) {
+        const d = document.createElement("div");
+        d.className = "line-number";
+        d.setAttribute("data-line", String(i));
+        frag.appendChild(d);
+      }
+      wrapper.replaceChildren(frag);
     }
-    wrapper.replaceChildren(frag);
+
+    wrapper.classList.add("ln-runtime");
   }
 
-  function rehighlight(codeEl) {
-    const activeInside =
+  function rehighlight(codeEl, forcedCaretOffset = null) {
+    const selInside =
       document.activeElement &&
       (codeEl === document.activeElement ||
         codeEl.contains(document.activeElement));
-    const caret = activeInside ? getCaretOffsetIn(codeEl) : null;
 
-    Prism.highlightElement(codeEl, false); // адресная подсветка. Док: prismjs highlightElement :contentReference[oaicite:0]{index=0}
+    const caret =
+      forcedCaretOffset != null
+        ? forcedCaretOffset
+        : selInside
+        ? getCaretOffsetIn(codeEl)
+        : null;
+
+    Prism.highlightElement(codeEl, false);
     if (caret != null) setCaretOffsetIn(codeEl, caret);
 
     const pre = codeEl.closest("pre");
@@ -92,18 +99,30 @@ export function initEditablePrism({ Prism, selector, debounceMs = 250 }) {
     true
   );
 
-  // НЕМЕДЛЕННО при фокусе — подсветка и пересчёт (без добавления/скрытия строк)
   document.addEventListener(
-    "focusin",
+    "pointerdown",
     (e) => {
       const code = getEditableCodeFromEvent(e, selector);
-      if (code) rehighlight(code);
+      if (!code) return;
+      const pre = code.closest("pre");
+      if (pre) syncVuePressLineNumbers(pre, code);
     },
     true
   );
 
-  // До мутаций: переносы и удаления — переносим пересвет на следующий кадр
-  // beforeinput работает для contenteditable. Док: MDN beforeinput, Input Events L2 :contentReference[oaicite:1]{index=1}
+  document.addEventListener(
+    "focusin",
+    (e) => {
+      if (enterGuard) return;
+      const code = getEditableCodeFromEvent(e, selector);
+      if (!code) return;
+      const pre = code.closest("pre");
+      if (pre) syncVuePressLineNumbers(pre, code);
+      rehighlight(code);
+    },
+    true
+  );
+
   document.addEventListener(
     "beforeinput",
     (e) => {
@@ -117,15 +136,20 @@ export function initEditablePrism({ Prism, selector, debounceMs = 250 }) {
         (it === "insertText" && /** @type {any} */ (e).data === "\n");
 
       if (isEnter && e.cancelable) {
-        e.preventDefault(); // глушим нативные <div>/<br> на Enter (CE) :contentReference[oaicite:1]{index=1}
-        if (insertNewlineAtCaret(code)) {
-          // даём движку зафиксировать новую каретку → потом подсветка и пересчёт
+        e.preventDefault();
+
+        const offset = getCaretOffsetIn(code);
+        const text = code.textContent ?? "";
+        const newText = text.slice(0, offset) + "\n" + text.slice(offset);
+        code.textContent = newText;
+
+        enterGuard = true;
+        requestAnimationFrame(() => {
+          rehighlight(code, offset + 1);
           requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-              rehighlight(code); // Prism.highlightElement + восстановление каретки
-            });
+            enterGuard = false;
           });
-        }
+        });
         return;
       }
 
@@ -136,9 +160,8 @@ export function initEditablePrism({ Prism, selector, debounceMs = 250 }) {
     true
   );
 
-  // Обычный ввод — с дебаунсом; цель ищем через composedPath (надёжно для Safari/моб. Chrome). Док: MDN composedPath :contentReference[oaicite:2]{index=2}
   const onInput = debounce((e) => {
-    if (composing || enterJustHappened) return;
+    if (composing || enterGuard) return;
     const code = getEditableCodeFromEvent(e, selector);
     if (code) rehighlight(code);
   }, debounceMs);
@@ -147,6 +170,7 @@ export function initEditablePrism({ Prism, selector, debounceMs = 250 }) {
   document.addEventListener(
     "blur",
     (e) => {
+      if (enterGuard) return;
       const code = getEditableCodeFromEvent(e, selector);
       if (code) rehighlight(code);
     },
@@ -156,51 +180,39 @@ export function initEditablePrism({ Prism, selector, debounceMs = 250 }) {
 
 export function rescanEditablePrism(Prism, selector) {
   requestAnimationFrame(() => {
-    document
-      .querySelectorAll(selector)
-      .forEach((el) => {
-        Prism.highlightElement(el, false);
-        const pre = el.closest("pre");
-        if (pre)
-          requestAnimationFrame(() => {
-            const wrapper = pre.parentElement?.querySelector(
-              ":scope > .line-numbers"
-            );
-            if (!wrapper) return;
-            const need = (el.textContent ?? "").split("\n").length;
-            if (wrapper.childElementCount !== need) {
-              const frag = document.createDocumentFragment();
-              for (let i = 1; i <= need; i++) {
-                const d = document.createElement("div");
-                d.className = "line-number";
-                d.setAttribute("data-line", String(i));
-                frag.appendChild(d);
-              }
-              wrapper.replaceChildren(frag);
-            }
-          });
-      });
-
     document.querySelectorAll(selector).forEach((el) => {
+      Prism.highlightElement(el, false);
       const pre = el.closest("pre");
-      if (pre)
-        requestAnimationFrame(() => {
-          const wrapper = pre.parentElement?.querySelector(
-            ":scope > .line-numbers"
-          );
-          if (!wrapper) return;
-          const need = (el.textContent ?? "").split("\n").length - 1;
-          if (wrapper.childElementCount !== need) {
-            const frag = document.createDocumentFragment();
-            for (let i = 1; i <= need; i++) {
-              const d = document.createElement("div");
-              d.className = "line-number";
-              d.setAttribute("data-line", String(i));
-              frag.appendChild(d);
-            }
-            wrapper.replaceChildren(frag);
+      if (!pre) return;
+      requestAnimationFrame(() => {
+        const wrapper =
+          findWrapperFor(pre) ||
+          pre.parentElement?.querySelector(":scope > .line-numbers");
+        if (!wrapper) return;
+
+        const need = (el.textContent ?? "").split("\n");
+        const endsEmpty = need[need.length - 1] === "";
+        const n = Math.max(1, endsEmpty ? need.length - 1 : need.length);
+
+        const first = wrapper.firstElementChild;
+        const hasOurChildren =
+          !!first &&
+          first.classList.contains("line-number") &&
+          first.hasAttribute("data-line");
+
+        if (!hasOurChildren || wrapper.childElementCount !== n) {
+          const frag = document.createDocumentFragment();
+          for (let i = 1; i <= n; i++) {
+            const d = document.createElement("div");
+            d.className = "line-number";
+            d.setAttribute("data-line", String(i));
+            frag.appendChild(d);
           }
-        });
+          wrapper.replaceChildren(frag);
+        }
+
+        wrapper.classList.add("ln-runtime");
+      });
     });
   });
 }
