@@ -17,7 +17,7 @@ next: '/disciplines/mdk1101/'
   - [01 - Введение. Краткая история БД. Типы БД. Основные понятия Баз Данных](./lectures/01_lecture.md)
   - [02 - Реляционные базы данных. Популярные СУБД. Понятие связи, типы связей](./lectures/02_lecture.md)
   - [03 - Введение в SQL. Основные возможности языка структурированных запросов](./lectures/03_lecture.md)
-  - 04 - Основные SQL-конструкции: SELECT, FROM, WHERE.
+  - [04 - Основные SQL-конструкции: SELECT, FROM, WHERE](./lectures/04_lecture.md)
   - 05 - Операторы AND, OR, NOT. DISTINCT.
   - 06 - Оператор LIKE. ORDER BY. GROUP BY.
   - 07 - Агрегатные функции. HAVING.
