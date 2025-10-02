@@ -157,7 +157,7 @@ export function initEditablePrism({ Prism, selector, debounceMs = 250 }) {
 export function rescanEditablePrism(Prism, selector) {
   requestAnimationFrame(() => {
     document
-      .querySelectorAll('pre > code[class*="language-"]')
+      .querySelectorAll(selector)
       .forEach((el) => {
         Prism.highlightElement(el, false);
         const pre = el.closest("pre");
