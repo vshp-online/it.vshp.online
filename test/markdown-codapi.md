@@ -90,13 +90,44 @@ https://codapi.org/
 
 ### Код подстановки из внешнего файла через `template`
 
+::: warning
+
+Файлы шаблонов должны лежать в `/public/` чтобы не потерялись при сборке.
+
+:::
+
 ::: preview Посмотреть код
 
-  ::: play sandbox=sqlite editor=basic template="./includes/test_sqlite_table.sql"
+  ::: play sandbox=sqlite editor=basic template="/includes/test_table_template.sql"
 
   ```sql
   SELECT *
   FROM students;
+  ```
+
+  :::
+
+:::
+
+### Код подстановки из блока страницы через `template`
+
+::: preview Посмотреть код
+
+  Блок для подстановки с `id`=`#template.sql`
+
+  ```sql {#template.sql}
+  CREATE TABLE tmp(message text);
+  INSERT INTO tmp VALUES ('Hello, World!');
+
+  ##CODE##
+  ```
+
+  Блок, оборачиваемый в шаблон `template`=`#template.sql`
+
+  ::: play sandbox=sqlite editor=basic template="#template.sql"
+
+  ```sql
+  SELECT * FROM tmp;
   ```
 
   :::

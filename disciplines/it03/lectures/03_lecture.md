@@ -257,95 +257,64 @@ WHERE <условие>;
 | 7  | Фёдоров Михаил     | 20  | male   |
 
 ::: details Код создания данной таблицы на языке SQL в диалекте SQLite
-  @[code sql](./includes/students_sqlite_tiny.sql)
+
+  ::: play sandbox=sqlite editor=basic id=students_01_sqlite.sql
+  @[code sql](./includes/students_01_sqlite.sql)
+  :::
+
 :::
 
-Тогда, мы можем выполнить следующий запрос:
-
-```sql
-SELECT name, gender
-FROM students
-WHERE gender = 'male';
-```
-
-Этот запрос выберет список всех студентов мужского пола.
-
-```txt :no-line-numbers
-┌─────────────────┬────────┐
-│      name       │ gender │
-├─────────────────┼────────┤
-│ Иванов Иван     │ male   │
-│ Сидоров Алексей │ male   │
-│ Кузнецов Даниил │ male   │
-│ Фёдоров Михаил  │ male   │
-└─────────────────┴────────┘
-```
-
----
+Тогда, мы можем выполнить несколько простых запросов.
 
 ## Примеры простых запросов
 
 ### Выбор всех данных
+
+::: play sandbox=sqlite editor=basic depends-on=students_01_sqlite.sql
 
 ```sql
 SELECT *
 FROM students;
 ```
 
-```txt :no-line-numbers
-┌────┬────────────────────┬─────┬────────┐
-│ id │        name        │ age │ gender │
-├────┼────────────────────┼─────┼────────┤
-│ 1  │ Иванов Иван        │ 19  │ male   │
-│ 2  │ Петрова Мария      │ 20  │ female │
-│ 3  │ Сидоров Алексей    │ 18  │ male   │
-│ 4  │ Смирнова Екатерина │ 21  │ female │
-│ 5  │ Кузнецов Даниил    │ 22  │ male   │
-│ 6  │ Новикова Анна      │ 19  │ female │
-│ 7  │ Фёдоров Михаил     │ 20  │ male   │
-└────┴────────────────────┴─────┴────────┘
-```
+:::
 
 ### Выбор только конкретных столбцов
+
+::: play sandbox=sqlite editor=basic depends-on=students_01_sqlite.sql
 
 ```sql
 SELECT name, gender
 FROM students;
 ```
 
-```txt :no-line-numbers
-┌────────────────────┬────────┐
-│        name        │ gender │
-├────────────────────┼────────┤
-│ Иванов Иван        │ male   │
-│ Петрова Мария      │ female │
-│ Сидоров Алексей    │ male   │
-│ Смирнова Екатерина │ female │
-│ Кузнецов Даниил    │ male   │
-│ Новикова Анна      │ female │
-│ Фёдоров Михаил     │ male   │
-└────────────────────┴────────┘
-```
+:::
 
 ### Отбор по условию
 
+**Выбор всех студентов младше 21 года:**
+
+::: play sandbox=sqlite editor=basic depends-on=students_01_sqlite.sql
+
 ```sql
-SELECT name
+SELECT name, age
 FROM students
 WHERE age < 21;
 ```
 
-```txt :no-line-numbers
-┌─────────────────┐
-│      name       │
-├─────────────────┤
-│ Иванов Иван     │
-│ Петрова Мария   │
-│ Сидоров Алексей │
-│ Новикова Анна   │
-│ Фёдоров Михаил  │
-└─────────────────┘
+:::
+
+**Выбор всех студентов мужского пола:**
+
+::: play sandbox=sqlite editor=basic depends-on=students_01_sqlite.sql
+
+```sql
+SELECT name
+FROM students
+WHERE gender = 'male';
 ```
+
+:::
 
 ---
 
