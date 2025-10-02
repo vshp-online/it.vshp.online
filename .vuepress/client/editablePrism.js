@@ -10,7 +10,7 @@ import { getCaretOffsetIn, setCaretOffsetIn } from "./selection.js";
  * Ссылки по используемым API:
  * - beforeinput (cancelable для contenteditable): MDN
  * - Selection/Range (позиционирование и вставка, но здесь работаем со строкой): MDN
- * - Prism.highlightElement: офиц. документация
+ * - Prism.highlightElement: https://prismjs.com/docs/prism#.highlightElement
  */
 export function initEditablePrism({ Prism, selector, debounceMs = 250 }) {
   /** IME-композиция */
