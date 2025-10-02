@@ -8,8 +8,8 @@ import { getCaretOffsetIn, setCaretOffsetIn } from "./selection.js";
  * подсвечиваем адресно и восстанавливаем каретку по точному оффсету.
  *
  * Ссылки по используемым API:
- * - beforeinput (cancelable для contenteditable): MDN
- * - Selection/Range (позиционирование и вставка, но здесь работаем со строкой): MDN
+ * - beforeinput (cancelable для contenteditable): https://developer.mozilla.org/en-US/docs/Web/API/Element/beforeinput_event
+ * - Selection/Range (позиционирование и вставка, но здесь работаем со строкой): https://developer.mozilla.org/en-US/docs/Web/API/Selection
  * - Prism.highlightElement: https://prismjs.com/docs/prism#.highlightElement
  */
 export function initEditablePrism({ Prism, selector, debounceMs = 250 }) {
