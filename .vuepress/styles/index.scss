@@ -1,3 +1,4 @@
+@use "./fonts.scss";
 @use "./dark-theme.scss";
 @use "./mermaid.scss";
 @use "./codapi.scss";
@@ -9,7 +10,7 @@
   --vp-c-accent-hover: #b71d27;
   --vp-c-accent-text: var(--vp-c-white);
   --vp-c-accent-soft: rgba(185, 14, 14, 0.14);
-
+  --code-font-size: 0.9rem !important;
   --mermaid-preview-bg: rgba(255, 255, 255, 1) !important;
 
   scrollbar-width: thin;

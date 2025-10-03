@@ -1,0 +1,21 @@
+/* Fira Code Variable как веб-шрифт для кода (с кириллицей и рамками) */
+@font-face {
+  font-family: "FiraCodeVF";
+  src: url("/fonts/FiraCode-VF.woff2") format("woff2-variations");
+  /* доступный диапазон оси wght */
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+  /* важные диапазоны, чтобы покрыть псевдографику */
+  unicode-range:
+    U+0000-00FF,  // Basic Latin
+    U+0100-024F,  // Latin Extended
+    U+0400-04FF,  // Cyrillic
+    U+2500-257F;  // Box Drawing
+}
+
+:where(pre, code, kbd, samp) {
+  font-family: "FiraCodeVF", "Fira Code", monospace !important;
+  // TODO: На будущее подумать подключать лигатуры опционально
+  // font-variant-ligatures: none !important;
+}
