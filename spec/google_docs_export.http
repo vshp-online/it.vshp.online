@@ -1,0 +1,51 @@
+/*
+# Публичный API экспорта Google Docs
+*/
+
+@host = https://docs.google.com
+@download = {{$pick-askonce Скачивать? $value: true,false}}
+@size = {{$pick-askonce Выберите формат бумаги $value: A4,A3}}
+@portrait = {{$pick-askonce Портретная ориентация? $value: true,false}}
+
+### Скачивание Google Document
+
+# @save
+
+@document_id = {{$input-askonce Введи id документа $value: document_id}}
+@document_format = {{$pick-askonce Выберите формат документа $value: pdf,docx,odt,rtf,md,epub}}
+
+GET /document
+    /d
+    /{{ document_id }}
+    /export
+    ?format={{ document_format }}
+    &size={{ size }}
+    &portrait={{ portrait }}
+    &attachment={{ download }}
+
+### Скачивание Google Spreadsheet
+
+# @save
+
+@spreadsheet_id = {{$input-askonce Введи id таблицы $value: spreadsheet_id}}
+@sheet_id = {{$input-askonce Введи id листа $value: sheet_id}}
+@spreadsheet_format = {{$pick-askonce Выберите формат экспорта таблицы $value: pdf,xlsx,ods,csv,tsv,html}}
+
+GET /spreadsheets
+    /d
+    /{{ spreadsheet_id }}
+    /export
+    ?format={{ spreadsheet_format }}
+    &gid={{ sheet_id }}
+    &size={{ size }}
+    &portrait={{ portrait }}
+    &sheetnames=true
+    &printtitle=true
+    &gridlines=false
+    &pagenum=RIGHT
+    &fzr=true
+    &top_margin=0.6
+    &bottom_margin=0.6
+    &left_margin=0.35
+    &right_margin=0.35
+    &attachment={{ download }}
