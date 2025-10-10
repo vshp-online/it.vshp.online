@@ -4,7 +4,8 @@ CREATE TABLE
     name TEXT NOT NULL,
     age INTEGER CHECK (age >= 0),
     gender TEXT CHECK (gender IN ('male', 'female')) NOT NULL
-  );
+  )
+;
 
 INSERT INTO
   students (id, name, age, gender)
@@ -15,4 +16,5 @@ VALUES
   (4, 'Смирнова Екатерина', 21, 'female'),
   (5, 'Кузнецов Даниил', 22, 'male'),
   (6, 'Новикова Анна', 19, 'female'),
-  (7, 'Фёдоров Михаил', 20, 'male');
+  (7, 'Фёдоров Михаил', 20, 'male')
+;

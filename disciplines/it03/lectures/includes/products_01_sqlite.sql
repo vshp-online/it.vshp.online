@@ -2,12 +2,13 @@ CREATE TABLE
   products (
     id INTEGER PRIMARY KEY,
     name TEXT,
-    count INTEGER,
+    COUNT INTEGER,
     price INTEGER
-  );
+  )
+;
 
 INSERT INTO
-  products (id, name, count, price)
+  products (id, name, COUNT, price)
 VALUES
   (1, 'Стиральная машина', 5, 10000),
   (2, 'Холодильник', 0, 10000),
@@ -16,4 +17,5 @@ VALUES
   (5, 'Вентилятор', 0, 700),
   (6, 'Телевизор', 7, 31740),
   (7, 'Тостер', 2, 2500),
-  (8, 'Принтер', 4, 3000);
+  (8, 'Принтер', 4, 3000)
+;

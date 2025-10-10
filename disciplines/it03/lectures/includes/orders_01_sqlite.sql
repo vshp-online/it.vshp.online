@@ -1,14 +1,15 @@
 CREATE TABLE
   orders (
-    id INTEGER PRIMARY KEY,
+    id INT PRIMARY KEY,
     user_id INT NULL,
     products_count INT NULL,
-    sum INT NULL,
+    SUM INT NULL,
     status VARCHAR(20) NULL
-  );
+  )
+;
 
 INSERT INTO
-  orders (id, user_id, products_count, sum, status)
+  orders (id, user_id, products_count, SUM, status)
 VALUES
   (1, 1, 2, 1300, 'new'),
   (2, 18, 1, 10000, 'cancelled'),
@@ -20,6 +21,7 @@ VALUES
   (8, 17, 1, 1600, 'new'),
   (9, 5, 4, 400, 'delivery'),
   (10, 11, 1, 1450, 'new'),
-  (11, 13, 7, 13000, 'cancelled'),
+  (11, 18, 7, 13000, 'cancelled'),
   (12, 11, 1, 1000, 'in_progress'),
-  (13, 45, 2, 3000, 'returned');
+  (13, 45, 2, 3000, 'returned')
+;
