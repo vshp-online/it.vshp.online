@@ -183,28 +183,28 @@
 ```mermaid
 erDiagram
     Orders["Заказы"] {
-        int order_id PK "ID заказа"
-        float total_amount "Сумма заказа"
-        int client_id FK "ID клиента"
-        int restaurant_id FK "ID ресторана"
-        int courier_id FK "ID курьера"
-        string order_city "Город заказа"
+        INT order_id PK "ID заказа"
+        DECIMAL total_amount "Сумма заказа"
+        INT client_id FK "ID клиента"
+        INT restaurant_id FK "ID ресторана"
+        INT courier_id FK "ID курьера"
+        VARCHAR order_city "Город заказа"
     }
     Clients["Клиенты"] {
-        int client_id PK "ID клиента"
-        string client_phone "Телефон клиента"
-        string client_email "Почта клиента"
+        INT client_id PK "ID клиента"
+        VARCHAR client_phone "Телефон клиента"
+        VARCHAR client_email "Почта клиента"
     }
     Couriers["Курьеры"] {
-        int courier_id PK "ID курьера"
-        string courier_phone "Телефон курьера"
-        string courier_city "Город курьера"
+        INT courier_id PK "ID курьера"
+        VARCHAR courier_phone "Телефон курьера"
+        VARCHAR courier_city "Город курьера"
     }
     Restaurants["Рестораны"] {
-        int restaurant_id PK "ID ресторана"
-        string restaurant_name "Название ресторана"
-        string restaurant_type "Тип ресторана"
-        string restaurant_city "Город ресторана"
+        INT restaurant_id PK "ID ресторана"
+        VARCHAR restaurant_name "Название ресторана"
+        ENUM restaurant_type "Тип ресторана"
+        VARCHAR restaurant_city "Город ресторана"
     }
     Orders ||--|| Clients : "содержит"
     Orders ||--|| Couriers : "доставляется"
@@ -274,25 +274,25 @@ erDiagram
 ```mermaid
 erDiagram
     Clients["Клиенты"] {
-        int client_id PK "ID клиента"
-        string client_name "Имя клиента"
-        string client_phone "Телефон клиента"
-        string client_email "Электронная почта клиента"
+        INT client_id PK "ID клиента"
+        VARCHAR client_name "Имя клиента"
+        VARCHAR client_phone "Телефон клиента"
+        VARCHAR client_email "Электронная почта клиента"
     }
     Orders["Заказы"] {
-        int order_id PK "ID заказа"
-        float total_amount "Сумма заказа"
-        int client_id FK "ID клиента"
+        INT order_id PK "ID заказа"
+        DECIMAL total_amount "Сумма заказа"
+        INT client_id FK "ID клиента"
     }
     Products["Товары"] {
-        int product_id PK "ID товара"
-        string product_name "Название товара"
-        float product_price "Цена товара"
+        INT product_id PK "ID товара"
+        VARCHAR product_name "Название товара"
+        DECIMAL product_price "Цена товара"
     }
     OrderDetails["Детали заказа"] {
-        int order_id FK "ID заказа"
-        int product_id FK "ID товара"
-        int quantity "Количество"
+        INT order_id FK "ID заказа"
+        INT product_id FK "ID товара"
+        INT quantity "Количество"
     }
 
     Clients ||--o{ Orders : "сделал"
@@ -328,14 +328,14 @@ erDiagram
 ```mermaid
 erDiagram
     Students["Студенты"] {
-        int student_id PK "ID студента"
-        string name "Имя"
-        string group "Группа"
+        INT student_id PK "ID студента"
+        VARCHAR name "Имя"
+        CHAR group "Группа"
     }
     StudentCards["Студенческие билеты"] {
-        int student_id PK "ID студента"
-        string card_number "Номер билета"
-        date issue_date "Дата выдачи"
+        INT student_id PK "ID студента"
+        CHAR card_number "Номер билета"
+        DATE issue_date "Дата выдачи"
     }
     Students ||--|| StudentCards : "имеет"
 ```
@@ -359,14 +359,14 @@ erDiagram
 ```mermaid
 erDiagram
     Teachers["Преподаватели"] {
-        int teacher_id PK "ID преподавателя"
-        string name "Имя"
-        string department "Кафедра"
+        INT teacher_id PK "ID преподавателя"
+        VARCHAR name "Имя"
+        ENUM department "Кафедра"
     }
     Courses["Курсы"] {
-        int course_id PK "ID курса"
-        string course_name "Название курса"
-        int teacher_id FK "ID преподавателя"
+        INT course_id PK "ID курса"
+        VARCHAR course_name "Название курса"
+        INT teacher_id FK "ID преподавателя"
     }
     Teachers ||--o{ Courses : "ведёт"
 ```
@@ -390,21 +390,21 @@ erDiagram
 ```mermaid
 erDiagram
     Customers["Покупатели"] {
-        int customer_id PK "ID покупателя"
-        string name "Имя"
-        string email "Электронная почта"
+        INT customer_id PK "ID покупателя"
+        VARCHAR name "Имя"
+        VARCHAR email "Электронная почта"
     }
     Products["Товары"] {
-        int product_id PK "ID товара"
-        string product_name "Название товара"
-        float price "Цена"
+        INT product_id PK "ID товара"
+        VARCHAR product_name "Название товара"
+        DECIMAL price "Цена"
     }
     Orders["Заказы"] {
-        int order_id PK "ID заказа"
-        int customer_id FK "ID покупателя"
-        int product_id FK "ID товара"
-        date order_date "Дата заказа"
-        int quantity "Количество"
+        INT order_id PK "ID заказа"
+        INT customer_id FK "ID покупателя"
+        INT product_id FK "ID товара"
+        DATE order_date "Дата заказа"
+        INT quantity "Количество"
     }
     Customers ||--o{ Orders : "делает"
     Products ||--o{ Orders : "включён в"
