@@ -257,7 +257,7 @@ export default defineUserConfig({
       // Enable Mermaid
       mermaid: true,
       // Enable PlantUML
-      plantuml: false,
+      plantuml: true,
     }),
     markdownMathPlugin({
       type: "katex",
