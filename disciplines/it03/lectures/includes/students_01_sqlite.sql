@@ -1,9 +1,9 @@
 CREATE TABLE
   students (
-    id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL,
-    age INTEGER CHECK (age >= 0),
-    gender TEXT CHECK (gender IN ('male', 'female')) NOT NULL
+    id INT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    age INT CHECK (age >= 0),
+    gender VARCHAR(6) CHECK (gender IN ('male', 'female')) NOT NULL
   )
 ;
 

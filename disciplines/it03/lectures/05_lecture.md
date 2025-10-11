@@ -47,9 +47,9 @@
 ::: play sandbox=sqlite editor=basic depends-on=orders_01_sqlite.sql
 
 ```sql
-SELECT id, user_id, sum, status
+SELECT id, user_id, price, status
 FROM orders
-WHERE status = 'new' AND sum > 1000;
+WHERE status = 'new' AND price > 1000;
 ```
 
 :::
@@ -64,7 +64,7 @@ WHERE status = 'new' AND sum > 1000;
 ::: play sandbox=sqlite editor=basic depends-on=orders_01_sqlite.sql
 
 ```sql
-SELECT id, user_id, sum, status
+SELECT id, user_id, price, status
 FROM orders
 WHERE status = 'cancelled' OR status = 'returned';
 ```
@@ -81,7 +81,7 @@ WHERE status = 'cancelled' OR status = 'returned';
 ::: play sandbox=sqlite editor=basic depends-on=orders_01_sqlite.sql
 
 ```sql
-SELECT id, user_id, sum, status
+SELECT id, user_id, price, status
 FROM orders
 WHERE NOT status = 'cancelled';
 ```
@@ -104,9 +104,9 @@ WHERE NOT status = 'cancelled';
 ::: play sandbox=sqlite editor=basic depends-on=orders_01_sqlite.sql
 
 ```sql
-SELECT id, user_id, sum, status
+SELECT id, user_id, price, status
 FROM orders
-WHERE (status = 'new' OR status = 'in_progress') AND sum < 2000;
+WHERE (status = 'new' OR status = 'in_progress') AND price < 2000;
 ```
 
 :::
@@ -120,9 +120,9 @@ WHERE (status = 'new' OR status = 'in_progress') AND sum < 2000;
 но бывает полезен, когда нужно выбрать строки, где **только одно из двух условий истинно**, а если оба выполняются — строка не попадёт в результат.
 
 ```sql
-SELECT id, user_id, sum, status
+SELECT id, user_id, price, status
 FROM orders
-WHERE (sum > 5000) XOR (status = 'new');
+WHERE (price > 5000) XOR (status = 'new');
 ```
 
 **Результат:**
@@ -137,12 +137,12 @@ WHERE (sum > 5000) XOR (status = 'new');
   ::: play sandbox=sqlite editor=basic depends-on=orders_01_sqlite.sql
 
   ```sql
-  SELECT id, user_id, sum, status
+  SELECT id, user_id, price, status
   FROM orders
   WHERE
-    (sum > 5000 AND status != 'new')
+    (price > 5000 AND status != 'new')
       OR
-    (sum <= 5000 AND status = 'new')
+    (price <= 5000 AND status = 'new')
   ;
   ```
 
@@ -152,12 +152,13 @@ WHERE (sum > 5000) XOR (status = 'new');
 ## Оператор IN
 
 Оператор **`IN`** используется для проверки, входит ли значение в **указанный список**.
+
 Он делает запросы короче и нагляднее, чем несколько `OR`.
 
 ::: play sandbox=sqlite editor=basic depends-on=orders_01_sqlite.sql
 
 ```sql
-SELECT id, user_id, sum, status
+SELECT id, user_id, price, status
 FROM orders
 WHERE status IN ('cancelled', 'returned', 'delivery');
 ```
@@ -169,26 +170,56 @@ WHERE status IN ('cancelled', 'returned', 'delivery');
 
 **Аналогичный запрос через OR:**
 
+::: play sandbox=sqlite editor=basic depends-on=orders_01_sqlite.sql
+
 ```sql
-WHERE status = 'cancelled' OR status = 'returned' OR status = 'delivery';
+SELECT id, user_id, price, status
+FROM orders
+WHERE
+  status = 'cancelled'
+    OR
+  status = 'returned'
+    OR
+  status = 'delivery'
+;
 ```
+
+:::
 
 ## Оператор BETWEEN
 
 Оператор **`BETWEEN`** используется для проверки, входит ли значение в **заданный диапазон включительно**.
 
+Он делает запросы короче и нагляднее, чем два условия с `AND`.
+
 ::: play sandbox=sqlite editor=basic depends-on=orders_01_sqlite.sql
 
 ```sql
-SELECT id, user_id, sum, status
+SELECT id, user_id, price, status
 FROM orders
-WHERE sum BETWEEN 1000 AND 5000;
+WHERE price BETWEEN 1000 AND 5000;
 ```
 
 :::
 
 **Результат:**
 Выводятся заказы, сумма которых **от 1000 до 5000 включительно**.
+
+**Аналогичный запрос через AND:**
+
+::: play sandbox=sqlite editor=basic depends-on=orders_01_sqlite.sql
+
+```sql
+SELECT id, user_id, price, status
+FROM orders
+WHERE
+  price >= 1000
+    AND
+  price <= 5000
+;
+```
+
+:::
 
 ::: tip
 

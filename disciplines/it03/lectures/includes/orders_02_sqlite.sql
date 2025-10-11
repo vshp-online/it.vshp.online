@@ -1,13 +1,13 @@
 CREATE TABLE
   orders (
     id INT PRIMARY KEY,
-    product_name VARCHAR(50),
-    quantity INT
+    title VARCHAR(255),
+    amount INT
   )
 ;
 
 INSERT INTO
-  orders (id, product_name, quantity)
+  orders (id, title, amount)
 VALUES
   (1, 'футболка', 5),
   (2, 'носки', 6),

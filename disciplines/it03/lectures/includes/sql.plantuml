@@ -1,0 +1,40 @@
+@startwbs SQL
+<Style>
+node {
+  HorizontalAlignment center
+}
+</Style>
+* **SQL**
+**:**DDL**
+Data Definition Language;
+***:<code>
+* CREATE
+* ALTER
+* DROP
+...
+</code>;
+**:**DML**
+Data Manipulation Language;
+***:<code>
+* SELECT
+* INSERT
+* UPDATE
+* DELETE
+...
+</code>;
+**:**DCL**
+Data Control Language;
+***:<code>
+* GRANT
+* REVOKE
+...
+</code>;
+**:**TCL**
+Transaction Control Language;
+***:<code>
+* COMMIT
+* ROLLBACK
+* SAVEPOINT
+...
+</code>;
+@endwbs

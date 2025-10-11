@@ -3,7 +3,7 @@ CREATE TABLE
     id INT PRIMARY KEY,
     first_name VARCHAR(255) NOT NULL,
     last_name VARCHAR(255) NOT NULL,
-    salary INTEGER NOT NULL,
+    salary INT NOT NULL,
     job_title VARCHAR(255) NULL,
     email VARCHAR(255) NULL,
     bonus VARCHAR(255) NULL,
