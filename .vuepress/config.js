@@ -1,6 +1,9 @@
 // https://vuepress.vuejs.org/reference/config.html
 import { defineUserConfig } from "vuepress";
 
+// https://vuepress.vuejs.org/advanced/cookbook/adding-extra-pages.html
+import { createPage } from "vuepress/core";
+
 // https://vuepress.vuejs.org/reference/bundler/vite.html
 import { viteBundler } from "@vuepress/bundler-vite";
 
@@ -85,28 +88,27 @@ const navbar = loadYaml("./navbar.yml");
 const railroadFencePlugin = () => ({
   name: "railroad-fence",
   extendsMarkdown: (md) => {
-
     // сохраняем оригинальный fence-рендерер
-    const origFence = md.renderer.rules.fence
+    const origFence = md.renderer.rules.fence;
 
     md.renderer.rules.fence = (tokens, idx, options, env, slf) => {
       const html = origFence
         ? origFence(tokens, idx, options, env, slf)
-        : slf.renderToken(tokens, idx, options)
+        : slf.renderToken(tokens, idx, options);
 
-      const info = tokens[idx].info || ""
+      const info = tokens[idx].info || "";
 
       // ищем {#my-id} в info-строке, НЕ трогая {2,7-9}
       // допускаем любые дополнительные атрибуты внутри одних {} — лишь бы был #id
-      const m = info.match(/\{[^}]*#([A-Za-z][\w:.-]*)[^}]*\}/)
-      const id = m ? m[1] : null
-      if (!id) return html
+      const m = info.match(/\{[^}]*#([A-Za-z][\w:.-]*)[^}]*\}/);
+      const id = m ? m[1] : null;
+      if (!id) return html;
 
       // аккуратно вставляем id в первый <pre ...>, если его там ещё нет
       return html.replace(/<pre(?![^>]*\bid=)/, (openTag) => {
-        return openTag.replace('<pre', `<pre id="${id}"`)
-      })
-    }
+        return openTag.replace("<pre", `<pre id="${id}"`);
+      });
+    };
 
     const orig = md.renderer.rules.fence?.bind(md.renderer.rules);
     md.renderer.rules.fence = (tokens, idx, options, env, self) => {
@@ -130,6 +132,46 @@ const railroadFencePlugin = () => ({
 
 export default defineUserConfig({
   plugins: [
+    {
+      name: "auth-pages",
+      async onInitialized(app) {
+        const authSfc = path.resolve(
+          app.dir.source(),
+          ".vuepress/pages/AuthPage.vue"
+        );
+        const accountSfc = path.resolve(
+          app.dir.source(),
+          ".vuepress/pages/AccountPage.vue"
+        );
+
+        app.pages.push(
+          await createPage(app, {
+            path: "/auth/",
+            frontmatter: {
+              layout: "Layout",
+              title: "Авторизация",
+              sidebar: false,
+            },
+            content: `<ClientOnly><AuthPage/></ClientOnly>
+<script setup>
+import AuthPage from '${authSfc.replace(/\\/g, "\\\\")}'
+</script>`,
+          }),
+          await createPage(app, {
+            path: "/account/",
+            frontmatter: {
+              layout: "Layout",
+              title: "Личный кабинет",
+              sidebar: false,
+            },
+            content: `<ClientOnly><AccountPage/></ClientOnly>
+<script setup>
+import AccountPage from '${accountSfc.replace(/\\/g, "\\\\")}'
+</script>`,
+          })
+        );
+      },
+    },
     markdownContainerPlugin({
       type: "play",
       // принимаем "play" и любые параметры после него
