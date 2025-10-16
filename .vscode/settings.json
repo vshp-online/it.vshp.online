@@ -116,6 +116,7 @@
     "endmindmap",
     "endwbs",
     "epub",
+    "evenodd",
     "Gantt",
     "GETDATE",
     "gridlines",
@@ -150,6 +151,7 @@
     "startmindmap",
     "startwbs",
     "Stepik",
+    "svgrepo",
     "SYSDATE",
     "SYSDATETIME",
     "SYSTIMESTAMP",
@@ -161,6 +163,7 @@
     "vueuse",
     "wasi",
     "wght",
+    "xlink",
     "xychart"
   ]
 }
