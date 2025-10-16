@@ -3,6 +3,8 @@ import Layout from "./layouts/Layout.vue";
 import RailroadDiagram from "./components/RailroadDiagram.vue";
 import Pill from "./components/Pill.vue";
 
+import { createPinia } from "pinia";
+
 import Prism from "prismjs";
 import "prismjs/components/prism-python";
 import "prismjs/components/prism-sql";
@@ -40,6 +42,8 @@ export default defineClientConfig({
 
   enhance({ app, router }) {
     if (!isClient) return;
+
+    app.use(createPinia());
 
     app.component("RailroadDiagram", RailroadDiagram);
     app.component("Pill", Pill);
