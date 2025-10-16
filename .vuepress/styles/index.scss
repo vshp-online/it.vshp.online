@@ -1,0 +1,72 @@
+@use "./fonts.scss";
+@use "./dark-theme.scss";
+@use "./mermaid.scss";
+@use "./codapi.scss";
+
+:root {
+  // accent colors
+  --vp-c-accent: #8d282e;
+  --vp-c-accent-bg: #5e0e13;
+  --vp-c-accent-hover: #b71d27;
+  --vp-c-accent-text: var(--vp-c-white);
+  --vp-c-accent-soft: rgba(185, 14, 14, 0.14);
+  --code-font-size: 0.9rem !important;
+  --mermaid-preview-bg: rgba(255, 255, 255, 1) !important;
+
+  scrollbar-width: thin;
+
+  @media (prefers-reduced-motion: no-preference) {
+    scroll-behavior: smooth;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+
+  @media (max-width: 480px) {
+    display: none !important;
+  }
+}
+
+::-webkit-scrollbar-track-piece {
+  border-radius: 6px;
+  background: rgb(0 0 0 / 10%);
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 6px;
+  background: var(--vp-c-accent);
+
+  &:active {
+    background: var(--vp-c-accent-bg);
+  }
+}
+
+// Иконки в шапке
+.nav-icon {
+  display: flex;
+  margin: auto;
+  margin-inline-start: 1rem;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+
+  &:hover {
+    opacity: 0.8;
+  }
+  img {
+    display: block;
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.footnotes {
+  font-size: 0.9rem;
+
+  p {
+    line-height: 1.45;
+  }
+}

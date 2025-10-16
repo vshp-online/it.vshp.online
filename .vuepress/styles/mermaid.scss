@@ -1,0 +1,58 @@
+.mermaid-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto !important;
+  padding: 0 !important;
+
+  &.expanded .mermaid-content {
+    height: auto;
+    overflow: scroll;
+    padding: 0;
+    margin: 0;
+    width: auto !important;
+    max-width: 100%;
+    overscroll-behavior: contain;
+
+    svg {
+      display: block;
+      width: max-content !important;
+      max-width: none !important;
+      height: max-content !important;
+      max-height: none !important;
+      margin: 0 auto;
+      padding: 0;
+    }
+  }
+
+  .mermaid-content {
+    max-height: 64vh;
+    -webkit-overflow-scrolling: touch;
+    user-select: none;
+
+    svg {
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      max-height: 60vh;
+      margin: 0 auto;
+      padding: 0;
+    }
+  }
+}
+
+@media (any-hover: hover) and (any-pointer: fine) {
+  .mermaid-wrapper {
+    cursor: zoom-in;
+
+    &.expanded {
+      cursor: zoom-out;
+    }
+  }
+}
+
+.mermaid-actions button {
+  @media (max-width: 480px) {
+    display: none !important;
+  }
+}

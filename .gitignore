@@ -1,0 +1,13 @@
+.DS_Store
+Thumbs.db
+desktop.ini
+node_modules
+build
+*.log
+
+# VuePress default temp directory
+.vuepress/.temp
+# VuePress default cache directory
+.vuepress/.cache
+# VuePress default build output directory
+.vuepress/dist
