@@ -60,7 +60,7 @@ const pkg = JSON.parse(
 const APP_VERSION = pkg.version ?? "dev";
 const VSHP_EML_VERSION = pkg.config.vshpLicenseRef ?? "";
 
-const EXCLUDE_FROM_SEARCH = ["/", "/test/"];
+const EXCLUDE_FROM_SEARCH = ["/", "/test/", "/account/"];
 
 // приводим page.path к базовому виду:
 // '/', '/a', '/a/', '/a.html', '/a/index.html' → '/', '/a'
