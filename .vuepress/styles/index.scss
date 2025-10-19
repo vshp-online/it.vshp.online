@@ -70,3 +70,19 @@
     line-height: 1.45;
   }
 }
+
+.vp-tab {
+  padding: 1rem !important;
+
+  .vp-tab-title ~ * {
+    margin-top: 0 !important;
+  }
+
+  :last-child {
+    margin-bottom: 0;
+  }
+
+  .vp-tabs {
+    margin: 0 auto;
+  }
+}
