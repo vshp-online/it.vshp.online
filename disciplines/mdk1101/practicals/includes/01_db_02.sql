@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS users_details;
 SET foreign_key_checks = 1;
 CREATE TABLE users (
-    id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     email VARCHAR(50) NULL
 );
 INSERT INTO users (id, email)
@@ -19,7 +19,7 @@ VALUES
     (9, 'user9@domain.com'),
     (10, 'user10@domain.com');
 CREATE TABLE users_details (
-    id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     first_name VARCHAR(50) NULL,
     last_name VARCHAR(50) NULL,
     age INTEGER NULL

@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS users_p;
 SET foreign_key_checks = 1;
 CREATE TABLE users (
-    id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     first_name VARCHAR(50) NULL,
     last_name VARCHAR(50) NULL,
     age INTEGER NULL,
@@ -26,7 +26,7 @@ VALUES
     (13, 'Анастасия', 'Татаренкова', 21, '2017-03-12 08:00:23'),
     (14, 'Валерий', 'Редько', 29, '2017-04-08 12:34:59');
 CREATE TABLE users_p (
-    id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     series VARCHAR(50) NULL,
     number VARCHAR(50) NULL
 );

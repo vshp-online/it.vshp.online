@@ -1,0 +1,12 @@
+erDiagram
+  users["Пользователи"] {
+    INT id PK "ID"
+    VARCHAR email "Email"
+  }
+  users_details["Анкеты пользователей"] {
+    INT id PK "ID"
+    VARCHAR first_name "Имя"
+    VARCHAR last_name "Фамилия"
+    INT age "Возраст"
+  }
+  users ||--|| users_details : "один-к-одному"

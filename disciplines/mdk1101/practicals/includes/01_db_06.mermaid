@@ -1,0 +1,20 @@
+erDiagram
+  products["Товары"] {
+    INT id PK "ID"
+    VARCHAR name "Название"
+    INT count "Количество"
+    INT price "Цена"
+  }
+  orders["Заказы"] {
+    INT id PK "ID"
+    INT user_id FK "ID пользователя"
+    DATETIME date "Дата"
+    VARCHAR status "Статус"
+  }
+  orders_details["Позиции заказа"] {
+    INT order_id FK "ID заказа"
+    INT product_id FK "ID товара"
+  }
+  orders ||--o{ orders_details : "один-ко-многим"
+  products ||--o{ orders_details : "один-ко-многим"
+  orders }|..|{ products : "многие-ко-многим"

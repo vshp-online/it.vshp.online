@@ -3,7 +3,7 @@ DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS orders;
 SET foreign_key_checks = 1;
 CREATE TABLE users (
-    id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     first_name VARCHAR(50) NULL,
     last_name VARCHAR(50) NULL,
     age INTEGER NULL
@@ -21,7 +21,7 @@ VALUES
     (9, 'Анастасия', 'Дейчман', 16),
     (10, 'Юлия', 'Фёдорова', 25);
 CREATE TABLE orders (
-    id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     user_id INTEGER NULL,
     date DATETIME NULL,
     amount INTEGER NULL,

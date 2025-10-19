@@ -1,0 +1,17 @@
+erDiagram
+  users["Пользователи"] {
+    INT id PK "ID"
+    VARCHAR first_name "Имя"
+    VARCHAR last_name "Фамилия"
+  }
+  roles["Роли"] {
+    INT id PK "ID"
+    VARCHAR name "Название"
+  }
+  users_roles["Роли пользователей"] {
+    INT user_id FK "ID пользователя"
+    INT role_id FK "ID роли"
+  }
+  users ||--o{ users_roles : "один-ко-многим"
+  roles ||--o{ users_roles : "один-ко-многим"
+  users }|..|{ roles : "многие-ко-многим"

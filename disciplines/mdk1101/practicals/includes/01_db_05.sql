@@ -4,7 +4,7 @@ DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS users_roles;
 SET foreign_key_checks = 1;
 CREATE TABLE roles (
-    id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(50) NULL
 );
 INSERT INTO roles (id, name)
@@ -15,7 +15,7 @@ VALUES
     (4, 'Маркетолог'),
     (5, 'Бухгалтер');
 CREATE TABLE users (
-    id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     first_name VARCHAR(50) NULL,
     last_name VARCHAR(50) NULL
 );
@@ -32,8 +32,8 @@ VALUES
     (9, 'Анастасия', 'Дейчман'),
     (10, 'Александр', 'Дмитриев');
 CREATE TABLE users_roles (
-    user_id INTEGER NULL,
-    role_id INTEGER NULL
+    user_id INTEGER NOT NULL,
+    role_id INTEGER NOT NULL
 );
 INSERT INTO users_roles (user_id, role_id)
 VALUES

@@ -2,9 +2,8 @@ SET foreign_key_checks = 0;
 DROP TABLE IF EXISTS brands;
 DROP TABLE IF EXISTS categories;
 DROP TABLE IF EXISTS products;
-SET foreign_key_checks = 1;
 CREATE TABLE brands (
-    id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(50) NULL
 );
 INSERT INTO brands (id, name)
@@ -20,7 +19,7 @@ VALUES
     (9, 'Katomi'),
     (10, 'Oodji');
 CREATE TABLE categories (
-    id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(50) NULL
 );
 INSERT INTO categories (id, name)
@@ -38,15 +37,15 @@ VALUES
     (11, 'Плащи'),
     (12, 'Леггинсы');
 CREATE TABLE products (
-    id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(50) NULL,
-    brand INTEGER NULL,
-    category INTEGER NULL,
-    count INTEGER NULL,
-    price INTEGER NULL,
+    brand_id INT NOT NULL,
+    category_id INT NOT NULL,
+    count INT NULL,
+    price INT NULL,
     sizes SET('32','34','36','38','40','42','44','46','48','50','52','M','L','S','XL','XS','2XL','4XL') NULL
 );
-INSERT INTO products (id, name, brand, category, count, price, sizes)
+INSERT INTO products (id, name, brand_id, category_id, count, price, sizes)
 VALUES
     (1, 'Джинсы Mango Lonny 2', 1, 1, 3, 2990, '34,36,38,42'),
     (2, 'Куртка Magno Nico 2', 1, 2, 2, 4999, 'S,M,L'),
@@ -68,3 +67,4 @@ VALUES
     (18, 'Юбка Katomi', 9, 5, 8, 3199, '34,40,42'),
     (19, 'Джинсы Mango Noa2', 1, 1, 2, 2499, '32,34,36,38,40,42,44'),
     (20, 'Леггинсы Oodji', 10, 12, 0, 349, 'M,L,S');
+SET foreign_key_checks = 1;

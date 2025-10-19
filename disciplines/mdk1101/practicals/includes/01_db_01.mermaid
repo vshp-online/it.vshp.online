@@ -1,0 +1,14 @@
+erDiagram
+  users["Пользователи"] {
+    INT id PK "ID"
+    VARCHAR first_name "Имя"
+    VARCHAR last_name "Фамилия"
+    INT age "Возраст"
+    DATETIME date_joined "Дата регистрации"
+  }
+  users_p["Паспортные данные"] {
+    INT id PK "ID"
+    VARCHAR series "Серия"
+    VARCHAR number "Номер"
+  }
+  users ||--|| users_p : "один-к-одному"

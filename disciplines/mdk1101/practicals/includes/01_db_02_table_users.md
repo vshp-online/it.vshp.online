@@ -1,0 +1,12 @@
+| id | email |
+| --- | --- |
+| 1 | user1@domain.com |
+| 2 | user2@domain.com |
+| 3 | user3@domain.com |
+| 4 | user4@domain.com |
+| 5 | user5@domain.com |
+| 6 | user6@domain.com |
+| 7 | user7@domain.com |
+| 8 | user8@domain.com |
+| 9 | user9@domain.com |
+| 10 | user10@domain.com |

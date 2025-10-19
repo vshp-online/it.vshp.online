@@ -1,0 +1,15 @@
+erDiagram
+  users["Пользователи"] {
+    INT id PK "ID"
+    VARCHAR first_name "Имя"
+    VARCHAR last_name "Фамилия"
+    INT age "Возраст"
+  }
+  orders["Заказы"] {
+    INT id PK "ID"
+    INT user_id FK "ID пользователя"
+    DATETIME date "Дата"
+    INT amount "Сумма"
+    VARCHAR status "Статус"
+  }
+  users ||--o{ orders : "один-ко-многим"

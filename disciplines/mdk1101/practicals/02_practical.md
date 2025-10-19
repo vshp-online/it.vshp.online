@@ -2,7 +2,11 @@
 
 ## Числовые поля
 
-### Задача - Товары в магазине
+### 1. Задача - Товары в магазине
+
+::: tabs
+
+@tab Условия
 
 Создайте таблицу `products` для хранения информации о товарах в магазине.
 
@@ -21,7 +25,33 @@
 Утюг, 3 штуки, 7300 рублей
 ```
 
-### Задача - Фильмы
+:::
+
+::: details **Решение задачи**
+
+```sql
+CREATE TABLE products (
+    id INT UNSIGNED,
+    name  VARCHAR(100),
+    count TINYINT UNSIGNED,
+    price MEDIUMINT UNSIGNED
+);
+
+INSERT INTO products (id, name, count, price)
+VALUES
+    (1 ,"Холодильник",10 ,50000),
+    (2 ,"Стиральная машина",0 ,23570),
+    (3 ,"Утюг",3 ,7300)
+;
+```
+
+:::
+
+### 2. Задача - Фильмы
+
+::: tabs
+
+@tab Условия
 
 Создайте таблицу `films` с информацией о фильмах. Выберете оптимальные поля для хранения данных в соответствии с условиями:
 
@@ -38,9 +68,35 @@ id | name | rating | country
 2 | Игра | 7.5714 | US
 3 | Война | 10.0 | RU
 
+:::
+
+::: details **Решение задачи**
+
+```sql
+CREATE TABLE films (
+    id INT UNSIGNED,
+    name VARCHAR(100),
+    rating FLOAT(6,4) UNSIGNED,
+    country CHAR(2)
+);
+
+INSERT INTO films (id, name, rating, country)
+VALUES
+    (1 ,"Большая буря",3.45 ,"RU"),
+    (2 ,"Игра",7.5714 ,"US"),
+    (3 ,"Война",10.0 ,"RU")
+;
+```
+
+:::
+
 ## Строковые поля
 
-### Задача - Книги
+### 3. Задача - Книги
+
+::: tabs
+
+@tab Условия
 
 Создайте таблицу `books` для хранения данных о книгах. В таблице должны быть следующие поля:
 
@@ -57,7 +113,33 @@ id | name | description | isbn
 2 | Изучаем SQL | Полезная книга. | 5932860510
 3 | Изучаем Python. 4-е издание | Подробная книга о Python. | 9785932861592
 
-### Задача - Квартиры
+:::
+
+::: details **Решение задачи**
+
+```sql
+CREATE TABLE books (
+    id INT UNSIGNED,
+    name VARCHAR(100),
+    description VARCHAR(1000),
+    isbn VARCHAR(13)
+);
+
+INSERT INTO books (id, name, description, isbn)
+VALUES
+    (1, 'MySQL 5','Хорошая книга.','5941579284'),
+    (2, 'Изучаем SQL','Полезная книга.','5932860510'),
+    (3, 'Изучаем Python. 4-е издание','Подробная книга о Python.','9785932861592')
+;
+```
+
+:::
+
+### 4. Задача - Квартиры
+
+::: tabs
+
+@tab Условия
 
 Создайте таблицу `apartments` для хранения информации о квартирах на сайте жилищного комплекса. В таблице должны быть следующие поля:
 
@@ -74,9 +156,35 @@ id | image | price | square
 2 | /apartments/2/cover-3.jpg | 7500000 | 103
 3 |  | 2300000 | 56
 
+:::
+
+::: details **Решение задачи**
+
+```sql
+CREATE TABLE apartments (
+    id INT UNSIGNED,
+    image VARCHAR(100),
+    price INT UNSIGNED,
+    square TINYINT UNSIGNED
+);
+
+INSERT INTO apartments (id, image, price, square)
+VALUES
+    (1, '/apartments/1/cover.jpg',5250000,90),
+    (2, '/apartments/2/cover-3.jpg',7500000,103),
+    (3, '',2300000,56)
+;
+```
+
+:::
+
 ## Дата и время
 
-### Задача - Регистрация и вход
+### 5. Задача - Регистрация и вход
+
+::: tabs
+
+@tab Условия
 
 Создайте таблицу `users` для хранения информации о пользователях сайта.
 В таблице должны быть следующие поля:
@@ -94,7 +202,31 @@ id | email | date_joined | last_activity
 2 | `user2@domain.com` | 2022-12-12 | 2023-02-13 11:46:53
 3 | `user3@domain.com` | 2022-12-13 | 2023-04-04 05:12:07
 
-### Задача - Температура
+:::
+
+::: details **Решение задачи**
+
+```sql
+CREATE TABLE users (
+    id INT UNSIGNED,
+    email VARCHAR (100),
+    date_joined DATE,
+    last_activity DATETIME
+);
+INSERT INTO users (id,email,date_joined,last_activity)
+VALUES
+    (1,'user1@domain.com','2014-12-12','2016-04-08 12:34:54'),
+    (2,'user2@domain.com','2014-12-12','2017-02-13 11:46:53'),
+    (3,'user3@domain.com','2014-12-13','2017-04-04 05:12:07');
+```
+
+:::
+
+### 6. Задача - Температура
+
+::: tabs
+
+@tab Условия
 
 Создайте таблицу `temperature` для хранения записей о температуре. Добавьте в неё следующие поля:
 
@@ -114,155 +246,9 @@ id | city_id | temperature | wind_speed | mdate
 4 | 471 | -7 | 12 | 2017-02-08 12:20:01
 5 | 44 | -43 | 17 | 2017-02-08 12:23:12
 
-## Использование NULL
-
-### Задача - Пустой email
-
-Создайте таблицу `users` с двумя полями:
-
-- `id` — целое положительное, не может принимать `NULL`.
-- `email` — строка для хранения электронных адресов пользователей длиной до `100` символов, не может принимать `NULL`.
-
-Добавьте записи так, чтобы получалась таблица ниже:
-
-id | email
---- | ---
-1 | `user1@domain.com`
-2 | `user2@domain.com`
-3 | `user3@domain.com`
-4 | `user4@domain.com`
-
-### Задача - Товары без категорий
-
-Выберите из таблицы products название, количество и цены всех товаров, у которых нет категории.
-
-Данные отсортируйте по цене.
-
-::: details lab_14_01.sql
-
-@[code sql](./includes/lab_14_01.sql)
-
 :::
 
----
-
-## Решения задач
-
-<details>
-<summary><b>Решение задачи - Товары в магазине</b></summary>
-
-```sql
-CREATE TABLE products (
-    id INT UNSIGNED,
-    name  VARCHAR(100),
-    count TINYINT UNSIGNED,
-    price MEDIUMINT UNSIGNED
-);
-
-INSERT INTO products (id, name, count, price)
-VALUES
-    (1 ,"Холодильник",10 ,50000),
-    (2 ,"Стиральная машина",0 ,23570),
-    (3 ,"Утюг",3 ,7300)
-;
-```
-
-</details>
-
----
-
-<details>
-<summary><b>Решение задачи - Фильмы</b></summary>
-
-```sql
-CREATE TABLE films (
-    id INT UNSIGNED,
-    name VARCHAR(100),
-    rating FLOAT(6,4) UNSIGNED,
-    country CHAR(2)
-);
-
-INSERT INTO films (id, name, rating, country)
-VALUES
-    (1 ,"Большая буря",3.45 ,"RU"),
-    (2 ,"Игра",7.5714 ,"US"),
-    (3 ,"Война",10.0 ,"RU")
-;
-```
-
-</details>
-
----
-
-<details>
-<summary><b>Решение задачи - Книги</b></summary>
-
-```sql
-CREATE TABLE books (
-    id INT UNSIGNED,
-    name VARCHAR(100),
-    description VARCHAR(1000),
-    isbn VARCHAR(13)
-);
-
-INSERT INTO books (id, name, description, isbn)
-VALUES
-    (1, 'MySQL 5','Хорошая книга.','5941579284'),
-    (2, 'Изучаем SQL','Полезная книга.','5932860510'),
-    (3, 'Изучаем Python. 4-е издание','Подробная книга о Python.','9785932861592')
-;
-```
-
-</details>
-
----
-
-<details>
-<summary><b>Решение задачи - Квартиры</b></summary>
-
-```sql
-CREATE TABLE apartments (
-    id INT UNSIGNED,
-    image VARCHAR(100),
-    price INT UNSIGNED,
-    square TINYINT UNSIGNED
-);
-
-INSERT INTO apartments (id, image, price, square)
-VALUES
-    (1, '/apartments/1/cover.jpg',5250000,90),
-    (2, '/apartments/2/cover-3.jpg',7500000,103),
-    (3, '',2300000,56)
-;
-```
-
-</details>
-
----
-
-<details>
-<summary><b>Решение задачи - Регистрация и вход</b></summary>
-
-```sql
-CREATE TABLE users (
-    id INT UNSIGNED,
-    email VARCHAR (100),
-    date_joined DATE,
-    last_activity DATETIME
-);
-INSERT INTO users (id,email,date_joined,last_activity)
-VALUES
-    (1,'user1@domain.com','2014-12-12','2016-04-08 12:34:54'),
-    (2,'user2@domain.com','2014-12-12','2017-02-13 11:46:53'),
-    (3,'user3@domain.com','2014-12-13','2017-04-04 05:12:07');
-```
-
-</details>
-
----
-
-<details>
-<summary><b>Решение задачи - Температура</b></summary>
+::: details **Решение задачи**
 
 ```sql
 CREATE TABLE temperature (
@@ -281,12 +267,33 @@ VALUES
     (5, 44, -43, 17,'2017-02-08 12:23:12');
 ```
 
-</details>
+:::
 
----
+## Использование NULL
 
-<details>
-<summary><b>Решение задачи - Пустой email</b></summary>
+### 7. Задача - Пустой email
+
+::: tabs
+
+@tab Условия
+
+Создайте таблицу `users` с двумя полями:
+
+- `id` — целое положительное, не может принимать `NULL`.
+- `email` — строка для хранения электронных адресов пользователей длиной до `100` символов, не может принимать `NULL`.
+
+Добавьте записи так, чтобы получалась таблица ниже:
+
+id | email
+--- | ---
+1 | `user1@domain.com`
+2 | `user2@domain.com`
+3 | `user3@domain.com`
+4 | `user4@domain.com`
+
+:::
+
+::: details **Решение задачи**
 
 ```sql
 CREATE TABLE users(
@@ -301,12 +308,25 @@ VALUES
     (4,'user4@domain.com');
 ```
 
-</details>
+:::
 
----
+### 8. Задача - Товары без категорий
 
-<details>
-<summary><b>Решение задачи - Товары без категорий</b></summary>
+::: tabs
+
+@tab Условия
+
+Выберите из таблицы products название, количество и цены всех товаров, у которых нет категории.
+
+Данные отсортируйте по цене.
+
+@tab Дамп
+
+@[code sql:collapsed-lines=10](./includes/02_db_01.sql)
+
+:::
+
+::: details **Решение задачи**
 
 ```sql
 SELECT name, count, price
@@ -315,4 +335,4 @@ WHERE category_id IS NULL
 ORDER BY price;
 ```
 
-</details>
+:::

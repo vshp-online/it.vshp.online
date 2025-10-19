@@ -2,8 +2,8 @@ SET foreign_key_checks = 0;
 DROP TABLE IF EXISTS products;
 SET foreign_key_checks = 1;
 CREATE TABLE products (
-    id INT UNSIGNED NOT NULL PRIMARY KEY,
-    category_id INT UNSIGNED NULL,
+    id INT NOT NULL PRIMARY KEY,
+    category_id INT NULL,
     name VARCHAR(255) NULL,
     count INTEGER NULL,
     price INTEGER NULL

@@ -1,0 +1,20 @@
+erDiagram
+  brands["Бренды"] {
+    INT id PK "ID"
+    VARCHAR name "Название"
+  }
+  categories["Категории"] {
+    INT id PK "ID"
+    VARCHAR name "Название"
+  }
+  products["Товары"] {
+    INT id PK "ID"
+    VARCHAR name "Название"
+    INT brand_id FK "ID бренда"
+    INT category_id FK "ID категории"
+    INT count "Количество"
+    INT price "Цена"
+    SET sizes "Размеры"
+  }
+  brands ||--o{ products : "один-ко-многим"
+  categories ||--o{ products : "один-ко-многим"
