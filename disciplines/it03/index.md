@@ -20,7 +20,7 @@ next: '/disciplines/mdk1101/'
   - [04 - Основные SQL-конструкции: SELECT, FROM, WHERE](./lectures/04_lecture.md)
   - [05 - Составные условия запросов AND, OR, NOT. Специальные операторы IN и BETWEEN. Модификатор запроса DISTINCT](./lectures/05_lecture.md)
   - [06 - Особый тип данных NULL. Операторы LIKE, ORDER BY, LIMIT](./lectures/06_lecture.md)
-  - 07 - Агрегатные функции, операторы GROUP BY и HAVING
+  - [07 - Агрегатные функции, операторы GROUP BY и HAVING](./lectures/07_lecture.md)
   - 08 - Добавление, обновление и удаление данных: операторы INSERT, UPDATE, DELETE
   - 09 - Основные типы данных, создание и удаление таблиц SQLite
   - 10 - Вложенные запросы: общее понимание

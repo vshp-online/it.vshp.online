@@ -58,19 +58,19 @@ yarn upgrade-interactive
 - Исполняемые права у скрипта:
 
   ```bash
-  chmod +x export_sqlite_table.sh
+  chmod +x scripts/export_sqlite_table.sh
   ```
 
 ### Использование
 
 ```bash
-./export_sqlite_table.sh path/to/file.sql table_name
+scripts/export_sqlite_table.sh path/to/file.sql table_name
 ```
 
 Пример:
 
 ```bash
-./export_sqlite_table.sh ./includes/employees_01_sqlite.sql employees
+scripts/export_sqlite_table.sh ./includes/employees_01_sqlite.sql employees
 ```
 
 После выполнения в текущей директории появится файл:
