@@ -374,19 +374,177 @@ LIMIT 3;
 
 ## Практические задания
 
-1. Выведите всех сотрудников, у которых **нет электронной почты**.
-2. Найдите сотрудников, чьи **фамилии начинаются на «П»**.
-3. Выведите сотрудников, чьи **адреса электронной почты находятся в домене `@company.ru`**, отсортировав их по зарплате **по убыванию**.
-4. Покажите **три сотрудника с самыми низкими зарплатами**.
-5. Найдите всех сотрудников, у которых в должности встречается слово **«программист»**, и выведите их **в порядке возрастания зарплаты**.
-6. Выведите сотрудников, у которых **зарплата пятизначная**, и отсортируйте их по **фамилии в алфавитном порядке**.
+### Задание 1
 
-::: play sandbox=sqlite editor=basic template="#show_null" depends-on=employees_01_sqlite.sql
+::: tabs
+
+@tab Условие
+
+Выведите всех сотрудников, у которых **нет электронной почты**.
+
+  ::: play sandbox=sqlite editor=basic template="#show_null" depends-on=employees_01_sqlite.sql
+
+  ```sql
+  -- Ваш код можете писать тут
+
+
+  ```
+
+  :::
+
+@tab Решение
 
 ```sql
--- Ваш код можете писать тут
+SELECT *
+FROM employees
+WHERE email IS NULL;
+```
+
+:::
+
+### Задание 2
+
+::: tabs
+
+@tab Условие
+
+Найдите сотрудников, чьи **фамилии начинаются на «П»**.
+
+  ::: play sandbox=sqlite editor=basic template="#show_null" depends-on=employees_01_sqlite.sql
+
+  ```sql
+  -- Ваш код можете писать тут
 
 
+  ```
+
+  :::
+
+@tab Решение
+
+```sql
+SELECT *
+FROM employees
+WHERE last_name LIKE 'П%';
+```
+
+:::
+
+### Задание 3
+
+::: tabs
+
+@tab Условие
+
+Выведите сотрудников, чьи **адреса электронной почты находятся в домене `@company.ru`**, отсортировав их по зарплате **по убыванию**.
+
+  ::: play sandbox=sqlite editor=basic template="#show_null" depends-on=employees_01_sqlite.sql
+
+  ```sql
+  -- Ваш код можете писать тут
+
+
+  ```
+
+  :::
+
+@tab Решение
+
+```sql
+SELECT *
+FROM employees
+WHERE email LIKE '%@company.ru'
+ORDER BY salary DESC;
+```
+
+:::
+
+### Задание 4
+
+::: tabs
+
+@tab Условие
+
+Выведите **троих сотрудников с самыми низкими зарплатами**, результаты отсортируйте **по возрастанию зарплаты**.
+
+  ::: play sandbox=sqlite editor=basic template="#show_null" depends-on=employees_01_sqlite.sql
+
+  ```sql
+  -- Ваш код можете писать тут
+
+
+  ```
+
+  :::
+
+@tab Решение
+
+```sql
+SELECT *
+FROM employees
+ORDER BY salary ASC
+LIMIT 3;
+```
+
+:::
+
+### Задание 5
+
+::: tabs
+
+@tab Условие
+
+Найдите всех сотрудников, у которых в должности встречается слово **«программист»**, и выведите их **в порядке возрастания зарплаты**.
+
+  ::: play sandbox=sqlite editor=basic template="#show_null" depends-on=employees_01_sqlite.sql
+
+  ```sql
+  -- Ваш код можете писать тут
+
+
+  ```
+
+  :::
+
+@tab Решение
+
+```sql
+SELECT *
+FROM employees
+WHERE job_title LIKE '%программист%'
+ORDER BY salary ASC;
+```
+
+:::
+
+### Задание 6
+
+::: tabs
+
+@tab Условие
+
+Выведите сотрудников, у которых **зарплата пятизначная**, но при этом в должности не встречается слово **«программист»**. Отсортируйте их по **фамилии в алфавитном порядке**.
+
+  ::: play sandbox=sqlite editor=basic template="#show_null" depends-on=employees_01_sqlite.sql
+
+  ```sql
+  -- Ваш код можете писать тут
+
+
+  ```
+
+  :::
+
+@tab Решение
+
+```sql
+SELECT *
+FROM employees
+WHERE
+  salary LIKE "_____"
+    AND
+  job_title NOT LIKE '%программист%'
+ORDER BY last_name ASC;
 ```
 
 :::
