@@ -266,22 +266,188 @@ WHERE status = 'cancelled';
 
 ## Практические задания
 
-<!-- TODO: привести к виду 6 и 7 лекций -->
+### Задание 1
 
-1. Выведите заказы, у которых статус `new` и сумма больше 1500.
-2. Покажите заказы, которые либо отменены, либо возвращены.
-3. Выведите заказы, **кроме** тех, что находятся в статусе `delivery`.
-4. Найдите всех уникальных пользователей, у которых есть активные (`in_progress`) заказы.
-5. Покажите уникальные значения статусов заказов.
-6. Выведите заказы, сумма которых находится **в диапазоне от 2000 до 7000**.
-7. Покажите заказы, статус которых входит в список `('new', 'in_progress')`.
+::: tabs
 
-::: play sandbox=sqlite editor=basic depends-on=orders_01_sqlite.sql
+@tab Условие
+
+Выведите все новые заказы (`new`), сумма которых больше `1500`.
+
+  ::: play sandbox=sqlite editor=basic depends-on=orders_01_sqlite.sql
+
+  ```sql
+  -- Ваш код можете писать тут
+
+
+  ```
+
+  :::
+
+@tab Решение
 
 ```sql
--- Ваш код можете писать тут
+SELECT *
+FROM orders
+WHERE
+  status = "new"
+    AND
+  price >= 1500
+```
+
+:::
+
+### Задание 2
+
+::: tabs
+
+@tab Условие
+
+Выведите заказы, которые либо отменены (`cancelled`), либо возвращены (`returned`).
+
+В решении **не используйте** оператор `IN`.
+
+  ::: play sandbox=sqlite editor=basic depends-on=orders_01_sqlite.sql
+
+  ```sql
+  -- Ваш код можете писать тут
 
 
+  ```
+
+  :::
+
+@tab Решение
+
+```sql
+SELECT *
+FROM orders
+WHERE
+  status = "cancelled"
+    OR
+  status = "returned"
+```
+
+:::
+
+### Задание 3
+
+::: tabs
+
+@tab Условие
+
+Выведите все заказы, **кроме** тех, что находятся в доставке (`delivery`) или в обработке (`in_progress`).
+
+В решении **не используйте** символ `!=` и оператор `OR`.
+
+  ::: play sandbox=sqlite editor=basic depends-on=orders_01_sqlite.sql
+
+  ```sql
+  -- Ваш код можете писать тут
+
+
+  ```
+
+  :::
+
+@tab Решение
+
+```sql
+SELECT *
+FROM orders
+WHERE
+  status NOT IN("delivery", "in_progress")
+```
+
+:::
+
+### Задание 4
+
+::: tabs
+
+@tab Условие
+
+Выведите все заказы, сумма которых находится в диапазоне от `2000` до `7000` включительно.
+
+В решении **не используйте** символы `>=` или `<=`.
+
+  ::: play sandbox=sqlite editor=basic depends-on=orders_01_sqlite.sql
+
+  ```sql
+  -- Ваш код можете писать тут
+
+
+  ```
+
+  :::
+
+@tab Решение
+
+```sql
+SELECT *
+FROM orders
+WHERE
+  price BETWEEN 2000 AND 7000
+```
+
+:::
+
+### Задание 5
+
+::: tabs
+
+@tab Условие
+
+Выведите все уникальные значения статусов заказов.
+
+  ::: play sandbox=sqlite editor=basic depends-on=orders_01_sqlite.sql
+
+  ```sql
+  -- Ваш код можете писать тут
+
+
+  ```
+
+  :::
+
+@tab Решение
+
+```sql
+SELECT DISTINCT
+  status
+FROM orders
+```
+
+:::
+
+### Задание 6
+
+::: tabs
+
+@tab Условие
+
+Найдите всех уникальных пользователей, у которых есть новые (`new`), отмененные (`cancelled`) или возвращенные (`returned`) заказы.
+
+В решении **не используйте** символ `=` и оператор `OR`.
+
+  ::: play sandbox=sqlite editor=basic depends-on=orders_01_sqlite.sql
+
+  ```sql
+  -- Ваш код можете писать тут
+
+
+  ```
+
+  :::
+
+@tab Решение
+
+```sql
+SELECT DISTINCT
+  user_id
+FROM orders
+WHERE
+  status IN('new', 'cancelled', 'returned')
 ```
 
 :::

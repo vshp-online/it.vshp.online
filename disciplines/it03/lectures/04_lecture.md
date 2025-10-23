@@ -257,21 +257,178 @@ WHERE amount = 0;
 
 ## Практические задания
 
-<!-- TODO: привести к виду 6 и 7 лекций -->
+### Задание 1
 
-1. Выведите все данные из таблицы `products`.
-2. Получите названия и цены всех товаров.
-3. Определите товары, которые отсутствуют на складе.
-4. Найдите товары дешевле 4000.
-5. Получите товары стоимостью 10000 и выше.
-6. Переименуйте столбцы `title` и `price` в выводе на «Товар» и «Цена».
+::: tabs
 
-::: play sandbox=sqlite editor=basic depends-on=products_01_sqlite.sql
+@tab Условие
+
+Выведите все данные из таблицы `products`.
+
+  ::: play sandbox=sqlite editor=basic depends-on=products_01_sqlite.sql
+
+  ```sql
+  -- Ваш код можете писать тут
+
+
+  ```
+
+  :::
+
+@tab Решение
 
 ```sql
--- Ваш код можете писать тут
+SELECT *
+FROM products
+```
+
+:::
+
+### Задание 2
+
+::: tabs
+
+@tab Условие
+
+Выведите названия (`title`) и цены (`price`) всех товаров.
+
+  ::: play sandbox=sqlite editor=basic depends-on=products_01_sqlite.sql
+
+  ```sql
+  -- Ваш код можете писать тут
 
 
+  ```
+
+  :::
+
+@tab Решение
+
+```sql
+SELECT
+  title,
+  price
+FROM products
+```
+
+:::
+
+### Задание 3
+
+::: tabs
+
+@tab Условие
+
+Выведите названия (`title`) и остатки (`amount`) товаров, которые отсутствуют на складе.
+
+  ::: play sandbox=sqlite editor=basic depends-on=products_01_sqlite.sql
+
+  ```sql
+  -- Ваш код можете писать тут
+
+
+  ```
+
+  :::
+
+@tab Решение
+
+```sql
+SELECT
+  title,
+  amount
+FROM products
+WHERE amount < 1
+```
+
+:::
+
+### Задание 4
+
+::: tabs
+
+@tab Условие
+
+Выведите названия (`title`) и цены (`price`) товаров дешевле `4000`.
+
+  ::: play sandbox=sqlite editor=basic depends-on=products_01_sqlite.sql
+
+  ```sql
+  -- Ваш код можете писать тут
+
+
+  ```
+
+  :::
+
+@tab Решение
+
+```sql
+SELECT
+  title,
+  price
+FROM products
+WHERE price < 4000
+```
+
+:::
+
+### Задание 5
+
+::: tabs
+
+@tab Условие
+
+Выведите названия (`title`) и цены (`price`) товаров стоимостью `9500` и дороже.
+
+  ::: play sandbox=sqlite editor=basic depends-on=products_01_sqlite.sql
+
+  ```sql
+  -- Ваш код можете писать тут
+
+
+  ```
+
+  :::
+
+@tab Решение
+
+```sql
+SELECT
+  title,
+  price
+FROM products
+WHERE price >= 9500
+```
+
+:::
+
+### Задание 6
+
+::: tabs
+
+@tab Условие
+
+Выведите все названия (`title`), цены (`price`) и остатки (`amount`) товаров так, чтобы столбцы с этими значениями назывались «Товар», «Цена» и «Остаток» соответственно.
+
+  ::: play sandbox=sqlite editor=basic depends-on=products_01_sqlite.sql
+
+  ```sql
+  -- Ваш код можете писать тут
+
+
+  ```
+
+  :::
+
+@tab Решение
+
+```sql
+SELECT
+  title AS "Товар",
+  price AS "Цена",
+  amount AS "Остаток"
+FROM products
 ```
 
 :::
