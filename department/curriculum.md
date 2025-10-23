@@ -1,63 +1,91 @@
 # Направления подготовки
 
-::: warning
-
-Раздел находится в процессе наполнения!
-
-:::
-
-Кафедра организует профессиональную подготовку в рамках профильных дисциплин в соответствии с ФГОС СПО и ФГО ВО.
+Кафедра организует профессиональную подготовку в рамках профильных дисциплин в соответствии с ФГОС СПО и ФГОС ВО.
 
 ## ФГОС СПО 09.02.07 - Информационные системы и программирование
 
+Ниже представлены только ключевые официальные документы — Учебные планы (УП) и Календарные учебные графики (КУГ). С полным перечнем официальных документов по данному направлению подготовки можно ознакомиться на официальном сайте ЧУПО «ВШП» в разделе [«Информация по реализуемым образовательным программам»](https://college.vshp.online/sveden/education/courses).
+
 ### Учебные планы
 
-::: tabs
+::: tabs#spo
 
 @tab Год поступления 2025
 
 - **Очная форма обучения**
-  - [ИСиП 09.02.07 - Программист - Учебный план - ОЧНЫЙ - 25-26 - 9 кл. (3 г. 10 мес.)](https://docs.google.com/spreadsheets/d/1lXHqbep7XtxFVV5oT62fhQ_y9XfzO8ZBea32_lCqgqI/export?format=pdf&gid=838642370&size=A4&portrait=false&sheetnames=true&printtitle=true&gridlines=false&pagenum=RIGHT&fzr=true&top_margin=0.6&bottom_margin=0.6&left_margin=0.35&right_margin=0.35&attachment=true)
-  - [ИСиП 09.02.07 - Программист - Учебный план - ОЧНЫЙ - 25-26 - 11 кл. (2 г. 10 мес.)](https://docs.google.com/spreadsheets/d/1lXHqbep7XtxFVV5oT62fhQ_y9XfzO8ZBea32_lCqgqI/export?format=pdf&gid=1042135086&size=A4&portrait=false&sheetnames=true&printtitle=true&gridlines=false&pagenum=RIGHT&fzr=true&top_margin=0.6&bottom_margin=0.6&left_margin=0.35&right_margin=0.35&attachment=true)
+  - [ИСиП 09.02.07 - Учебный план - ОЧНЫЙ - 2025 - 9 кл. (3 г. 10 мес.)](https://college.vshp.online/docs/9759/ISiP_09.02.07_-_Uchebnyi%CC%86_plan_-_OCHNYI%CC%86_-_2025_-_9_kl.__3_g._10_mes._.pdf)
+  - [ИСиП 09.02.07 - Учебный план - ОЧНЫЙ - 2025 - 11 кл. (2 г. 10 мес.)](https://college.vshp.online/docs/975a/ISiP_09.02.07_-_Uchebnyi%CC%86_plan_-_OCHNYI%CC%86_-_2025_-_11_kl.__2_g._10_mes._.pdf)
 - **Очно-заочная форма обучения**
-  - [ИСиП 09.02.07 - Программист - Учебный план - ОЧНО-ЗАОЧНЫЙ - 25-26 - 9 кл. (4 г. 10 мес.)](https://docs.google.com/spreadsheets/d/1obKGMIiG1-gXOC6kSLDV8uhDvfneCSpHLtu4OzPTtP0/export?format=pdf&gid=838642370&size=A4&portrait=false&sheetnames=true&printtitle=true&gridlines=false&pagenum=RIGHT&fzr=true&top_margin=0.6&bottom_margin=0.6&left_margin=0.35&right_margin=0.35&attachment=true)
-  - [ИСиП 09.02.07 - Программист - Учебный план - ОЧНО-ЗАОЧНЫЙ - 25-26 - 11 кл. (3 г. 10 мес.)](https://docs.google.com/spreadsheets/d/1obKGMIiG1-gXOC6kSLDV8uhDvfneCSpHLtu4OzPTtP0/export?format=pdf&gid=1761674019&size=A4&portrait=false&sheetnames=true&printtitle=true&gridlines=false&pagenum=RIGHT&fzr=true&top_margin=0.6&bottom_margin=0.6&left_margin=0.35&right_margin=0.35&attachment=true)
+  - [ИСиП 09.02.07 - Учебный план - ОЧНО-ЗАОЧНЫЙ - 2025 - 9 кл. (4 г. 10 мес.)](https://college.vshp.online/docs/9763/ISiP_09.02.07_-_Uchebnyi%CC%86_plan_-_OCHNO-ZAOCHNYI%CC%86_-_2025_-_9_kl.__4_g._10_mes._.pdf)
+  - [ИСиП 09.02.07 - Учебный план - ОЧНО-ЗАОЧНЫЙ - 2025 - 11 кл. (3 г. 10 мес.)](https://college.vshp.online/docs/9764/ISiP_09.02.07_-_Uchebnyi%CC%86_plan_-_OCHNO-ZAOCHNYI%CC%86_-_2025_-_11_kl.__3_g._10_mes._.pdf)
 
 @tab Год поступления 2024
 
 - **Очная форма обучения**
-  - В процессе актуализации
+  - [ИСиП 09.02.07 - Учебный план - ОЧНЫЙ - 2024 - 9 кл. (3 г. 10 мес.)](https://college.vshp.online/docs/9755/ISiP_09.02.07_-_Uchebnyi%CC%86_plan_-_OCHNYI%CC%86_-_2024_-_9_kl.__3_g._10_mes._.pdf)
+  - [ИСиП 09.02.07 - Учебный план - ОЧНЫЙ - 2024 - 11 кл. (2 г. 10 мес.)](https://college.vshp.online/docs/9756/ISiP_09.02.07_-_Uchebnyi%CC%86_plan_-_OCHNYI%CC%86_-_2024_-_11_kl.__2_g._10_mes._.pdf)
 - **Очно-заочная форма обучения**
-  - В процессе актуализации
+  - [ИСиП 09.02.07 - Учебный план - ОЧНО-ЗАОЧНЫЙ - 2024 - 9 кл. (4 г. 10 мес.)](https://college.vshp.online/docs/975f/ISiP_09.02.07_-_Uchebnyi%CC%86_plan_-_OCHNO-ZAOCHNYI%CC%86_-_2024_-__9_kl.__4_g._10_mes._.pdf)
+  - [ИСиП 09.02.07 - Учебный план - ОЧНО-ЗАОЧНЫЙ - 2024 - 11 кл. (3 г. 10 мес.)](https://college.vshp.online/docs/9760/ISiP_09.02.07_-_Uchebnyi%CC%86_plan_-_OCHNO-ZAOCHNYI%CC%86_-_2024_-_11_kl.__3_g._10_mes._.pdf)
 
 :::
 
 ### Календарные учебные графики
 
-::: tabs
+::: tabs#spo
 
 @tab Год поступления 2025
 
 - **Очная форма обучения**
-  - В процессе актуализации
+  - [ИСиП 09.02.07 - КУГ - ОЧНЫЙ - 2025 - 9 кл. (3 г. 10 мес.)](https://college.vshp.online/docs/975b/ISiP_09.02.07_-_KUG_-_OCHNYI%CC%86_-_2025_-_9_kl.__3_g._10_mes._.pdf)
+  - [ИСиП 09.02.07 - КУГ - ОЧНЫЙ - 2025 - 11 кл. (2 г. 10 мес.)](https://college.vshp.online/docs/975c/ISiP_09.02.07_-_KUG_-_OCHNYI%CC%86_-_2025_-_11_kl.__2_g._10_mes._.pdf)
 - **Очно-заочная форма обучения**
-  - В процессе актуализации
+  - [ИСиП 09.02.07 - КУГ - ОЧНО-ЗАОЧНЫЙ - 2025 - 9 кл. (4 г. 10 мес.)](https://college.vshp.online/docs/9761/ISiP_09.02.07_-_KUG_-_OCHNO-ZAOCHNYI%CC%86_-_2025_-_9_kl.__4_g._10_mes._.pdf)
+  - [ИСиП 09.02.07 - КУГ - ОЧНО-ЗАОЧНЫЙ - 2025 - 11 кл. (3 г. 10 мес.)](https://college.vshp.online/docs/9762/ISiP_09.02.07_-_KUG_-_OCHNO-ZAOCHNYI%CC%86_-_2025_-_11_kl.__3_g._10_mes._.pdf)
 
 @tab Год поступления 2024
 
 - **Очная форма обучения**
-  - В процессе актуализации
+  - [ИСиП 09.02.07 - КУГ - ОЧНЫЙ - 2024 - 9 кл. (3 г. 10 мес.)](https://college.vshp.online/docs/9757/ISiP_09.02.07_-_KUG_-_OCHNYI%CC%86_-_2024_-_9_kl.__3_g._10_mes._.pdf)
+  - [ИСиП 09.02.07 - КУГ - ОЧНЫЙ - 2024 - 11 кл. (2 г. 10 мес.)](https://college.vshp.online/docs/9758/ISiP_09.02.07_-_KUG_-_OCHNYI%CC%86_-_2024_-_11_kl.__2_g._10_mes._.pdf)
 - **Очно-заочная форма обучения**
-  - В процессе актуализации
+  - [ИСиП 09.02.07 - КУГ - ОЧНО-ЗАОЧНЫЙ - 2024 - 9 кл. (4 г. 10 мес.)](https://college.vshp.online/docs/975d/ISiP_09.02.07_-_KUG_-_OCHNO-ZAOCHNYI%CC%86_-_2024_-_9_kl.__4_g._10_mes._.pdf)
+  - [ИСиП 09.02.07 - КУГ - ОЧНО-ЗАОЧНЫЙ - 2024 - 11 кл. (3 г. 10 мес.)](https://college.vshp.online/docs/975e/ISiP_09.02.07_-_KUG_-_OCHNO-ZAOCHNYI%CC%86_-_2024_-_11_kl.__3_g._10_mes._.pdf)
 
 :::
 
 ## ФГОС ВО 09.03.02 - Информационные системы и технологии
 
+Ниже представлены только ключевые официальные документы — Учебные планы (УП) и Календарные учебные графики (КУГ). С полным перечнем официальных документов по данному направлению подготовки можно ознакомиться на официальном сайте ЧУВО «ВШП» в разделе [«Информация по реализуемым образовательным программам»](https://institute.vshp.online/sveden/education/courses).
+
 ### Учебные планы
 
-- В процессе актуализации
+::: tabs#vo
+
+@tab Год поступления 2024
+
+- **Очно-заочная форма обучения**
+  - [Учебный план по программе бакалавриата 09.03.02 Информационные системы и технологии 2024-2025](https://institute.vshp.online/docs/92a7/09.03.02_-_UP_24_25.pdf)
+
+@tab Год поступления 2023
+
+- **Очно-заочная форма обучения**
+  - [Учебный план по программе бакалавриата 09.03.02 Информационные системы и технологии 2023-2024](https://institute.vshp.online/docs/92a0/09.03.02_-_UP_23_24.pdf)
+
+:::
 
 ### Календарные учебные графики
 
-- В процессе актуализации
+::: tabs#vo
+
+@tab Год поступления 2024
+
+- **Очно-заочная форма обучения**
+  - [Календарный учебный график на 2024-2025 учебный год](https://institute.vshp.online/docs/929e/09.03.02_-_KUG_2_kurs.pdf)
+
+@tab Год поступления 2023
+
+- **Очно-заочная форма обучения**
+  - [Календарный учебный график на 2023-2024 учебный год](https://institute.vshp.online/docs/929d/09.03.02_-_KUG_1_kurs.pdf)
+
+:::
