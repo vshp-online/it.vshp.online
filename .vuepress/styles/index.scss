@@ -71,18 +71,25 @@
   }
 }
 
-.vp-tab {
-  padding: 1rem !important;
-
-  .vp-tab-title ~ * {
-    margin-top: 0 !important;
+.vp-tabs {
+  & + h3 {
+    margin-top: 0;
+    padding-top: 0;
   }
 
-  :last-child {
-    margin-bottom: 0;
-  }
+  .vp-tab {
+    padding: 1rem !important;
 
-  .vp-tabs {
-    margin: 0 auto;
+    .vp-tab-title ~ * {
+      margin-top: 0 !important;
+    }
+
+    :last-child {
+      margin-bottom: 0;
+    }
+
+    .vp-tabs {
+      margin: 0 auto;
+    }
   }
 }
