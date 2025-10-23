@@ -18,6 +18,3 @@ sidebar: false
 - Честных В.В.
   - руководитель отдела технического обеспечения
   - <v.chestnyh@vshp.online>
-- Воронин Н.В.
-  - лаборант
-  - <n.voronin@vshp.online>
