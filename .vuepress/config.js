@@ -336,6 +336,7 @@ import AccountPage from '${accountSfc.replace(/\\/g, "\\\\")}'
     docsRepo: "https://github.com/vshp-online/it.vshp.online",
     logo: "/images/logo.svg",
     hostname: "https://it.vshp.online",
+    colorMode: 'light',
     editLink: false,
     contributors: false,
     themePlugins: {
