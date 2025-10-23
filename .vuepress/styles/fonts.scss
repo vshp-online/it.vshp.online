@@ -17,6 +17,8 @@
 :where(pre, code, kbd, samp) {
   font-family: "FiraCodeVF", "Fira Code", monospace !important;
   font-weight: 500;
+  font-variant-ligatures: normal !important;
+
   // TODO: На будущее подумать подключать лигатуры опционально
   // font-variant-ligatures: none !important;
 }
