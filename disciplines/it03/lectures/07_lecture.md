@@ -149,7 +149,6 @@ SELECT
   SUM(amount) AS total_qty
 FROM orders
 GROUP BY customer, category
-HAVING SUM(amount) > 0
 ORDER BY customer ASC, total_qty DESC;
 ```
 
@@ -182,17 +181,17 @@ ORDER BY orders_count DESC, title ASC;
 
 ```sql
 SELECT
-  title,
-  AVG(amount) AS avg_per_order
+  category,
+  AVG(amount) AS avg_per_category
 FROM orders
 GROUP BY title
-ORDER BY avg_per_order DESC;
+ORDER BY avg_per_category DESC;
 ```
 
 :::
 
 **Результат:**
-Средний размер заказа по каждому товару
+Средний размер заказа по каждой категории
 
 ### Группировка по выражению
 
@@ -218,7 +217,7 @@ ORDER BY total_qty DESC;
 :::
 
 **Результат:**
-Объединены возможные варианты регистра в одно наименование
+Объединены возможные варианты регистра в одно наименование (без учёта кириллицы).
 
 ::: warning
 
@@ -236,85 +235,127 @@ ORDER BY total_qty DESC;
 ### Пример 1. Отобрать «крупные» **строки** заказов
 
 ::: play sandbox=sqlite editor=basic depends-on=orders_02_sqlite.sql
+
 ```sql
--- Только те строки, где amount >= 10 (до группировки)
 SELECT
   title, SUM(amount) AS total_qty
 FROM orders
 WHERE amount >= 10
 GROUP BY title;
 ```
+
 :::
+
+**Результат:**
+Только те строки, где amount >= 10 (до группировки).
 
 ### Пример 2. Отобрать «крупные» **товары по итогу**
 
 ::: play sandbox=sqlite editor=basic depends-on=orders_02_sqlite.sql
+
 ```sql
--- Все строки учитываются, но оставляем только те группы,
--- где суммарные продажи по товару >= 25
 SELECT
   title, SUM(amount) AS total_qty
 FROM orders
 GROUP BY title
-HAVING SUM(amount) >= 25  -- допустимо также: HAVING total_qty >= 25 в SQLite/MySQL
+-- допустимо также: HAVING total_qty >= 25 в SQLite/MySQL
+HAVING SUM(amount) >= 25
 ORDER BY total_qty DESC;
 ```
+
 :::
 
-### Частые условия в `HAVING`
+**Результат:**
+Все строки учитываются, но оставляем только те группы, где суммарные продажи по товару >= 25.
 
 ::: play sandbox=sqlite editor=basic depends-on=orders_02_sqlite.sql
+
 ```sql
--- Товары, у которых не менее 3 заказов
-SELECT title, COUNT(*) AS orders_count
+SELECT customer, COUNT(*) AS orders_count
 FROM orders
-GROUP BY title
+GROUP BY customer
 HAVING COUNT(*) >= 3;
+```
 
--- Товары со "стабильными" заказами: минимальный размер заказа не ниже 5
-SELECT title, MIN(amount) AS min_per_order
+:::
+
+**Результат:**
+Клиенты, у которых не менее 3 заказов.
+
+::: play sandbox=sqlite editor=basic depends-on=orders_02_sqlite.sql
+
+```sql
+SELECT category, MIN(amount) AS min_per_category
 FROM orders
-GROUP BY title
+GROUP BY category
 HAVING MIN(amount) >= 5;
+```
 
--- Средний размер заказа в разумных пределах
-SELECT title, AVG(amount) AS avg_per_order
+:::
+
+**Результат:**
+Категории, в которых минимальный размер заказа не ниже 5.
+
+::: play sandbox=sqlite editor=basic depends-on=orders_02_sqlite.sql
+
+```sql
+SELECT category, AVG(amount) AS avg_per_category
 FROM orders
-GROUP BY title
+GROUP BY category
 HAVING AVG(amount) BETWEEN 5 AND 8;
 ```
+
 :::
 
+**Результат:**
+Средний размер заказа на категорию в пределах от 5 до 8 включительно.
+
 ::: play sandbox=sqlite editor=basic depends-on=orders_02_sqlite.sql
+
 ```sql
--- Покупатели с суммарными закупками не менее 40 единиц
 SELECT customer, SUM(amount) AS total_qty
 FROM orders
 GROUP BY customer
 HAVING SUM(amount) >= 40
 ORDER BY total_qty DESC;
+```
 
--- Категории, по которым сделано не менее 3 строк заказов
+:::
+
+**Результат:**
+Покупатели с суммарными закупками не менее 40 единиц
+
+::: play sandbox=sqlite editor=basic depends-on=orders_02_sqlite.sql
+
+```sql
 SELECT category, COUNT(*) AS rows_cnt
 FROM orders
 GROUP BY category
 HAVING COUNT(*) >= 3
 ORDER BY rows_cnt DESC;
 ```
+
 :::
+
+**Результат:**
+Категории, по которым сделано не менее 3 строк заказов
 
 ### `HAVING` без `GROUP BY`
 
 Можно фильтровать агрегат по **всей таблице** одной строкой результата:
 
 ::: play sandbox=sqlite editor=basic depends-on=orders_02_sqlite.sql
+
 ```sql
--- Показать суммарные продажи только если они превышают 60
 SELECT SUM(amount) AS total_qty
 FROM orders
 HAVING SUM(amount) > 60;
 ```
+
 :::
+
+**Результат:**
+Показать суммарные продажи только если они превышают 60.
 
 ---
 
