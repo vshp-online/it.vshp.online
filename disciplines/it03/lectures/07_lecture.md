@@ -184,7 +184,7 @@ SELECT
   category,
   AVG(amount) AS avg_per_category
 FROM orders
-GROUP BY title
+GROUP BY category
 ORDER BY avg_per_category DESC;
 ```
 
