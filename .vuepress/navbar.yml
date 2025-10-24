@@ -8,6 +8,8 @@
       link: "/department/about"
     - text: "Направления подготовки"
       link: "/department/curriculum"
+    - text: "Друзья и партнеры"
+      link: "/department/partners"
     - text: "Структура кафедры"
       link: "/department/structure"
     - text: "Обращение к студентам"
