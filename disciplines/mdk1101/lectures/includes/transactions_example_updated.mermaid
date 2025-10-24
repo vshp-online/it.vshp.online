@@ -1,0 +1,24 @@
+erDiagram
+  users {
+    INT id PK
+    VARCHAR name
+    INT age
+  }
+  accounts {
+    INT id PK
+    VARCHAR title
+    INT user_id FK
+    DECIMAL balance
+  }
+  transactions {
+    INT id PK
+    DATETIME date_time
+    DECIMAL amount
+    ENUM transaction_type
+    INT user_id FK
+    INT account_id FK
+    INT transfer_to_account_id
+  }
+  users ||--o{ accounts : "один-ко-многим"
+  users ||--o{ transactions : "один-ко-многим"
+  accounts ||--o{ transactions : "один-ко-многим"

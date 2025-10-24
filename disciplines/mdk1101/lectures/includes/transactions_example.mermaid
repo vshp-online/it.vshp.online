@@ -1,0 +1,12 @@
+erDiagram
+  users {
+    INT id PK
+    VARCHAR name
+  }
+  accounts {
+    INT id PK
+    VARCHAR title
+    INT user_id FK
+    DECIMAL balance
+  }
+  users ||--o{ accounts : "один-ко-многим"
