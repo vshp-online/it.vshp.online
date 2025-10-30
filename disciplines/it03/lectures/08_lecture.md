@@ -87,7 +87,8 @@ SELECT поле_таблицы, ... FROM имя_таблицы ...
 
 ```sql
 INSERT INTO inventory (id, sku, title, amount, price, is_active)
-VALUES (9, 'Z-900', 'Тестовый товар', 2, 1200, 1);
+VALUES
+  (9, 'Z-900', 'Тестовый товар', 2, 1200, 1);
 ```
 
 :::
@@ -97,7 +98,8 @@ VALUES (9, 'Z-900', 'Тестовый товар', 2, 1200, 1);
 ::: play sandbox=sqlite editor=basic template="#auto_select_after" depends-on=insert_one.sql id=insert_multiple.sql
 
 ```sql
-INSERT INTO inventory (id, sku, title, amount, price, is_active) VALUES
+INSERT INTO inventory (id, sku, title, amount, price, is_active)
+VALUES
   (10, 'E-030', 'USB-хаб 10 портов', 2, 1990, 1),
   (11, 'E-031', 'USB-хаб 3 порта',   9,  690, 1);
 ```
@@ -291,7 +293,11 @@ DELETE FROM inventory;
 
 @tab Условие
 
-**INSERT-1.** Добавить запись: `id=101, sku='T-100', title='Кабель HDMI 2м', amount=5, price=450, is_active=1`.
+Добавьте в таблицу следующую запись:
+
+| id  | sku   | title          | amount | price | is_active |
+|:---:|:-----:|:--------------:|:------:|:-----:|:---------:|
+| 101 | T‑100 | Кабель HDMI 2м | 5      | 450   | 1         |
 
   ::: play sandbox=sqlite editor=basic template="#auto_select_after" depends-on=inventory_01_sqlite.sql
 
@@ -305,7 +311,11 @@ DELETE FROM inventory;
 
 @tab Решение
 
-Будет позднее :smile:
+```sql
+INSERT INTO inventory (id, sku, title, amount, price, is_active)
+VALUES
+  (101, 'T‑100', 'Кабель HDMI 2м', 5, 450, 1);
+```
 
 :::
 
@@ -315,7 +325,12 @@ DELETE FROM inventory;
 
 @tab Условие
 
-**INSERT-2.** Одним запросом вставить две записи: `id=102, sku='T-200', title='Адаптер USB-A→USB-C', amount=10, price=290, is_active=1` и `id=103, sku='T-201', title='Адаптер USB-C→Jack 3.5', amount=4, price=NULL, is_active=1`.
+Добавьте в таблицу следующие запись одним запросом:
+
+| id  | sku   | title                  | amount | price | is_active |
+|:---:|:-----:|:----------------------:|:------:|:-----:|:---------:|
+| 102 | T‑200 | Адаптер USB-A->USB-C    | 10     | 290  | 1         |
+| 103 | T‑201 | Адаптер USB-C->Jack 3.5  | 4     | NULL  | 1        |
 
   ::: play sandbox=sqlite editor=basic template="#auto_select_after" depends-on=inventory_01_sqlite.sql
 
@@ -329,7 +344,12 @@ DELETE FROM inventory;
 
 @tab Решение
 
-Будет позднее :smile:
+```sql
+INSERT INTO inventory (id, sku, title, amount, price, is_active)
+VALUES
+    (102, 'T-200', 'Адаптер USB-A->USB-C', 10, 290, 1),
+    (103, 'T-201', 'Адаптер USB-C->Jack 3.5', 4, NULL, 1);
+```
 
 :::
 
@@ -339,7 +359,7 @@ DELETE FROM inventory;
 
 @tab Условие
 
-**UPDATE-1.** Для `id=3` увеличить `price` на 200 и `amount` на 1.
+Для товара с `id = 3` увеличьте цену (`price`) на `50%` и количество (`amount`) на `20`.
 
   ::: play sandbox=sqlite editor=basic template="#auto_select_after" depends-on=inventory_01_sqlite.sql
 
@@ -353,7 +373,12 @@ DELETE FROM inventory;
 
 @tab Решение
 
-Будет позднее :smile:
+```sql
+UPDATE inventory
+SET price = price * 1.5,
+    amount = amount + 20
+WHERE id = 3;
+```
 
 :::
 
@@ -363,7 +388,7 @@ DELETE FROM inventory;
 
 @tab Условие
 
-**UPDATE-2.** Для всех строк с `amount=0` установить `is_active=0`.
+Для всех товаров, которых осталось меньше 10 штук на складе установить `is_active = 0`.
 
   ::: play sandbox=sqlite editor=basic template="#auto_select_after" depends-on=inventory_01_sqlite.sql
 
@@ -377,7 +402,11 @@ DELETE FROM inventory;
 
 @tab Решение
 
-Будет позднее :smile:
+```sql
+UPDATE inventory
+SET is_active = 0
+WHERE amount < 10;
+```
 
 :::
 
@@ -387,7 +416,7 @@ DELETE FROM inventory;
 
 @tab Условие
 
-**DELETE-1.** Удалить строку с `sku='X-000'`.
+Удалить товар с артикулом `'X-000'`.
 
   ::: play sandbox=sqlite editor=basic template="#auto_select_after" depends-on=inventory_01_sqlite.sql
 
@@ -401,7 +430,10 @@ DELETE FROM inventory;
 
 @tab Решение
 
-Будет позднее :smile:
+```sql
+DELETE FROM inventory
+WHERE sku = 'X-000';
+```
 
 :::
 
@@ -411,7 +443,7 @@ DELETE FROM inventory;
 
 @tab Условие
 
-**DELETE-2.** Удалить все строки, где `is_active=0 AND amount=0`.
+Удалить товары дешевле `1000`, которые закончились на складе.
 
   ::: play sandbox=sqlite editor=basic template="#auto_select_after" depends-on=inventory_01_sqlite.sql
 
@@ -425,6 +457,13 @@ DELETE FROM inventory;
 
 @tab Решение
 
-Будет позднее :smile:
+```sql
+DELETE FROM inventory
+WHERE
+  price < 1000
+    AND
+  amount < 1
+;
+```
 
 :::
