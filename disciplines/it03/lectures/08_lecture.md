@@ -8,11 +8,22 @@
 - `UPDATE` — изменение существующих строк;
 - `DELETE` — удаление строк из таблицы.
 
-Эти операции называют DML (Data Manipulation Language). Они меняют состояние таблиц и по умолчанию не выводят результат на экран. Контекст выполнения — SQLite; необходимые отличия других СУБД отметим по месту (например, `TRUNCATE` в подблоке к `DELETE`).
+Эти операции называют DML (Data Manipulation Language). Они меняют состояние таблиц и по умолчанию не выводят результат на экран. Контекст выполнения — SQLite; необходимые отличия других СУБД отметим по месту.
 
 ## Пример таблицы `inventory`
 
 <!-- @include: ./includes/table_inventory_01.md -->
+
+::: note
+
+**Договорённости для примеров.**
+
+- `sku` - уникальный идентификатор товара, при этом не являющийся первичным ключом. Повторяющееся значение даёт ошибку вставки.
+- Значения по умолчанию заданы для `amount = 0` и `is_active = 1`;
+- `price` допускает значение `NULL` (например если цена на новый товар ещё не была установлена).
+- Эти ограничения уже настроены в учебной БД; к синтаксису их создания вернёмся позже.
+
+:::
 
 ::: details Код создания таблицы на языке SQL в диалекте SQLite
 
@@ -49,16 +60,6 @@ SELECT * FROM inventory;
 
 :::
 
-ТЕСТОВЫЙ ПРИМЕР УДАЛЕНИЯ
-
-::: play sandbox=sqlite editor=basic template="#auto_select_after" depends-on=inventory_01_sqlite.sql
-
-```sql
-DELETE FROM inventory WHERE id = 1;
-```
-
-:::
-
 ## INSERT — добавление строк
 
 Для добавления новых записей в таблицу предназначен оператор `INSERT`.
@@ -72,15 +73,13 @@ VALUES (значение_поля_таблицы, ...)
 SELECT поле_таблицы, ... FROM имя_таблицы ...
 ```
 
-Значения можно вставлять перечислением с помощью слова `VALUES`, перечислив их в круглых скобках через запятую или c помощью оператора `SELECT`.
+Значения можно вставлять перечислением с помощью слова `VALUES`, перечислив их в круглых скобках через запятую или c помощью оператора `SELECT`. Добавление записей через `INSERT INTO ... SELECT ...` мы рассмотрим в рамках данного курса позднее, когда научимся работать с несколькими таблицами.
 
 ::: tip
 
 Следует помнить, что первичный ключ таблицы является уникальным значением и добавление уже существующего значения приведёт к ошибке, но в большинстве СУБД для решения подобной задачи в автоматическом режиме принято использовать уникальное свойство поля `AUTO_INCREMENT` (в MySQL) или `AUTOINCREMENT` (SQLite). Подробнее их мы разберём в последующих темах.
 
 :::
-
-Добавление записей через `INSERT INTO ... SELECT ...` мы рассмотрим в рамках данного курса позднее, когда научимся работать с несколькими таблицами.
 
 ### Вставка одной строки
 
@@ -113,7 +112,7 @@ INSERT INTO inventory (id, sku, title, amount, price, is_active) VALUES
 
 ```sql
 INSERT INTO inventory (id, sku, title, amount, price, is_active)
-VALUES (12, 'P-002', 'Переходник miniDP→HDMI', 5, NULL, 1);
+VALUES (12, 'P-002', 'Переходник miniDP→HDMI', 5, NULL, 0);
 ```
 
 :::
@@ -122,7 +121,7 @@ VALUES (12, 'P-002', 'Переходник miniDP→HDMI', 5, NULL, 1);
 
 В исходной таблице значения полей `amount` и `is_active` определяются через свойство `DEFAULT`. В дальнейшем мы детально рассмотрим все свойства полей, но сейчас важно лишь то, что при создании таблицы можно задать значения по умолчанию. Если при вставке данных конкретное значение не указано, система автоматически использует значение, определённое в свойстве `DEFAULT`.
 
-Например, `amount=0` и `is_active=1` подставятся автоматически, т.к. они заданы по-умолчанию для соответствующих строк.
+Например, `amount = 0` и `is_active = 1` подставятся автоматически, т.к. они заданы по-умолчанию для соответствующих строк.
 
 ::: play sandbox=sqlite editor=basic template="#auto_select_after" depends-on=insert_null.sql id=insert_default.sql
 
@@ -237,11 +236,22 @@ WHERE amount = 0;
 
 Время от времени возникает задача удаления записей из таблицы. Для этого в SQL предусмотрен оператор `DELETE`.
 
+### Удаление конкретной записи по `id`
+
+::: play sandbox=sqlite editor=basic template="#auto_select_after" depends-on=update_is_active.sql id=delete_id_11.sql
+
+```sql
+DELETE FROM inventory
+WHERE id = 11;
+```
+
+:::
+
 ### Удаление по условию
 
 Например, если нам нужно удалить скрытые позиции по которым нулевой остаток.
 
-::: play sandbox=sqlite editor=basic template="#auto_select_after" depends-on=update_is_active.sql id=delete_empty.sql
+::: play sandbox=sqlite editor=basic template="#auto_select_after" depends-on=delete_id_11.sql id=delete_empty.sql
 
 ```sql
 DELETE FROM inventory
@@ -253,22 +263,11 @@ WHERE
 
 :::
 
-### Удаление конкретной записи по `id`
-
-::: play sandbox=sqlite editor=basic template="#auto_select_after" depends-on=delete_empty.sql id=delete_id_11.sql
-
-```sql
-DELETE FROM inventory
-WHERE id = 11;
-```
-
-:::
-
 ### Полная очистка таблицы
 
 Если условие отбора записей `WHERE` отсутствует, то будут удалены все записи указанной таблицы.
 
-::: play sandbox=sqlite editor=basic template="#auto_select_after" depends-on=delete_id_11.sql
+::: play sandbox=sqlite editor=basic template="#auto_select_after" depends-on=delete_empty.sql
 
 ```sql
 DELETE FROM inventory;
@@ -286,26 +285,146 @@ DELETE FROM inventory;
 
 ## Практические задания
 
-- **INSERT-1.** Добавить запись: `id=101, sku='T-100', title='Кабель HDMI 2м', amount=5, price=450, is_active=1`.
+### Задание 1
 
-- **INSERT-2.** Одним запросом вставить две записи:
-  `id=102, sku='T-200', title='Адаптер USB-A→USB-C', amount=10, price=290, is_active=1` и
-  `id=103, sku='T-201', title='Адаптер USB-C→Jack 3.5', amount=4, price=NULL, is_active=1`.
+::: tabs
 
-- **UPDATE-1.** Для `id=3` увеличить `price` на 200 и `amount` на 1.
+@tab Условие
 
-- **UPDATE-2.** Для всех строк с `amount=0` установить `is_active=0`.
+**INSERT-1.** Добавить запись: `id=101, sku='T-100', title='Кабель HDMI 2м', amount=5, price=450, is_active=1`.
 
-- **DELETE-1.** Удалить строку с `sku='X-000'`.
+  ::: play sandbox=sqlite editor=basic template="#auto_select_after" depends-on=inventory_01_sqlite.sql
 
-- **DELETE-2.** Удалить все строки, где `is_active=0 AND amount=0`.
-
-::: play sandbox=sqlite editor=basic template="#auto_select_after" depends-on=inventory_01_sqlite.sql
-
-```sql
--- Ваш код можете писать тут
+  ```sql
+  -- Ваш код можете писать тут
 
 
-```
+  ```
+
+  :::
+
+@tab Решение
+
+Будет позднее :smile:
+
+:::
+
+### Задание 2
+
+::: tabs
+
+@tab Условие
+
+**INSERT-2.** Одним запросом вставить две записи: `id=102, sku='T-200', title='Адаптер USB-A→USB-C', amount=10, price=290, is_active=1` и `id=103, sku='T-201', title='Адаптер USB-C→Jack 3.5', amount=4, price=NULL, is_active=1`.
+
+  ::: play sandbox=sqlite editor=basic template="#auto_select_after" depends-on=inventory_01_sqlite.sql
+
+  ```sql
+  -- Ваш код можете писать тут
+
+
+  ```
+
+  :::
+
+@tab Решение
+
+Будет позднее :smile:
+
+:::
+
+### Задание 3
+
+::: tabs
+
+@tab Условие
+
+**UPDATE-1.** Для `id=3` увеличить `price` на 200 и `amount` на 1.
+
+  ::: play sandbox=sqlite editor=basic template="#auto_select_after" depends-on=inventory_01_sqlite.sql
+
+  ```sql
+  -- Ваш код можете писать тут
+
+
+  ```
+
+  :::
+
+@tab Решение
+
+Будет позднее :smile:
+
+:::
+
+### Задание 4
+
+::: tabs
+
+@tab Условие
+
+**UPDATE-2.** Для всех строк с `amount=0` установить `is_active=0`.
+
+  ::: play sandbox=sqlite editor=basic template="#auto_select_after" depends-on=inventory_01_sqlite.sql
+
+  ```sql
+  -- Ваш код можете писать тут
+
+
+  ```
+
+  :::
+
+@tab Решение
+
+Будет позднее :smile:
+
+:::
+
+### Задание 5
+
+::: tabs
+
+@tab Условие
+
+**DELETE-1.** Удалить строку с `sku='X-000'`.
+
+  ::: play sandbox=sqlite editor=basic template="#auto_select_after" depends-on=inventory_01_sqlite.sql
+
+  ```sql
+  -- Ваш код можете писать тут
+
+
+  ```
+
+  :::
+
+@tab Решение
+
+Будет позднее :smile:
+
+:::
+
+### Задание 6
+
+::: tabs
+
+@tab Условие
+
+**DELETE-2.** Удалить все строки, где `is_active=0 AND amount=0`.
+
+  ::: play sandbox=sqlite editor=basic template="#auto_select_after" depends-on=inventory_01_sqlite.sql
+
+  ```sql
+  -- Ваш код можете писать тут
+
+
+  ```
+
+  :::
+
+@tab Решение
+
+Будет позднее :smile:
 
 :::
