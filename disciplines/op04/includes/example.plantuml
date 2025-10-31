@@ -1,0 +1,24 @@
+@startuml
+' Определение класса Person
+class Person {
+  - name: String
+  - age: int
+  + setName(name: String): void
+  + setAge(age: int): void
+  + getName(): String
+  + getAge(): int
+}
+
+' Определение класса Employee, который наследует Person
+class Employee extends Person {
+  - employeeId: String
+  - department: String
+  + setEmployeeId(id: String): void
+  + setDepartment(dept: String): void
+  + getEmployeeId(): String
+  + getDepartment(): String
+}
+
+' Отображение связи наследования
+Person <|-- Employee
+@enduml

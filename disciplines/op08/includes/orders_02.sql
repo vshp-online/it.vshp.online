@@ -1,0 +1,27 @@
+SET foreign_key_checks = 0;
+DROP TABLE IF EXISTS orders;
+CREATE TABLE orders (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	product_name VARCHAR(50),
+	quantity INT,
+    PRIMARY KEY (id)
+);
+INSERT INTO orders (id, product_name, quantity)
+VALUES
+  (1, 'футболка', 5),
+  (2, 'носки', 6),
+  (3, 'шорты', 10),
+  (4, 'футболка', 10),
+  (5, 'шорты', 5),
+  (6, 'носки', 6),
+  (7, 'футболка', 5),
+  (8, 'шорты', 5),
+  (9, 'носки', 3),
+  (10, 'футболка', 5),
+  (11, 'носки', 3),
+  (12, 'шорты', 10),
+  (13, 'футболка', 5),
+  (14, 'носки', 3),
+  (15, 'шорты', 5)
+  ;
+SET foreign_key_checks = 1;
