@@ -38,6 +38,8 @@
   @[code sql](./includes/orders_01_sqlite.sql)
   :::
 
+  Скачать код создания таблицы в виде файла можно по ссылке: [orders_01_sqlite.sql](./includes/orders_01_sqlite.sql)
+
 :::
 
 ## Оператор AND

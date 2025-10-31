@@ -256,6 +256,8 @@ WHERE <условие>;
   @[code sql](./includes/students_01_sqlite.sql)
   :::
 
+  Скачать код создания таблицы в виде файла можно по ссылке: [students_01_sqlite.sql](./includes/students_01_sqlite.sql)
+
 :::
 
 Тогда, мы можем выполнить несколько простых запросов.

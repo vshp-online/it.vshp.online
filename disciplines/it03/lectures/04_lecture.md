@@ -61,6 +61,8 @@ FROM имя_таблицы
   @[code sql](./includes/products_01_sqlite.sql)
   :::
 
+  Скачать код создания таблицы в виде файла можно по ссылке: [products_01_sqlite.sql](./includes/products_01_sqlite.sql)
+
 :::
 
 ---

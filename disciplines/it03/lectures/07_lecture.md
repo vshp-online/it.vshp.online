@@ -14,6 +14,8 @@
   @[code sql](./includes/orders_02_sqlite.sql)
   :::
 
+  Скачать код создания таблицы в виде файла можно по ссылке: [orders_02_sqlite.sql](./includes/orders_02_sqlite.sql)
+
 :::
 
 ## Агрегатные функции

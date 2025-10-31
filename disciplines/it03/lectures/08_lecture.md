@@ -31,6 +31,8 @@
   @[code sql](./includes/inventory_01_sqlite.sql)
   :::
 
+  Скачать код создания таблицы в виде файла можно по ссылке: [inventory_01_sqlite.sql](./includes/inventory_01_sqlite.sql)
+
 :::
 
 ::: warning

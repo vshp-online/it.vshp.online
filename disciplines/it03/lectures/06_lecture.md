@@ -16,6 +16,8 @@
   @[code sql](./includes/employees_01_sqlite.sql)
   :::
 
+  Скачать код создания таблицы в виде файла можно по ссылке: [employees_01_sqlite.sql](./includes/employees_01_sqlite.sql)
+
 :::
 
 ## Что такое NULL
