@@ -109,7 +109,7 @@ document.getElementById("student").innerHTML = student;
 Задание должно быть выполнено локально на домашнем компьютере с использованием любой доступной среды разработки (предпочтительно использовать **Visual Studio Code** актуальной версии).
 
 > [!TIP]
-> Обращаю внимание, что для установки **Visual Studio Code** на компьютер вам может понадобиться инструкция: [Инструкция по установке VSCode](pages/manuals/vscode_manual.md)
+> Обращаю внимание, что для установки **Visual Studio Code** на компьютер вам может понадобиться инструкция: [Инструкция по установке VSCode](/disciplines/manuals/vscode_manual.md)
 
 Перед отправкой задание должно быть протестировано на работоспособность, после чего необходимо загрузить выполненное задание __в публичный репозиторий__ на [__Github ↗__](https://github.com/).
 
@@ -137,11 +137,7 @@ document.getElementById("student").innerHTML = student;
 
 > [!WARNING]
 > Для того чтобы можно было в полной мере использовать возможности JavaScript при запуске браузера на локальном компьютере, необходима программа, выполняющая роль веб-сервера. Для **Visual Studio Code** с этой задачей может справиться расширение **Live Server**.
-> <br>
-> ![live_server_logo <](./img/live_server_logo.png ':size=100')
-> <br>
+> ![live_server_logo | 100x0](./img/live_server_logo.png)
 > **Live Server**
-> <br>
 > Веб-сервер, запускающийся из локальной папки
-> <br>
 > [https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer ↗](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)
