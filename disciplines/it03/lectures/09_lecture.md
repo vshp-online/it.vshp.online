@@ -55,7 +55,7 @@ SQLite поддерживает следующие категории типов
 
 В MySQL это соответствует типам `BLOB`, `TINYBLOB`, `MEDIUMBLOB`, `LONGBLOB`.
 
-::: tip Зачем нужны типы данных?
+::: info Зачем нужны типы данных?
 
 Правильный выбор типов данных влияет на:
 
@@ -128,7 +128,7 @@ SQLite позволяет хранить значения любого типа 
 
 Несмотря на это, SQLite предоставляет богатый набор функций для работы с датами и временем.
 
-::: note Зачем используется юлианский день?
+::: info Зачем используется юлианский день?
 
 Функция `julianday()` возвращает количество дней с юлианской эпохи (полдень 1 января 4713 г. до н.э. по юлианскому календарю). Это может показаться странным, но на самом деле это очень удобно для вычислений:
 
@@ -142,19 +142,41 @@ SQLite позволяет хранить значения любого типа 
 
 ### Форматы хранения даты и времени
 
-#### TEXT формат
+#### формат `TEXT`
 
 Строка в формате "YYYY-MM-DD HH:MM:SS.SSS". Это наиболее распространенный формат.
 
 Пример: "2025-11-05 15:30:00.000"
 
-#### REAL формат
+#### формат `REAL`
 
 Число дней с полудня 24 ноября 4714 г. до н.э. по юлианскому календарю.
 
-#### INTEGER формат
+#### формат `INTEGER` (Unix time)
 
 Число секунд с 1970-01-01 00:00:00 UTC (Unix время).
+
+::: info Unix time
+
+Unix time (время Unix) — это количество секунд, прошедших с 1 января 1970 года 00:00:00 UTC. Это стандартный способ представления времени в компьютерных системах.
+
+Преимущества Unix time:
+
+- Простота хранения — одно целое число
+- Удобство для вычислений — разница во времени равна разнице чисел
+- Универсальность — используется во многих системах и языках программирования
+
+:::
+
+::: warning Временные зоны и время сервера
+
+При использовании функций времени в SQLite, таких как `time('now')`, важно понимать, что они возвращают время в формате UTC (GMT 0), без учета временной зоны сервера.
+
+Например, если у вас в Москве (GMT +3), текущее время 15:00, то `SELECT time('now');` может вернуть 12:00 — это время по Гринвичу, а не по вашему местному времени.
+
+Для получения времени с учетом временной зоны используйте модификатор `localtime`. Пример: `SELECT time('now', 'localtime');`
+
+:::
 
 ### Функции работы с датой и временем
 
@@ -202,7 +224,7 @@ SELECT date('now', 'start of month');
 ::: play sandbox=sqlite editor=basic
 
 ```sql
--- Текущее время
+-- Текущее время (UTC)
 SELECT time('now');
 ```
 
@@ -211,8 +233,23 @@ SELECT time('now');
 ::: play sandbox=sqlite editor=basic
 
 ```sql
--- Время через 2 часа
-SELECT time('now', '+2 hours');
+-- Текущее время (локальное)
+SELECT time('now', 'localtime');
+```
+
+:::
+
+::: warning
+
+В данном случае время может вернуться то же самое, т.к. на сервере у нас не настроена временная зона.
+
+:::
+
+::: play sandbox=sqlite editor=basic
+
+```sql
+-- Время через 3 часа
+SELECT time('now', '+3 hours');
 ```
 
 :::
@@ -223,13 +260,41 @@ SELECT time('now', '+2 hours');
 
 Примеры:
 
-```sql
--- Текущая дата и время
-SELECT datetime('now');
+::: play sandbox=sqlite editor=basic
 
+```sql
+-- Текущая дата и время (UTC)
+SELECT datetime('now');
+```
+
+:::
+
+::: play sandbox=sqlite editor=basic
+
+```sql
+-- Текущая дата и время (локальное)
+SELECT datetime('now', 'localtime');
+```
+
+:::
+
+::: play sandbox=sqlite editor=basic
+
+```sql
+-- Дата и время через 1 час
+SELECT datetime('now', '+1 hour');
+```
+
+:::
+
+::: play sandbox=sqlite editor=basic
+
+```sql
 -- Дата и время через 1 неделю
 SELECT datetime('now', '+7 days');
 ```
+
+:::
 
 #### `strftime(format, timestring, modifier, modifier, ...)`
 
@@ -237,16 +302,41 @@ SELECT datetime('now', '+7 days');
 
 Примеры:
 
+::: play sandbox=sqlite editor=basic
+
 ```sql
 -- Год
 SELECT strftime('%Y', 'now');
+```
 
+:::
+
+::: play sandbox=sqlite editor=basic
+
+```sql
 -- Месяц и год
 SELECT strftime('%m-%Y', 'now');
+```
 
+:::
+
+::: play sandbox=sqlite editor=basic
+
+```sql
+-- День месяца
+SELECT strftime('%d', 'now');
+```
+
+:::
+
+::: play sandbox=sqlite editor=basic
+
+```sql
 -- День недели (1-7, где 1=понедельник)
 SELECT strftime('%w', 'now');
 ```
+
+:::
 
 #### `julianday(timestring, modifier, modifier, ...)`
 
@@ -254,13 +344,23 @@ SELECT strftime('%w', 'now');
 
 Примеры:
 
+::: play sandbox=sqlite editor=basic
+
 ```sql
 -- Юлианский день для текущей даты
 SELECT julianday('now');
+```
 
+:::
+
+::: play sandbox=sqlite editor=basic
+
+```sql
 -- Разница в днях между двумя датами
 SELECT julianday('2025-12-31') - julianday('2025-01-01');
 ```
+
+:::
 
 ### Модификаторы даты и времени
 
@@ -275,26 +375,20 @@ SELECT julianday('2025-12-31') - julianday('2025-01-01');
 
 Примеры:
 
+::: play sandbox=sqlite editor=basic
+
 ```sql
 -- Первый день следующего месяца
 SELECT date('now', '+1 month', 'start of month');
-
--- Последний день текущего месяца
-SELECT date('now', 'start of month', '+1 month', '-1 day');
 ```
 
-### Практические примеры работы с датами
+:::
 
-::: play sandbox=sqlite editor=basic id=date_examples.sql
+::: play sandbox=sqlite editor=basic
 
 ```sql
--- Примеры работы с датами
-SELECT
-  date('now') as current_date,
-  time('now') as current_time,
-  datetime('now') as current_datetime,
-  strftime('%Y-%m-%d %H:%M:%S', 'now') as formatted_datetime,
-  julianday('now') as julian_day;
+-- Последний день текущего месяца
+SELECT date('now', 'start of month', '+1 month', '-1 day');
 ```
 
 :::
@@ -314,11 +408,27 @@ CREATE TABLE [IF NOT EXISTS] имя_таблицы (
 );
 ```
 
+::: warning
+
+Операторы создания таблиц **не выводят изменения на экран**. Чтобы убедиться что таблица была успешно создана с заданными параметрами, в SQLite можно использовать конструкцию `PRAGMA table_info('имя_таблицы');` **после** создания таблицы.
+
+```sql {#auto_pragma_after}
+-- здесь может идти код создания таблицы:
+##CODE##
+
+-- запрашиваем структуру таблицы:
+PRAGMA table_info('employees');
+```
+
+В отличие от прошлых лекций, мы не будем использовать автоматически конструкцию `PRAGMA table_info('имя_таблицы');` для всех блоков кода, оставим только там где нужно.
+
+:::
+
 ### Пример простой таблицы
 
 Рассмотрим создание таблицы для хранения информации о сотрудниках:
 
-::: play sandbox=sqlite editor=basic id=employees_create.sql
+::: play sandbox=sqlite editor=basic template="#auto_pragma_after" id=employees_create.sql
 
 ```sql
 CREATE TABLE employees (
@@ -340,6 +450,22 @@ CREATE TABLE employees (
 - `salary` — целочисленный столбец, обязательный для заполнения
 - `department` — текстовый столбец, необязательный (может содержать NULL)
 - `hire_date` — текстовый столбец с датой найма по умолчанию
+
+::: tip
+
+Для того чтобы посмотреть исходны код при помощи которого была создана таблица, в SQLite можно воспользоваться командой `.schema`, например:
+
+  ::: play sandbox=sqlite editor=basic depends-on=employees_create.sql
+
+  ```sql
+  .schema employees
+  ```
+
+  :::
+
+Таким образом можно получить код создания любой таблицы в базе данных.
+
+:::
 
 ### Ограничения (Constraints)
 
@@ -422,6 +548,12 @@ CREATE TABLE orders (
 );
 ```
 
+::: info
+
+Более подробно про связи таблиц через внешние ключи мы рассмотрим дальше в рамках данного курса.
+
+:::
+
 ### Пример сложной таблицы с ограничениями
 
 ::: play sandbox=sqlite editor=basic id=complex_table.sql
@@ -502,6 +634,8 @@ DROP TABLE IF EXISTS non_existent_table;
 - `gpa` — вещественное число, значение по умолчанию 0.0
 - `enrollment_date` — текст, дата зачисления, по умолчанию текущая дата
 
+После создания таблицы выведите информацию о ее структуре.
+
   ::: play sandbox=sqlite editor=basic
 
   ```sql
@@ -523,6 +657,8 @@ CREATE TABLE students (
   gpa REAL DEFAULT 0.0,
   enrollment_date TEXT DEFAULT (date('now'))
 );
+
+PRAGMA table_info('students');
 ```
 
 :::
@@ -541,6 +677,8 @@ CREATE TABLE students (
 - `price` — вещественное число, обязательное поле, должно быть больше 0
 - `in_stock` — целое число, значение по умолчанию 0, должно быть не меньше 0
 - `created_at` — текст, дата создания, по умолчанию текущая дата и время
+
+После создания таблицы выведите информацию о ее структуре.
 
   ::: play sandbox=sqlite editor=basic
 
@@ -563,6 +701,8 @@ CREATE TABLE products (
   in_stock INTEGER DEFAULT 0 CHECK (in_stock >= 0),
   created_at TEXT DEFAULT (datetime('now'))
 );
+
+PRAGMA table_info('products');
 ```
 
 :::
@@ -573,7 +713,7 @@ CREATE TABLE products (
 
 @tab Условие
 
-Удалите таблицу `students`, созданную в первом задании.
+Удалите таблицу `non_existent_table`, если она существует. Если таблицы нет, ошибок не должно быть.
 
   ::: play sandbox=sqlite editor=basic
 
@@ -588,49 +728,7 @@ CREATE TABLE products (
 @tab Решение
 
 ```sql
-DROP TABLE students;
-```
-
-:::
-
-### Задание 4
-
-::: tabs
-
-@tab Условие
-
-Создайте таблицу `library_books` со следующими полями:
-
-- `id` — целое число, первичный ключ
-- `title` — текст, обязательное поле
-- `author` — текст, обязательное поле
-- `isbn` — текст, уникальное поле
-- `year_published` — целое число, должно быть в диапазоне от 1000 до текущего года
-- `available_copies` — целое число, значение по умолчанию 1, должно быть больше 0
-- `added_date` — текст, дата добавления в библиотеку, по умолчанию текущая дата
-
-  ::: play sandbox=sqlite editor=basic
-
-  ```sql
-  -- Ваш код можете писать тут
-
-
-  ```
-
-  :::
-
-@tab Решение
-
-```sql
-CREATE TABLE library_books (
-  id INTEGER PRIMARY KEY,
-  title TEXT NOT NULL,
-  author TEXT NOT NULL,
-  isbn TEXT UNIQUE,
-  year_published INTEGER CHECK (year_published >= 1000 AND year_published <= 2025),
-  available_copies INTEGER DEFAULT 1 CHECK (available_copies > 0),
-  added_date TEXT DEFAULT (date('now'))
-);
+DROP TABLE IF EXISTS non_existent_table;
 ```
 
 :::
