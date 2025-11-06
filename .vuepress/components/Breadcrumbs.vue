@@ -72,23 +72,26 @@ const breadcrumbs = computed(() => {
   for (let i = 0; i < segments.length; i++) {
     path += "/" + segments[i];
 
-    // Для поиска заголовка используем путь с добавлением /index.html для промежуточных путей
-    // Для текущей страницы используем оригинальный путь
-    const searchPath = i === segments.length - 1 ? path : path + "/index.html";
-
-    // Для последнего элемента не делаем ссылку
+    // Для последнего элемента не делаем ссылку и используем оригинальный путь страницы
     if (i === segments.length - 1) {
       breadcrumbs.push({
-        title: truncateText(getPageTitle(searchPath)),
-        fullTitle: getPageTitle(searchPath),
+        title: truncateText(getPageTitle(page.value.path)),
+        fullTitle: getPageTitle(page.value.path),
         path: null // Последний элемент без ссылки
       });
     } else {
-      breadcrumbs.push({
-        title: truncateText(getPageTitle(searchPath)),
-        fullTitle: getPageTitle(searchPath),
-        path: path + "/"
-      });
+      // Для промежуточных путей используем путь с добавлением /index.html
+      const searchPath = path + "/index.html";
+      // Проверяем, существует ли маршрут с index.html и есть ли у него заголовок
+      const pageTitle = getPageTitle(searchPath);
+      // Если заголовок найден, добавляем крошку
+      if (pageTitle) {
+        breadcrumbs.push({
+          title: truncateText(pageTitle),
+          fullTitle: pageTitle,
+          path: path + "/"
+        });
+      }
     }
   }
 
