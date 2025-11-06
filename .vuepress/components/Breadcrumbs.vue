@@ -130,13 +130,15 @@ const showBreadcrumbs = computed(() => {
           :to="crumb.path"
           :title="crumb.fullTitle"
         >
-          {{ crumb.title }}
+          <img v-if="index === 0 && crumb.path === '/'" src="/images/icons/home-icon.svg" width="20" height="20" alt="Главная" />
+          <span v-else>{{ crumb.title }}</span>
         </router-link>
         <span
           v-else
           :title="crumb.fullTitle"
         >
-          {{ crumb.title }}
+          <img v-if="index === 0 && !crumb.path" src="/images/icons/home-icon.svg" width="20" height="20" alt="Главная" />
+          <span v-else>{{ crumb.title }}</span>
         </span>
       </li>
     </ol>
@@ -180,6 +182,11 @@ const showBreadcrumbs = computed(() => {
     &.current {
       color: var(--vp-c-text-mute);
     }
+  }
+
+  // Центрирование иконки главной страницы
+  .breadcrumb-item img {
+    vertical-align: text-bottom;
   }
 }
 
