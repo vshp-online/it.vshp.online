@@ -28,35 +28,20 @@ import { markdownIncludePlugin } from "@vuepress/plugin-markdown-include";
 // https://ecosystem.vuejs.press/plugins/markdown/markdown-image.html
 import { markdownImagePlugin } from "@vuepress/plugin-markdown-image";
 
-import YAML from "yaml";
-
 // Импортируем плагины
 import { blogPlugin } from "./plugins/blogPlugin.js";
 import { railroadFencePlugin } from "./plugins/railroadFencePlugin.js";
 import { markdownContainersPlugin } from "./plugins/markdownContainersPlugin.js";
 import { siteSearchPlugin } from "./plugins/siteSearchPlugin.js";
+import { loadYaml } from "./utils/yaml.js";
+import { APP_VERSION, VSHP_EML_VERSION } from "./utils/pkgMeta.js";
 
-function loadYaml(relPath, fallback = []) {
-  const file = path.resolve(__dirname, relPath);
-  const src = fs.readFileSync(file, "utf8");
-  const data = YAML.parse(src);
-  return Array.isArray(data) ? data : fallback;
-}
-
-import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { dirname } from "node:path";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-const pkg = JSON.parse(
-  fs.readFileSync(path.resolve(process.cwd(), "package.json"), "utf8")
-);
-
-const APP_VERSION = pkg.version ?? "dev";
-const VSHP_EML_VERSION = pkg.config.vshpLicenseRef ?? "";
-
-const navbar = loadYaml("./navbar.yml");
+const navbar = loadYaml(__dirname, "./navbar.yml");
 
 export default defineUserConfig({
   plugins: [
