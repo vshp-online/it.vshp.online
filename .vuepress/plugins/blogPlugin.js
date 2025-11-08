@@ -1,4 +1,5 @@
 import { scanBlogPosts } from "../utils/blogParser.js";
+import { normalizePath } from "../utils/path.js";
 import path from "node:path";
 import fs from "node:fs";
 
@@ -40,16 +41,6 @@ export const blogPlugin = () => {
 
       console.log(`[blog-plugin] Найдено постов: ${posts.length}`);
       console.log(`[blog-plugin] Данные сохранены в: ${dataFile}`);
-
-      // Создаем пул постов по пути для быстрого доступа
-      // Нормализуем пути для сравнения (убираем .html и завершающий слэш)
-      const normalizePath = (p) => {
-        if (!p) return "/";
-        let s = String(p).replace(/[#?].*$/, "");
-        s = s.replace(/(?:\/index)?\.html$/i, "");
-        s = s.replace(/\/+$/, "");
-        return s === "" ? "/" : s;
-      };
 
       const postsMap = new Map();
       posts.forEach((post) => {
