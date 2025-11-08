@@ -5,6 +5,9 @@ import Pill from "./components/Pill.vue";
 import BlogIndex from "./components/BlogIndex.vue";
 import BlogPostMeta from "./components/BlogPostMeta.vue";
 
+import AuthPage from "./pages/AuthPage.vue";
+import AccountPage from "./pages/AccountPage.vue";
+
 import { createPinia } from "pinia";
 
 import Prism from "prismjs";
@@ -47,6 +50,8 @@ export default defineClientConfig({
 
     app.use(createPinia());
 
+    app.component("AuthPage", AuthPage);
+    app.component("AccountPage", AccountPage);
     app.component("RailroadDiagram", RailroadDiagram);
     app.component("Pill", Pill);
     app.component("BlogIndex", BlogIndex);

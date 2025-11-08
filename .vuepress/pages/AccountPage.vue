@@ -1,8 +1,6 @@
 <template>
   <main>
     <template v-if="auth.isAuthorized">
-      <h1>Личный кабинет</h1>
-
       <ul>
         <li>
           USER: <strong>{{ auth.userName }}</strong>

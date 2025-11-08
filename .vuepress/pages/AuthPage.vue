@@ -1,7 +1,5 @@
 <template>
   <main>
-    <h1>Авторизация</h1>
-
     <form class="auth-form" @submit.prevent="onSubmit">
       <p v-if="auth.msg" class="error_msg" v-html="auth.msg"></p>
 
