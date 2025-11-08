@@ -79,7 +79,7 @@
 <script setup>
 import { ref, computed, onMounted, watch } from "vue";
 import { RouterLink } from "vue-router";
-import Pill from "./Pill.vue";
+import Pill from "../components/Pill.vue";
 
 // Константа для количества постов на странице
 const POSTS_PER_PAGE = 10;

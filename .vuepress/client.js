@@ -2,9 +2,10 @@ import { defineClientConfig } from "vuepress/client";
 import Layout from "./layouts/Layout.vue";
 import RailroadDiagram from "./components/RailroadDiagram.vue";
 import Pill from "./components/Pill.vue";
-import BlogIndex from "./components/BlogIndex.vue";
+
 import BlogPostMeta from "./components/BlogPostMeta.vue";
 
+import BlogIndexPage from "./pages/BlogIndexPage.vue";
 import AuthPage from "./pages/AuthPage.vue";
 import AccountPage from "./pages/AccountPage.vue";
 
@@ -54,7 +55,7 @@ export default defineClientConfig({
     app.component("AccountPage", AccountPage);
     app.component("RailroadDiagram", RailroadDiagram);
     app.component("Pill", Pill);
-    app.component("BlogIndex", BlogIndex);
+    app.component("BlogIndexPage", BlogIndexPage);
     app.component("BlogPostMeta", BlogPostMeta);
 
     router.afterEach(() =>
