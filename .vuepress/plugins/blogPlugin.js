@@ -41,7 +41,7 @@ export const blogPlugin = () => {
       console.log(`[blog-plugin] Найдено постов: ${posts.length}`);
       console.log(`[blog-plugin] Данные сохранены в: ${dataFile}`);
 
-      // Создаем мапу постов по пути для быстрого доступа
+      // Создаем пул постов по пути для быстрого доступа
       // Нормализуем пути для сравнения (убираем .html и завершающий слэш)
       const normalizePath = (p) => {
         if (!p) return "/";
