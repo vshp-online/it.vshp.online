@@ -2,6 +2,8 @@ import { defineClientConfig } from "vuepress/client";
 import Layout from "./layouts/Layout.vue";
 import RailroadDiagram from "./components/RailroadDiagram.vue";
 import Pill from "./components/Pill.vue";
+import BlogIndex from "./components/BlogIndex.vue";
+import BlogPostMeta from "./components/BlogPostMeta.vue";
 
 import { createPinia } from "pinia";
 
@@ -47,6 +49,8 @@ export default defineClientConfig({
 
     app.component("RailroadDiagram", RailroadDiagram);
     app.component("Pill", Pill);
+    app.component("BlogIndex", BlogIndex);
+    app.component("BlogPostMeta", BlogPostMeta);
 
     router.afterEach(() =>
       raf(() => {

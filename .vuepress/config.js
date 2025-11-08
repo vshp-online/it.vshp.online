@@ -38,6 +38,7 @@ import { markdownImagePlugin } from "@vuepress/plugin-markdown-image";
 import { markdownContainerPlugin } from "@vuepress/plugin-markdown-container";
 
 import YAML from "yaml";
+import { blogPlugin } from "./plugins/blogPlugin.js";
 
 function loadYaml(relPath, fallback = []) {
   const file = path.resolve(__dirname, relPath);
@@ -172,6 +173,7 @@ import AccountPage from '${accountSfc.replace(/\\/g, "\\\\")}'
         );
       },
     },
+    blogPlugin(),
     markdownContainerPlugin({
       type: "play",
       // принимаем "play" и любые параметры после него
@@ -336,7 +338,7 @@ import AccountPage from '${accountSfc.replace(/\\/g, "\\\\")}'
     docsRepo: "https://github.com/vshp-online/it.vshp.online",
     logo: "/images/logo.svg",
     hostname: "https://it.vshp.online",
-    colorMode: 'light',
+    colorMode: "light",
     colorModeSwitch: true,
     editLink: false,
     contributors: false,

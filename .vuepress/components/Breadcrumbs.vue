@@ -149,7 +149,7 @@ const showBreadcrumbs = computed(() => {
 .breadcrumbs {
   max-width: var(--content-width);
   margin: 0 auto;
-  padding: 1rem 2rem 0.5rem;
+  padding: 1rem 2rem;
   font-size: 0.9rem;
 
   .breadcrumb-list {

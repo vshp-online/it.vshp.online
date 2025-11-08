@@ -1,0 +1,5 @@
+# Блог
+
+<ClientOnly>
+  <BlogIndex />
+</ClientOnly>

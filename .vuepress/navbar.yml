@@ -1,3 +1,7 @@
+- text: "Блог"
+  link: "/blog/"
+  activeMatch: "^/blog/"
+
 - text: "Обучение"
   link: "/disciplines/"
   activeMatch: "^/disciplines/"
