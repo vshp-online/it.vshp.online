@@ -167,11 +167,10 @@ export default defineUserConfig({
       __dirname,
       "./components/AutoSiblingNav.vue"
     ),
-    // заменяем дефолтный футер главной
-    "@theme/VPHomeFooter.vue": path.resolve(
+    // используем кастомный лейаут главной страницы
+    "@theme/VPHome.vue": path.resolve(
       __dirname,
-      "./components/SiteFooter.vue"
-    ),
+      "./pages/HomePage.vue"),
   },
 
   public: `./public`,

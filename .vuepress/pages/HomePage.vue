@@ -1,0 +1,226 @@
+<script setup>
+import { computed } from "vue";
+import {
+  ClientOnly,
+  Content,
+  usePageFrontmatter,
+  useSiteLocaleData,
+  withBase,
+} from "@vuepress/client";
+import VPAutoLink from "@theme/VPAutoLink.vue";
+import VPHomeFeatures from "@theme/VPHomeFeatures.vue";
+import { useDarkMode } from "@theme/useDarkMode";
+import SiteFooter from "../components/SiteFooter.vue";
+
+const frontmatter = usePageFrontmatter();
+const siteLocale = useSiteLocaleData();
+const isDarkMode = useDarkMode();
+
+const heroText = computed(() => {
+  const fm = frontmatter.value || {};
+  if (fm.heroText === null) return null;
+  return fm.heroText || siteLocale.value.title || "Hello";
+});
+
+const tagline = computed(() => {
+  const fm = frontmatter.value || {};
+  if (fm.tagline === null) return null;
+  return (
+    fm.tagline ||
+    siteLocale.value.description ||
+    "Welcome to your VuePress site"
+  );
+});
+
+const heroImage = computed(() => {
+  const fm = frontmatter.value || {};
+  if (isDarkMode.value && fm.heroImageDark !== undefined) {
+    return fm.heroImageDark;
+  }
+  return fm.heroImage;
+});
+
+const heroHeight = computed(() => {
+  const fm = frontmatter.value || {};
+  return fm.heroHeight ?? 280;
+});
+
+const heroAlt = computed(() => {
+  const fm = frontmatter.value || {};
+  return fm.heroAlt || heroText.value || "hero";
+});
+
+const hasDarkVariant = computed(
+  () => (frontmatter.value || {}).heroImageDark !== undefined
+);
+
+const heroSrc = computed(() => {
+  const image = heroImage.value;
+  if (!image) return null;
+  return withBase(image);
+});
+
+const actions = computed(() => {
+  const fm = frontmatter.value || {};
+  if (!Array.isArray(fm.actions)) return [];
+  return fm.actions.map(({ type = "primary", ...rest }) => ({
+    type,
+    ...rest,
+  }));
+});
+</script>
+
+<template>
+  <main class="vp-home custom-home">
+    <header class="vp-hero">
+      <ClientOnly v-if="hasDarkVariant && heroSrc">
+        <img
+          class="vp-hero-image"
+          :src="heroSrc"
+          :alt="heroAlt"
+          :height="heroHeight"
+        />
+      </ClientOnly>
+      <img
+        v-else-if="heroSrc"
+        class="vp-hero-image"
+        :src="heroSrc"
+        :alt="heroAlt"
+        :height="heroHeight"
+      />
+
+      <h1 v-if="heroText" id="main-title">
+        {{ heroText }}
+      </h1>
+
+      <p v-if="tagline" class="vp-hero-description">
+        {{ tagline }}
+      </p>
+
+      <p v-if="actions.length" class="vp-hero-actions">
+        <VPAutoLink
+          v-for="action in actions"
+          :key="action.text"
+          class="vp-hero-action-button"
+          :class="[action.type]"
+          :config="action"
+        />
+      </p>
+    </header>
+
+    <VPHomeFeatures />
+
+    <div vp-content>
+      <Content />
+    </div>
+
+    <SiteFooter />
+  </main>
+</template>
+
+<style lang="scss">
+@use "@vuepress/theme-default/lib/client/styles/variables" as *;
+
+.vp-home {
+  display: block;
+  max-width: var(--homepage-width);
+  margin: 0 auto;
+  padding: var(--navbar-height) 2rem 0;
+
+  @media (max-width: $MQMobileNarrow) {
+    padding-inline: 1.5rem;
+  }
+
+  [vp-content] {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.vp-hero {
+  text-align: center;
+}
+
+.vp-hero-image {
+  display: block;
+  max-width: 100%;
+  max-height: 280px;
+  margin: 3rem auto 1.5rem;
+
+  @media (max-width: $MQMobileNarrow) {
+    max-height: 210px;
+    margin: 2rem auto 1.2rem;
+  }
+}
+
+#main-title {
+  font-size: 3rem;
+
+  @media (max-width: $MQMobileNarrow) {
+    font-size: 2rem;
+  }
+}
+
+#main-title,
+.vp-hero-description,
+.vp-hero-actions {
+  margin: 1.8rem auto;
+
+  @media (max-width: $MQMobileNarrow) {
+    margin: 1.2rem auto;
+  }
+}
+
+.vp-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.vp-hero-description {
+  max-width: 35rem;
+  color: var(--vp-c-text-mute);
+  font-size: 1.6rem;
+  line-height: 1.3;
+
+  @media (max-width: $MQMobileNarrow) {
+    font-size: 1.2rem;
+  }
+}
+
+.vp-hero-action-button {
+  display: inline-block;
+  box-sizing: border-box;
+  padding: 0.8rem 1.6rem;
+  border: 2px solid var(--vp-c-accent-bg);
+  border-radius: 4px;
+  background-color: var(--vp-c-bg);
+  color: var(--vp-c-accent);
+  font-size: 1.2rem;
+  transition:
+    background-color var(--vp-t-color),
+    border-color var(--vp-t-color),
+    color var(--vp-t-color);
+
+  @media (max-width: $MQMobileNarrow) {
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+  }
+
+  &:hover {
+    background-color: var(--vp-c-accent-hover);
+    color: var(--vp-c-accent-text);
+  }
+
+  &.primary {
+    background-color: var(--vp-c-accent-bg);
+    color: var(--vp-c-accent-text);
+
+    &:hover {
+      border-color: var(--vp-c-accent-hover);
+      background-color: var(--vp-c-accent-hover);
+    }
+  }
+}
+</style>
