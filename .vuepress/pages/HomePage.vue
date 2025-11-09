@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from "vue";
+import { computed, onMounted, ref } from "vue";
 import {
   ClientOnly,
   Content,
@@ -11,10 +11,13 @@ import VPAutoLink from "@theme/VPAutoLink.vue";
 import VPHomeFeatures from "@theme/VPHomeFeatures.vue";
 import { useDarkMode } from "@theme/useDarkMode";
 import SiteFooter from "../components/SiteFooter.vue";
+import { RouterLink } from "vue-router";
 
 const frontmatter = usePageFrontmatter();
 const siteLocale = useSiteLocaleData();
 const isDarkMode = useDarkMode();
+const featuredPosts = ref([]);
+const featuredLoaded = ref(false);
 
 const heroText = computed(() => {
   const fm = frontmatter.value || {};
@@ -68,6 +71,45 @@ const actions = computed(() => {
     ...rest,
   }));
 });
+
+const hasFeaturedPosts = computed(
+  () => featuredLoaded.value && featuredPosts.value.length > 0
+);
+
+function formatFeaturedDate(dateString) {
+  const date = new Date(dateString);
+  if (Number.isNaN(date)) return "";
+  return new Intl.DateTimeFormat("ru-RU", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }).format(date);
+}
+
+async function loadFeaturedPosts() {
+  try {
+    const response = await fetch("/data/blog-posts.json");
+    if (!response.ok) {
+      throw new Error(`Failed to load posts: ${response.status}`);
+    }
+    const data = await response.json();
+    featuredPosts.value = data
+      .filter((post) => post.featured)
+      .sort(
+        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+      )
+      .slice(0, 3);
+  } catch (error) {
+    console.error("[home] Не удалось загрузить избранные посты:", error);
+    featuredPosts.value = [];
+  } finally {
+    featuredLoaded.value = true;
+  }
+}
+
+onMounted(() => {
+  loadFeaturedPosts();
+});
 </script>
 
 <template>
@@ -107,6 +149,27 @@ const actions = computed(() => {
         />
       </p>
     </header>
+
+    <section v-if="hasFeaturedPosts" class="home-featured">
+      <h2 class="home-featured-title">Избранные записи блога</h2>
+      <div class="home-featured-grid">
+        <article
+          v-for="post in featuredPosts"
+          :key="post.path"
+          class="home-featured-card"
+        >
+          <RouterLink :to="post.path" class="home-featured-link">
+            <h3>{{ post.title }}</h3>
+          </RouterLink>
+          <time :datetime="post.date" class="home-featured-date">
+            {{ formatFeaturedDate(post.date) }}
+          </time>
+          <p v-if="post.excerpt" class="home-featured-excerpt">
+            {{ post.excerpt }}
+          </p>
+        </article>
+      </div>
+    </section>
 
     <VPHomeFeatures />
 
@@ -222,5 +285,67 @@ const actions = computed(() => {
       background-color: var(--vp-c-accent-hover);
     }
   }
+}
+
+.home-featured {
+  margin-top: 2.5rem;
+  padding: 2rem;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 16px;
+  background-color: var(--vp-c-bg-soft);
+
+  @media (max-width: $MQMobileNarrow) {
+    padding: 1.5rem 1.2rem;
+  }
+}
+
+.home-featured-title {
+  margin: 0 0 1.5rem;
+  font-size: 1.5rem;
+  text-align: left;
+}
+
+.home-featured-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
+
+.home-featured-card {
+  padding: 1.25rem;
+  border-radius: 12px;
+  background-color: var(--vp-c-bg);
+  border: 1px solid var(--vp-c-divider);
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  transition: border-color var(--vp-t-color);
+}
+
+.home-featured-link {
+  text-decoration: none;
+
+  h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--vp-c-text-1);
+  }
+
+  &:hover h3 {
+    color: var(--vp-c-accent);
+  }
+}
+
+.home-featured-date {
+  font-size: 0.9rem;
+  color: var(--vp-c-text-mute);
+}
+
+.home-featured-excerpt {
+  margin: 0;
+  color: var(--vp-c-text-2);
+  font-size: 0.95rem;
+  line-height: 1.45;
 }
 </style>

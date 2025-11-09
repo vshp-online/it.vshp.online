@@ -1,5 +1,11 @@
 <template>
   <div v-if="hasMeta" class="blog-post-meta">
+    <Pill
+      v-if="isFeatured"
+      text="На главной"
+      type="warning"
+      class="blog-post-meta-featured"
+    />
     <time v-if="date" :datetime="date" class="blog-post-meta-date">
       {{ formattedDate }}
     </time>
@@ -37,8 +43,10 @@ const tags = computed(() => {
   return [];
 });
 
+const isFeatured = computed(() => Boolean(page.value.frontmatter?.featured));
+
 const hasMeta = computed(() => {
-  return date.value || (tags.value && tags.value.length > 0);
+  return isFeatured.value || date.value || (tags.value && tags.value.length > 0);
 });
 
 const formattedDate = computed(() => {
@@ -82,6 +90,10 @@ onMounted(() => {
   padding: 1rem 0;
   border-top: 1px solid var(--vp-c-divider, var(--c-border));
   border-bottom: 1px solid var(--vp-c-divider, var(--c-border));
+}
+
+.blog-post-meta-featured {
+  font-size: 0.85rem;
 }
 
 .blog-post-meta-date {

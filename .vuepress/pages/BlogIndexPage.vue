@@ -36,12 +36,20 @@
         <article
           v-for="post in displayedPosts"
           :key="post.path"
-          class="blog-post-card"
+          :class="['blog-post-card', { 'blog-post-card--featured': post.featured }]"
         >
           <header class="blog-post-header">
-            <h2 class="blog-post-title">
-              <RouterLink :to="post.path">{{ post.title }}</RouterLink>
-            </h2>
+            <div class="blog-post-headline">
+              <h2 class="blog-post-title">
+                <RouterLink :to="post.path">{{ post.title }}</RouterLink>
+              </h2>
+              <Pill
+                v-if="post.featured"
+                text="На главной"
+                type="warning"
+                class="blog-post-featured-pill"
+              />
+            </div>
             <time :datetime="post.date" class="blog-post-date">
               {{ formatDate(post.date) }}
             </time>
@@ -235,11 +243,21 @@ onMounted(() => {
 
 .blog-post-card:hover {
   border-color: var(--c-brand);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.blog-post-card--featured {
+  border-color: var(--vp-c-accent, var(--c-brand));
+  position: relative;
 }
 
 .blog-post-header {
   margin-bottom: 0.75rem;
+}
+
+.blog-post-headline {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
 }
 
 .blog-post-title {
@@ -258,6 +276,15 @@ onMounted(() => {
 
 .blog-post-title a:hover {
   color: var(--c-brand);
+}
+
+.blog-post-card--featured .blog-post-title a {
+  color: var(--vp-c-accent, var(--c-brand));
+}
+
+.blog-post-featured-pill {
+  margin-left: auto;
+  font-size: 0.8rem;
 }
 
 .blog-post-date {
@@ -337,4 +364,3 @@ onMounted(() => {
 }
 
 </style>
-

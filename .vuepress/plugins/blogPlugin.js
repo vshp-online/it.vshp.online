@@ -71,9 +71,11 @@ export const blogPlugin = () => {
             // Добавляем дату и теги в frontmatter
             page.frontmatter.date = post.date.toISOString();
             page.frontmatter.tags = Array.isArray(post.tags) ? post.tags : [];
+            page.frontmatter.featured = Boolean(post.featured);
             console.log(`[blog-plugin] Добавлены метаданные для ${page.path}:`, {
               date: page.frontmatter.date,
               tags: page.frontmatter.tags,
+              featured: page.frontmatter.featured,
             });
           } else {
             console.warn(`[blog-plugin] Пост не найден для пути: ${page.path} (нормализованный: ${normalizedPagePath})`);

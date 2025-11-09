@@ -112,6 +112,7 @@ export function parseBlogPost(filePath, blogDir) {
 
     // Получаем теги из frontmatter
     const tags = Array.isArray(frontmatter.tags) ? frontmatter.tags : [];
+    const featured = Boolean(frontmatter.featured);
 
     // Извлекаем excerpt
     const excerpt = extractExcerpt(content);
@@ -128,6 +129,7 @@ export function parseBlogPost(filePath, blogDir) {
       tags,
       excerpt,
       filename,
+      featured,
     };
   } catch (error) {
     console.error(`Ошибка при парсинге поста ${filePath}:`, error);
@@ -171,4 +173,3 @@ export function scanBlogPosts(blogDir) {
 
   return posts;
 }
-

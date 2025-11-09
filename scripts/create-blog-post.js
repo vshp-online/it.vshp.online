@@ -1,14 +1,18 @@
 #!/usr/bin/env node
 
-import fs from 'fs';
-import path from 'path';
+import fs from "fs";
+import path from "path";
 
 // Получаем заголовок из аргументов командной строки
 const title = process.argv[2];
+const featuredFlag = (process.argv[3] || "").toLowerCase();
+const featured = featuredFlag === "true";
 
 if (!title) {
-  console.error('Пожалуйста, укажите заголовок для поста в блоге');
-  console.error('Использование: node create-blog-post.js "Заголовок вашего поста"');
+  console.error("Пожалуйста, укажите заголовок для поста в блоге");
+  console.error(
+    'Использование: node create-blog-post.js "Заголовок поста" [featured=true|false]'
+  );
   process.exit(1);
 }
 
@@ -24,11 +28,17 @@ const hours = String(moscowTime.getUTCHours()).padStart(2, '0');
 const minutes = String(moscowTime.getUTCMinutes()).padStart(2, '0');
 
 const filename = `${year}-${month}-${day}-${hours}-${minutes}.md`;
-const filepath = path.join('blog', filename);
+const blogDir = path.join("blog");
+if (!fs.existsSync(blogDir)) {
+  fs.mkdirSync(blogDir, { recursive: true });
+}
+
+const filepath = path.join(blogDir, filename);
 
 // Создаем содержимое с минимальным frontmatter
 const content = `---
 tags: []
+featured: ${featured}
 ---
 
 # ${title}
@@ -39,4 +49,6 @@ tags: []
 // Записываем файл
 fs.writeFileSync(filepath, content);
 
-console.log(`Пост в блоге создан: ${filepath}`);
+console.log(
+  `Пост в блоге создан: ${filepath} (featured: ${featured ? "true" : "false"})`
+);
