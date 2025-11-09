@@ -30,42 +30,43 @@
       </button>
     </div>
 
-    <!-- Список постов -->
-    <div v-if="!loading && !error && filteredPosts.length > 0" class="blog-posts">
-      <article
-        v-for="post in displayedPosts"
-        :key="post.path"
-        class="blog-post-card"
-      >
-        <header class="blog-post-header">
-          <h2 class="blog-post-title">
-            <RouterLink :to="post.path">{{ post.title }}</RouterLink>
-          </h2>
-          <time :datetime="post.date" class="blog-post-date">
-            {{ formatDate(post.date) }}
-          </time>
-        </header>
+    <!-- Список постов / пустое состояние -->
+    <template v-if="!loading && !error">
+      <div v-if="filteredPosts.length > 0" class="blog-posts">
+        <article
+          v-for="post in displayedPosts"
+          :key="post.path"
+          class="blog-post-card"
+        >
+          <header class="blog-post-header">
+            <h2 class="blog-post-title">
+              <RouterLink :to="post.path">{{ post.title }}</RouterLink>
+            </h2>
+            <time :datetime="post.date" class="blog-post-date">
+              {{ formatDate(post.date) }}
+            </time>
+          </header>
 
-        <div v-if="post.excerpt" class="blog-post-excerpt">
-          {{ post.excerpt }}
-        </div>
+          <div v-if="post.excerpt" class="blog-post-excerpt">
+            {{ post.excerpt }}
+          </div>
 
-        <footer v-if="post.tags && post.tags.length > 0" class="blog-post-tags">
-          <Pill
-            v-for="tag in post.tags"
-            :key="tag"
-            :text="tag"
-            type="danger"
-            class="blog-post-tag"
-          />
-        </footer>
-      </article>
-    </div>
+          <footer v-if="post.tags && post.tags.length > 0" class="blog-post-tags">
+            <Pill
+              v-for="tag in post.tags"
+              :key="tag"
+              :text="tag"
+              type="danger"
+              class="blog-post-tag"
+            />
+          </footer>
+        </article>
+      </div>
 
-    <!-- Сообщение если нет постов -->
-    <div v-else-if="!loading && !error" class="blog-empty">
-      <p>Посты не найдены</p>
-    </div>
+      <div v-else class="blog-empty">
+        <p>Записи не найдены</p>
+      </div>
+    </template>
 
     <!-- Кнопка "Загрузить еще" -->
     <div v-if="!loading && !error && hasMorePosts" class="blog-load-more">
@@ -336,5 +337,4 @@ onMounted(() => {
 }
 
 </style>
-
 

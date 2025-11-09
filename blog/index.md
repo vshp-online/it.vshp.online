@@ -1,5 +1,9 @@
+---
+sidebar: false
+---
+
 # Блог
 
 <ClientOnly>
-  <BlogIndex />
+  <BlogIndexPage />
 </ClientOnly>
