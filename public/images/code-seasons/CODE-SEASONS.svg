@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 331.37 55.6">
+  <defs>
+    <style>
+      .cls-1 {
+        letter-spacing: .02em;
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4, .cls-5, .cls-6, .cls-7, .cls-8 {
+        font-family: FiraCodeRoman-Regular, 'Fira Code';
+        font-variation-settings: 'wght' 400;
+      }
+
+      .cls-9 {
+        letter-spacing: .02em;
+      }
+
+      .cls-9, .cls-10, .cls-11, .cls-12 {
+        font-family: FiraCodeRoman-SemiBold, 'Fira Code';
+        font-variation-settings: 'wght' 600;
+        font-weight: 600;
+      }
+
+      .cls-10 {
+        letter-spacing: .04em;
+      }
+
+      .cls-2 {
+        letter-spacing: 0em;
+      }
+
+      .cls-11 {
+        letter-spacing: .01em;
+      }
+
+      .cls-13 {
+        fill: #1f8241;
+      }
+
+      .cls-3 {
+        letter-spacing: .05em;
+      }
+
+      .cls-4 {
+        letter-spacing: .04em;
+      }
+
+      .cls-5 {
+        letter-spacing: .05em;
+      }
+
+      .cls-6 {
+        letter-spacing: .03em;
+      }
+
+      .cls-7 {
+        letter-spacing: .04em;
+      }
+
+      .cls-14 {
+        fill: none;
+        stroke: #8e1840;
+      }
+
+      .cls-14, .cls-15 {
+        stroke-miterlimit: 10;
+        stroke-width: 2px;
+      }
+
+      .cls-8 {
+        letter-spacing: -.06em;
+      }
+
+      .cls-15 {
+        fill: #f6f7f9;
+        stroke: #19263b;
+      }
+
+      .cls-12 {
+        letter-spacing: -.08em;
+      }
+
+      .cls-16 {
+        fill: #0f1b2a;
+        font-size: 36px;
+      }
+    </style>
+  </defs>
+  <g id="Layer_1-2" data-name="Layer 1">
+    <g>
+      <text class="cls-16" transform="translate(61.72 36.81)"><tspan class="cls-9" x="0" y="0">C</tspan><tspan class="cls-10" x="22.75" y="0">O</tspan><tspan class="cls-11" x="46.35" y="0">D</tspan><tspan class="cls-12" x="68.98" y="0">E</tspan><tspan class="cls-8" x="88.38" y="0">:</tspan><tspan class="cls-2" x="108.41" y="0">S</tspan><tspan class="cls-4" x="130.4" y="0">E</tspan><tspan class="cls-3" x="154.01" y="0">A</tspan><tspan class="cls-6" x="177.86" y="0">S</tspan><tspan class="cls-7" x="201.03" y="0">O</tspan><tspan class="cls-1" x="224.49" y="0">N</tspan><tspan class="cls-5" x="247.5" y="0">S</tspan></text>
+      <g>
+        <circle class="cls-15" cx="23.68" cy="23.68" r="22.68"/>
+        <circle class="cls-14" cx="23.68" cy="23.68" r="18.43"/>
+        <g>
+          <path class="cls-13" d="M16.49,19.13l1.06,1.68-6,3.57,6,3.54-1.12,1.7-6.93-4.32v-1.85l6.99-4.33Z"/>
+          <path class="cls-13" d="M21,31.96l-1.87-.85,7.59-15.72,1.85.87-7.57,15.7Z"/>
+          <path class="cls-13" d="M30.87,19.13l6.98,4.32v1.86l-6.93,4.32-1.12-1.64,6.01-3.6-6.01-3.53,1.07-1.72Z"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
