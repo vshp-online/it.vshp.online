@@ -51,7 +51,7 @@ export const blogPlugin = () => {
         postsMap.set(normalizedPath + ".html", post);
       });
 
-      // Отключаем сайдбар и добавляем метаданные для всех страниц блога
+      // Добавляем метаданные для всех страниц блога
       // Проходим по всем страницам и устанавливаем sidebar: false для страниц в /blog/
       let blogPagesCount = 0;
       for (const page of app.pages) {
@@ -59,12 +59,6 @@ export const blogPlugin = () => {
 
         // Проверяем, что страница находится в разделе блога (но не index.md)
         if (normalizedPagePath.startsWith("/blog/") && normalizedPagePath !== "/blog/") {
-          // Устанавливаем sidebar: false в frontmatter
-          if (!page.frontmatter) {
-            page.frontmatter = {};
-          }
-          page.frontmatter.sidebar = false;
-
           // Находим соответствующий пост и добавляем метаданные
           const post = postsMap.get(normalizedPagePath) || postsMap.get(page.path);
           if (post) {
@@ -82,16 +76,8 @@ export const blogPlugin = () => {
           }
 
           blogPagesCount++;
-        } else if (normalizedPagePath === "/blog") {
-          // Для главной страницы блога тоже отключаем сайдбар
-          if (!page.frontmatter) {
-            page.frontmatter = {};
-          }
-          page.frontmatter.sidebar = false;
         }
       }
-
-      console.log(`[blog-plugin] Сайдбар отключен для ${blogPagesCount} страниц блога`);
     },
   };
 };
