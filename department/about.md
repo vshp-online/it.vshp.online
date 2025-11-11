@@ -1,7 +1,3 @@
----
-sidebar: false
----
-
 # О кафедре
 
 <!-- @include: ./includes/_ya_map.html -->

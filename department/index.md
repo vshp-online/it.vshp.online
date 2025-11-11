@@ -1,7 +1,3 @@
----
-sidebar: false
----
-
 # Кафедра
 
 - [О кафедре](/department/about.md)

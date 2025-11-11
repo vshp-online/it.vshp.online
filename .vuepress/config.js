@@ -150,6 +150,12 @@ export default defineUserConfig({
       prismjs: false,
     },
     navbar,
+    sidebar: {
+      '/blog/': false,
+      '/department/': false,
+      '/auth/': false,
+      '/account/': false
+    },
   }),
   head: [
     [
