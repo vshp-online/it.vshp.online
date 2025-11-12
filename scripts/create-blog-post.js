@@ -3,15 +3,17 @@
 import fs from "fs";
 import path from "path";
 
-// Получаем заголовок из аргументов командной строки
+// Получаем заголовок и выдержку из аргументов командной строки
 const title = process.argv[2];
 const featuredFlag = (process.argv[3] || "").toLowerCase();
 const featured = featuredFlag === "true";
+const excerpt = process.argv[4]; // Опциональный аргумент выдержки
+const frontmatterTitle = process.argv[5]; // Опциональный аргумент заголовка для frontmatter
 
 if (!title) {
   console.error("Пожалуйста, укажите заголовок для поста в блоге");
   console.error(
-    'Использование: node create-blog-post.js "Заголовок поста" [featured=true|false]'
+    'Использование: node create-blog-post.js "Заголовок поста в H1" [featured=true|false] ["Выдержка поста"] ["Короткий заголовок для списка"]'
   );
   process.exit(1);
 }
@@ -36,9 +38,21 @@ if (!fs.existsSync(blogDir)) {
 const filepath = path.join(blogDir, filename);
 
 // Создаем содержимое с минимальным frontmatter
+let frontmatter = `tags: []
+featured: ${featured}`;
+
+// Добавляем заголовок для frontmatter, если он передан
+if (frontmatterTitle) {
+  frontmatter += `\ntitle: "${frontmatterTitle}"`;
+}
+
+// Добавляем выдержку, если она передана
+if (excerpt) {
+  frontmatter += `\nexcerpt: "${excerpt}"`;
+}
+
 const content = `---
-tags: []
-featured: ${featured}
+${frontmatter}
 ---
 
 # ${title}
@@ -50,5 +64,5 @@ featured: ${featured}
 fs.writeFileSync(filepath, content);
 
 console.log(
-  `Пост в блоге создан: ${filepath} (featured: ${featured ? "true" : "false"})`
+  `Пост в блоге создан: ${filepath} (featured: ${featured ? "true" : "false"}${excerpt ? `, excerpt: "${excerpt}"` : ""}${frontmatterTitle ? `, title: "${frontmatterTitle}"` : ""})`
 );

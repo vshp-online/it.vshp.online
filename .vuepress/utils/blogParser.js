@@ -115,7 +115,8 @@ export function parseBlogPost(filePath, blogDir) {
     const featured = Boolean(frontmatter.featured);
 
     // Извлекаем excerpt
-    const excerpt = extractExcerpt(content);
+    // Если excerpt есть во frontmatter, используем его, иначе извлекаем из содержимого
+    const excerpt = frontmatter.excerpt ? frontmatter.excerpt : extractExcerpt(content);
 
     // Формируем путь для VuePress (без расширения .md, с /blog/ префиксом)
     // VuePress создает страницы из .md файлов как /blog/filename
