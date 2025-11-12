@@ -19,14 +19,20 @@
       />
     </div>
   </div>
+  <div class="blog-post-meta-share">
+    <div class="blog-post-meta-share-label">Поделиться:</div>
+    <div ref="shareElement" class="ya-share2"></div>
+  </div>
 </template>
 
 <script setup>
-import { computed, onMounted } from "vue";
-import { usePageData } from "@vuepress/client";
+import { computed, onMounted, ref, watch, nextTick } from "vue";
+import { usePageData, useRoute } from "@vuepress/client";
 import Pill from "./Pill.vue";
 
 const page = usePageData();
+const route = useRoute();
+const shareElement = ref(null);
 
 // Получаем дату и теги из frontmatter
 const date = computed(() => {
@@ -46,7 +52,9 @@ const tags = computed(() => {
 const isFeatured = computed(() => Boolean(page.value.frontmatter?.featured));
 
 const hasMeta = computed(() => {
-  return isFeatured.value || date.value || (tags.value && tags.value.length > 0);
+  return (
+    isFeatured.value || date.value || (tags.value && tags.value.length > 0)
+  );
 });
 
 const formattedDate = computed(() => {
@@ -71,6 +79,43 @@ const formattedDate = computed(() => {
   }
 });
 
+// Инициализация виджета Яндекс шаринга
+function initYaShare() {
+  // Проверяем, загружен ли скрипт Яндекс шаринга
+  if (typeof Ya !== "undefined" && Ya.share2) {
+    // Инициализируем виджет
+    new Ya.share2(shareElement.value, {
+      theme: {
+        services: "vkontakte,telegram,whatsapp",
+        lang: "ru",
+        curtain: true,
+        useLinks: true,
+      },
+      content: {
+        url: window.location.href,
+        title: page.value.title,
+        description: page.value.frontmatter?.description || "",
+      },
+      hooks: {
+        onready: function () {
+          console.log("блок инициализирован");
+        },
+
+        onshare: function (name) {
+          console.log("нажата кнопка: " + name);
+        },
+      },
+    });
+  } else {
+    // Если скрипт еще не загружен, ждем немного и пробуем снова
+    setTimeout(() => {
+      if (typeof Ya !== "undefined" && Ya.share2) {
+        initYaShare();
+      }
+    }, 100);
+  }
+}
+
 // Отладка
 onMounted(() => {
   console.log("BlogPostMeta - page frontmatter:", page.value.frontmatter);
@@ -78,10 +123,25 @@ onMounted(() => {
   console.log("BlogPostMeta - tags:", tags.value);
   console.log("BlogPostMeta - hasMeta:", hasMeta.value);
   console.log("BlogPostMeta - formattedDate:", formattedDate.value);
+
+  // Инициализируем виджет шаринга после монтирования
+  nextTick(() => {
+    initYaShare();
+  });
 });
+
+// Следим за изменением маршрута и переинициализируем виджет
+watch(
+  () => route.path,
+  () => {
+    nextTick(() => {
+      initYaShare();
+    });
+  }
+);
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .blog-post-meta {
   display: flex;
   flex-wrap: wrap;
@@ -107,5 +167,23 @@ onMounted(() => {
   flex-wrap: wrap;
   gap: 0.5rem;
   align-items: center;
+}
+
+.blog-post-meta-share {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+  border-bottom: 1px solid var(--vp-c-divider, var(--c-border));
+
+  .blog-post-meta-share-label {
+    font-size: 0.9rem;
+    color: var(--vp-c-text-2, var(--c-text-light));
+  }
+
+  .ya-share2 {
+    padding: 1rem 0;
+  }
 }
 </style>

@@ -93,3 +93,23 @@
     }
   }
 }
+
+.ya-share2__list {
+  a.ya-share2__link::after {
+    display: none !important;
+  }
+
+  &.ya-share2__list_direction_horizontal > .ya-share2__item {
+    margin-right: 0.5rem !important;
+    &:last-child {
+      margin-right: 0 !important;
+    }
+  }
+
+  &.ya-share2__list_direction_vertical > .ya-share2__item {
+    margin-bottom: 0.5rem;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
