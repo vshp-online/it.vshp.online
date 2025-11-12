@@ -1,15 +1,43 @@
 [
   {
+    "path": "/blog/2025-11-08-12-00",
+    "filePath": "/Users/phoenixweiss/Work/VSHP/it.vshp.online/blog/2025-11-08-12-00.md",
+    "title": "Команды CODE:FALL готовы к финалу",
+    "date": "2025-11-08T09:00:00.000Z",
+    "tags": [
+      "CODE:SEASONS",
+      "CODE:FALL",
+      "Конкурс"
+    ],
+    "excerpt": "Команды-участники активно готовятся к финальной презентации своих проектов в рамках конкурса CODE:FALL",
+    "filename": "2025-11-08-12-00.md",
+    "featured": true
+  },
+  {
+    "path": "/blog/2025-11-01-13-30",
+    "filePath": "/Users/phoenixweiss/Work/VSHP/it.vshp.online/blog/2025-11-01-13-30.md",
+    "title": "Регистрация команд CODE:FALL завершена",
+    "date": "2025-11-01T10:30:00.000Z",
+    "tags": [
+      "CODE:SEASONS",
+      "CODE:FALL",
+      "Конкурс"
+    ],
+    "excerpt": "5 талантливых команд примут участие в первом сезоне конкурса студенческих проектов CODE:FALL",
+    "filename": "2025-11-01-13-30.md",
+    "featured": true
+  },
+  {
     "path": "/blog/2025-10-24-12-00",
     "filePath": "/Users/phoenixweiss/Work/VSHP/it.vshp.online/blog/2025-10-24-12-00.md",
-    "title": "Старт пилотного сезона конкурса студенческих проектов CODE:SEASONS",
+    "title": "Старт конкурса CODE:SEASONS",
     "date": "2025-10-24T09:00:00.000Z",
     "tags": [
       "CODE:SEASONS",
       "CODE:FALL",
       "Конкурс"
     ],
-    "excerpt": "Дорогие студенты!\n\nКафедра информационных технологий приглашает вас принять участие в первом пилотном сезоне серии конкурсов студенческих проектов...",
+    "excerpt": "Присоединяйтесь к первому пилотному сезону серии конкурсов студенческих проектов CODE:SEASONS",
     "filename": "2025-10-24-12-00.md",
     "featured": true
   }
