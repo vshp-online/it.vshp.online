@@ -5,8 +5,8 @@ CREATE TABLE
     session_type TEXT NOT NULL,
     duration INTEGER NOT NULL,
     calories INTEGER NOT NULL,
-    effort TEXT NOT NULL,
-    recorded_at TEXT NOT NULL
+    effort TEXT NOT NULL CHECK (effort IN ('low', 'medium', 'high')),
+    training_date TEXT NOT NULL
   )
 ;
 
@@ -18,11 +18,11 @@ INSERT INTO
     duration,
     calories,
     effort,
-    recorded_at
+    training_date
   )
 VALUES
   (1, 'Анна П.', 'Бег по парку', 45, 520, 'medium', '2024-02-12'),
-  (2, 'Денис Р.', 'Велотренажер', 30, 360, 'high', '2024-02-12'),
+  (2, 'Денис Р.', 'Велопрогулка', 30, 360, 'high', '2024-02-12'),
   (3, 'Мария К.', 'Силовая тренировка', 55, 610, 'high', '2024-02-13'),
   (4, 'Илья С.', 'Плавание', 45, 470, 'medium', '2024-02-14'),
   (5, 'Анна П.', 'Йога', 50, 280, 'low', '2024-02-15'),
