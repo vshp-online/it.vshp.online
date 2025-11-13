@@ -329,7 +329,7 @@ ORDER BY athlete;
 
 @tab Условие
 
-Сформируйте список типов тренировок, где среднее количество калорий превышает 550. Затем выведите тренировки только этих типов, отсортировав по убыванию калорий.
+Сформируйте список типов тренировок, где среднее количество калорий превышает 500. Затем выведите тренировки только этих типов, отсортировав по убыванию калорий.
 
   ::: play sandbox=sqlite editor=basic depends-on=workouts_01_sqlite.sql
 
@@ -350,7 +350,7 @@ WHERE session_type IN (
   SELECT session_type
   FROM workouts
   GROUP BY session_type
-  HAVING AVG(calories) > 550
+  HAVING AVG(calories) > 500
 )
 ORDER BY calories DESC;
 ```
@@ -363,7 +363,7 @@ ORDER BY calories DESC;
 
 @tab Условие
 
-Создайте табличный подзапрос, который собирает по каждому дню сумму длительности (`total_duration`). Во внешнем запросе оставьте только те дни, где суммарное время превышает 80 минут.
+Создайте табличный подзапрос, который собирает по каждому дню сумму длительности (`total_duration`). Во внешнем запросе оставьте только те дни, где суммарное время превышает 60 минут.
 
   ::: play sandbox=sqlite editor=basic depends-on=workouts_01_sqlite.sql
 
@@ -384,7 +384,7 @@ FROM (
   FROM workouts
   GROUP BY recorded_at
 ) AS day_stats
-WHERE total_duration > 80
+WHERE total_duration > 60
 ORDER BY recorded_at;
 ```
 
