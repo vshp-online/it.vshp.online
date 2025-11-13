@@ -151,10 +151,11 @@ export default defineUserConfig({
     },
     navbar,
     sidebar: {
-      '/blog/': false,
-      '/department/': false,
-      '/auth/': false,
-      '/account/': false
+      "/blog/": false,
+      "/department/": false,
+      "/auth/": false,
+      "/account/": false,
+      "/": "heading",
     },
   }),
   head: [
@@ -169,9 +170,9 @@ export default defineUserConfig({
       "script",
       {
         src: "https://yastatic.net/share2/share.js",
-        async: true
-      }
-    ]
+        async: true,
+      },
+    ],
   ],
 
   alias: {
@@ -181,9 +182,7 @@ export default defineUserConfig({
       "./components/AutoSiblingNav.vue"
     ),
     // используем кастомный лейаут главной страницы
-    "@theme/VPHome.vue": path.resolve(
-      __dirname,
-      "./pages/HomePage.vue"),
+    "@theme/VPHome.vue": path.resolve(__dirname, "./pages/HomePage.vue"),
   },
 
   public: `./public`,
