@@ -2,7 +2,7 @@
 
 Официальный сайт кафедры информационных технологий ЧУВО «ВШП», построенный на **VuePress** и управляемый через **Yarn**. Сайт — открытый для широкой публики официальный ресурс кафедры. Права и ограничения использования материалов — в лицензии:
 
-[![Лицензия](https://flat.badgen.net/static/Лицензия/VSHP-EMLicense/781F18)](https://github.com/vshp-online/VSHP-EMLicense/blob/main/LICENSE.md).
+[![Лицензия](https://badgers.space/badge/Лицензия/VSHP-EMLicense/781F18)](https://github.com/vshp-online/VSHP-EMLicense/blob/main/LICENSE.md)
 
 ---
 
