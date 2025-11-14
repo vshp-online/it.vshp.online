@@ -373,13 +373,50 @@ erDiagram
 
 ## Практические задания
 
-### Задание 1
+### Задание 1. Концептуальная диаграмма
 
 ::: tabs
 
 @tab Условие
 
-Есть предметная область «онлайн-курсы». Сущности: «Преподаватель», «Курс», «Студент». Учитель ведёт несколько курсов, студент может записаться на несколько курсов. Нарисуйте ER-диаграмму (используйте mermaid.live или drawDB) с указанием кратностей связей.
+Опишите на концептуальном уровне предметную область «онлайн-курсы». Сущности: «Преподаватель», «Курс», «Студент», «Запись на курс». Постройте простую схему (Mermaid flowchart, рисунок от руки или диаграмма в drawDB) без указания атрибутов и ключей.
+
+@tab Решение
+
+  ::: preview Посмотреть код диаграммы
+
+  ```mermaid
+  flowchart LR
+    teacher[Преподаватель]
+    course[Курс]
+    enrollment[Запись на курс]
+    student[Студент]
+
+    teacher --- course
+    course --- enrollment
+    student --- enrollment
+  ```
+
+  :::
+
+На концептуальном уровне фиксируем только сущности и связи между ними: преподаватель создаёт курсы, курс имеет записи, а студент участвует через сущность «Запись на курс». Атрибуты и ключи пока не нужны.
+
+:::
+
+### Задание 2. Логическая диаграмма
+
+::: tabs
+
+@tab Условие
+
+Продолжите работу с предметной областью «онлайн-курсы». В учебной платформе один преподаватель ведёт несколько курсов, а каждый студент может записаться на разные курсы. Постройте логическую ER-диаграмму (mermaid.live или drawDB), где:
+
+- у `Преподавателя` (`teacher`) есть атрибуты `id`, ФИО, контакт;
+- у `Курса` (`course`) хранится название и внешний ключ `teacher_id`;
+- факт записи фиксируется в отдельной сущности `Запись на курс` (`enrollment`) с внешними ключами `student_id` и `course_id`;
+- в `Студенте` (`student`) достаточно ФИО и группового кода.
+
+То есть нужно показать классическую схему «преподаватель ↔ курс ↔ (таблица связки) ↔ студент» с явными PK и FK.
 
 @tab Решение
 
@@ -388,27 +425,27 @@ erDiagram
   ```mermaid
   erDiagram
     teacher["Преподаватель"] {
-      INTEGER id PK                 "Первичный ключ"
+      INTEGER id PK             "Первичный ключ"
       STRING full_name          "ФИО"
       STRING email              "Контакт"
     }
 
     course["Курс"] {
-      INTEGER id PK                 "Первичный ключ"
+      INTEGER id PK             "Первичный ключ"
       STRING title              "Название"
-      INTEGER teacher_id FK         "Ведущий преподаватель"
+      INTEGER teacher_id FK     "Ведущий преподаватель"
     }
 
     student["Студент"] {
-      INTEGER id PK                 "Первичный ключ"
+      INTEGER id PK             "Первичный ключ"
       STRING full_name          "ФИО"
       STRING group_code         "Группа"
     }
 
     enrollment["Запись на курс"] {
-      INTEGER id PK                 "Первичный ключ"
-      INTEGER student_id FK         "Студент"
-      INTEGER course_id FK          "Курс"
+      INTEGER id PK             "Первичный ключ"
+      INTEGER student_id FK     "Студент"
+      INTEGER course_id FK      "Курс"
       DATE enrolled_at          "Дата записи"
     }
 
@@ -419,6 +456,76 @@ erDiagram
 
   :::
 
-Преподаватель связан с курсами как `1 — N`. Связь студент ↔ курс реализуется через таблицу «Запись на курс», что позволяет хранить дату регистрации и исключает дубли.
+Преподаватель связан с курсами как `1 — N`. Связь студент ↔ курс реализуется через таблицу «Запись на курс», что позволяет хранить дату регистрации и другие атрибуты без дублирования данных.
+
+:::
+
+### Задание 3. Физическая реализация и проверка
+
+::: tabs
+
+@tab Условие
+
+По диаграмме из задания 2 напишите SQL-скрипт (SQLite), который создаёт таблицы `teachers`, `courses`, `students`, `enrollments`, настраивает ключи и проверяет структуру через `PRAGMA table_info` и `PRAGMA foreign_key_list`.
+
+Последовательное выполнение запросов ```PRAGMA foreign_key_list('courses');``` и ```PRAGMA foreign_key_list('enrollments');``` должно вернуть результат:
+
+```txt :no-line-numbers
+┌────┬─────┬──────────┬────────────┬────┬───────────┬───────────┬───────┐
+│ id │ seq │  table   │    from    │ to │ on_update │ on_delete │ match │
+├────┼─────┼──────────┼────────────┼────┼───────────┼───────────┼───────┤
+│ 0  │ 0   │ teachers │ teacher_id │ id │ NO ACTION │ NO ACTION │ NONE  │
+└────┴─────┴──────────┴────────────┴────┴───────────┴───────────┴───────┘
+┌────┬─────┬──────────┬────────────┬────┬───────────┬───────────┬───────┐
+│ id │ seq │  table   │    from    │ to │ on_update │ on_delete │ match │
+├────┼─────┼──────────┼────────────┼────┼───────────┼───────────┼───────┤
+│ 0  │ 0   │ courses  │ course_id  │ id │ NO ACTION │ NO ACTION │ NONE  │
+│ 1  │ 0   │ students │ student_id │ id │ NO ACTION │ NO ACTION │ NONE  │
+└────┴─────┴──────────┴────────────┴────┴───────────┴───────────┴───────┘
+```
+
+  ::: play sandbox=sqlite editor=basic
+
+  ```sql
+  -- Ваш код можете писать тут
+
+
+  ```
+
+  :::
+
+@tab Решение
+
+```sql
+CREATE TABLE teachers (
+  id INTEGER PRIMARY KEY,
+  full_name TEXT NOT NULL,
+  email TEXT
+);
+
+CREATE TABLE courses (
+  id INTEGER PRIMARY KEY,
+  title TEXT NOT NULL,
+  teacher_id INTEGER NOT NULL REFERENCES teachers(id)
+);
+
+CREATE TABLE students (
+  id INTEGER PRIMARY KEY,
+  full_name TEXT NOT NULL,
+  group_code TEXT
+);
+
+CREATE TABLE enrollments (
+  id INTEGER PRIMARY KEY,
+  student_id INTEGER NOT NULL REFERENCES students(id),
+  course_id INTEGER NOT NULL REFERENCES courses(id),
+  enrolled_at TEXT DEFAULT (date('now'))
+);
+
+PRAGMA foreign_key_list('courses');
+PRAGMA foreign_key_list('enrollments');
+```
+
+`PRAGMA table_info` покажет столбцы и их ограничения, а `foreign_key_list` — наличие ссылок на `students` и `courses`. Если результаты соответствуют ожиданиям, физическая модель реализована корректно.
 
 :::
