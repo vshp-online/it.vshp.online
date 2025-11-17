@@ -84,7 +84,7 @@ if [[ ${#export_tables[@]} -eq 0 ]]; then
 fi
 
 for table in "${export_tables[@]}"; do
-  table_stub="${table,,}"
+  table_stub="$(echo "$table" | tr '[:upper:]' '[:lower:]')"
   table_stub="${table_stub// /_}"
   output="${output_dir}/${table_stub}_table.md"
 
