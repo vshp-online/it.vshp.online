@@ -41,7 +41,12 @@ default_dir="${db_stub}_db"
 output_dir="${requested_dir:-$default_dir}"
 mkdir -p "$output_dir"
 
-mapfile -t all_tables < <(sqlite3 :memory: ".read $input" "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' ORDER BY name;")
+tables_raw="$(sqlite3 :memory: ".read $input" "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' ORDER BY name;")"
+all_tables=()
+while IFS= read -r tbl; do
+  [[ -z "$tbl" ]] && continue
+  all_tables+=("$tbl")
+done <<< "$tables_raw"
 
 if [[ ${#all_tables[@]} -eq 0 ]]; then
   echo "No tables found in $input"
