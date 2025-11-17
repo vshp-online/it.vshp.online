@@ -53,11 +53,6 @@ if [[ ${#all_tables[@]} -eq 0 ]]; then
   exit 1
 fi
 
-declare -A available=()
-for tbl in "${all_tables[@]}"; do
-  available["$tbl"]=1
-done
-
 export_tables=("${all_tables[@]}")
 
 if [[ -n "$table_filter" ]]; then
@@ -68,7 +63,14 @@ if [[ -n "$table_filter" ]]; then
     if [[ -z "$tbl" ]]; then
       continue
     fi
-    if [[ -z "${available[$tbl]:-}" ]]; then
+    found=0
+    for existing in "${all_tables[@]}"; do
+      if [[ "$existing" == "$tbl" ]]; then
+        found=1
+        break
+      fi
+    done
+    if [[ $found -eq 0 ]]; then
       echo "Table not found in schema: $tbl"
       exit 1
     fi
