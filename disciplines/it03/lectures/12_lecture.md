@@ -38,14 +38,17 @@ CREATE TABLE дочерняя_таблица (
 
 ```mermaid
 erDiagram
-  teacher["Преподаватель"] ||--o{ course["Курс"] : "ведёт"
-  course ||--o{ enrollment["Запись на курс"] : "имеет"
-  student["Студент"] ||--o{ enrollment : "оформляет"
+  teacher["Преподаватель"]
+  course["Курс"]
+  enrollment["Запись на курс"]
+  student["Студент"]
+
+  teacher ||--o{ course : "ведёт"
+  course ||--o{ enrollment : "имеет"
+  student ||--o{ enrollment : "оформляет"
 ```
 
 ### Код создания и заполнения
-
-<!-- @include: ./includes/courses_enrollments_sqlite.sql -->
 
 ::: details Код создания таблицы (SQLite)
 
@@ -90,6 +93,8 @@ PRAGMA foreign_key_list('enrollments');
 
 ### `INNER JOIN`
 
+![INNER JOIN](../img/SQL_INNER_JOIN.png)
+
 Возвращает строки, для которых условие связи выполняется в обеих таблицах. Если ключевое слово `JOIN` указано без уточнения типа, подразумевается именно `INNER JOIN`.
 
 ::: play sandbox=sqlite editor=basic depends-on=courses_enrollments_sqlite.sql
@@ -109,6 +114,8 @@ ORDER BY student;
 :::
 
 ### `LEFT JOIN`
+
+![LEFT JOIN](../img/SQL_LEFT_JOIN.png)
 
 Возвращает все строки из левой таблицы и совпадающие строки из правой. Если совпадений нет, значения правой таблицы будут `NULL`.
 
@@ -130,9 +137,19 @@ ORDER BY courses.title, student;
 
 ### `RIGHT JOIN`
 
+![RIGHT JOIN](../img/SQL_RIGHT_JOIN.png)
+
 SQLite не поддерживает `RIGHT JOIN`. Если нужно получить аналогичный результат, обычно перестраивают запрос (например, меняют местами таблицы в `LEFT JOIN` или используют `UNION`). Пример объединения рассмотрим в блоке про `UNION`.
 
+### `FULL OUTER JOIN`
+
+![FULL OUTER JOIN](../img/SQL_FULL_OUTER_JOIN.png)
+
+Возвращает все строки из обеих таблиц, совпадающие и несовпадающие. Если совпадений нет, значения обеих таблиц будут `NULL`. SQLite не поддерживает `FULL OUTER JOIN`, но его можно реализовать с помощью `LEFT JOIN` и `RIGHT JOIN`. Пример объединения рассмотрим в блоке про `UNION`.
+
 ### `CROSS JOIN`
+
+![CROSS JOIN](../img/SQL_CROSS_JOIN.png)
 
 Формирует декартово произведение. В SQLite используется ключевое слово `CROSS JOIN` или просто перечисление таблиц через запятую (но лучше явно).
 
@@ -150,7 +167,9 @@ WHERE teachers.id = 1;
 Мы редко используем `CROSS JOIN` напрямую, но он помогает, например, при генерации расписаний или комбинаций.
 
 ::: tip
+
 SQLite не поддерживает `RIGHT JOIN` и `FULL OUTER JOIN`, но их можно эмулировать комбинацией `LEFT JOIN` и `UNION`. В этой лекции покажем простой пример объединения выборок и упомянем, как заменять `RIGHT JOIN`.
+
 :::
 
 ## Объединение выборок: `UNION` и `UNION ALL`
