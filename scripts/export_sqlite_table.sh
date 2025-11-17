@@ -1,17 +1,28 @@
 #!/usr/bin/env bash
-# usage: ./export_sqlite_table.sh path/to/file.sql table_name
+# usage: ./export_sqlite_table.sh path/to/file.sql [output_dir] [--tables=tbl1,tbl2]
 
 set -euo pipefail
 
-if [[ $# -lt 2 ]]; then
-  echo "Usage: $0 <sql_file> <table_name>"
+if [[ $# -lt 1 ]]; then
+  echo "Usage: $0 <sql_file> [output_dir] [--tables=tbl1,tbl2]"
   exit 1
 fi
 
 input="$1"
-table="$2"
 mode="markdown"
-output="table_${table}.md"
+requested_dir=""
+table_filter=""
+
+for arg in "${@:2}"; do
+  case "$arg" in
+    --tables=*)
+      table_filter="${arg#--tables=}"
+      ;;
+    *)
+      requested_dir="$arg"
+      ;;
+  esac
+done
 
 if ! command -v sqlite3 >/dev/null 2>&1; then
   echo "sqlite3 not found in PATH"
@@ -23,12 +34,61 @@ if [[ ! -f "$input" ]]; then
   exit 1
 fi
 
-sqlite3 :memory: \
-  ".read $input" \
-  ".headers on" \
-  ".mode $mode" \
-  ".nullvalue 'NULL'" \
-  ".once $output" \
-  "SELECT * FROM \"$table\";"
+base_name="$(basename "$input")"
+db_stub="${base_name%.sql}"
+db_stub="${db_stub%_sqlite}"
+default_dir="${db_stub}_db"
+output_dir="${requested_dir:-$default_dir}"
+mkdir -p "$output_dir"
 
-echo "Saved -> $output"
+mapfile -t all_tables < <(sqlite3 :memory: ".read $input" "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' ORDER BY name;")
+
+if [[ ${#all_tables[@]} -eq 0 ]]; then
+  echo "No tables found in $input"
+  exit 1
+fi
+
+declare -A available=()
+for tbl in "${all_tables[@]}"; do
+  available["$tbl"]=1
+done
+
+export_tables=("${all_tables[@]}")
+
+if [[ -n "$table_filter" ]]; then
+  IFS=',' read -ra requested_tables <<< "$table_filter"
+  export_tables=()
+  for tbl in "${requested_tables[@]}"; do
+    tbl="${tbl// /}"
+    if [[ -z "$tbl" ]]; then
+      continue
+    fi
+    if [[ -z "${available[$tbl]:-}" ]]; then
+      echo "Table not found in schema: $tbl"
+      exit 1
+    fi
+    export_tables+=("$tbl")
+  done
+fi
+
+if [[ ${#export_tables[@]} -eq 0 ]]; then
+  echo "No tables selected for export"
+  exit 1
+fi
+
+for table in "${export_tables[@]}"; do
+  table_stub="${table,,}"
+  table_stub="${table_stub// /_}"
+  output="${output_dir}/${table_stub}_table.md"
+
+  sqlite3 :memory: <<SQL
+.read "$input"
+.headers on
+.mode $mode
+.nullvalue 'NULL'
+.once "$output"
+SELECT * FROM "$table";
+SQL
+
+  echo "Saved -> $output"
+done

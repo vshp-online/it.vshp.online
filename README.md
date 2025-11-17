@@ -123,12 +123,12 @@ excerpt: "Это выдержка новости"
 
 ## Экспорт таблиц SQLite для лекций
 
-Чтобы быстро получить наглядное представление таблицы из SQL-файла, можно использовать вспомогательный скрипт [`export_sqlite_table.sh`](./scripts/export_sqlite_table.sh).
+Чтобы быстро получить Markdown-представление таблиц из SQL-файла, используйте скрипт [`export_sqlite_table.sh`](./scripts/export_sqlite_table.sh).
 
 ### Требования
 
-- Установлен `sqlite3`
-- Исполняемые права у скрипта:
+- установлен `sqlite3`;
+- у скрипта есть права на запуск:
 
   ```bash
   chmod +x scripts/export_sqlite_table.sh
@@ -137,29 +137,24 @@ excerpt: "Это выдержка новости"
 ### Использование
 
 ```bash
-scripts/export_sqlite_table.sh path/to/file.sql table_name
+# экспорт всех таблиц в папку <db>_db
+scripts/export_sqlite_table.sh path/to/file.sql
+
+# задать папку назначения
+scripts/export_sqlite_table.sh path/to/file.sql ./custom_dir
+
+# экспорт только указанных таблиц
+scripts/export_sqlite_table.sh path/to/file.sql --tables=teachers,courses
 ```
 
-Пример:
-
-```bash
-scripts/export_sqlite_table.sh ./includes/employees_01_sqlite.sql employees
-```
-
-После выполнения в текущей директории появится файл:
-
-```txt
-table_employees.md
-```
+По умолчанию рядом с файлом создаётся директория `<имя_дампа>_db`, в которой появляются файлы `<table>_table.md`. Например, `learning_portal_sqlite.sql` превратится в папку `learning_portal_db/` с `teachers_table.md`, `courses_table.md` и др.
 
 ### Что делает скрипт
 
-- создаёт временную базу данных в памяти (`:memory:`);
-- выполняет SQL-код из указанного файла (создание таблицы и вставку данных);
-- сохраняет содержимое выбранной таблицы в файл;
-- явно отображает `NULL`-значения, чтобы отличать их от пустых строк.
-
-Результат можно сразу вставлять в материалы лекций.
+- создаёт временную базу данных (`:memory:`) и выполняет SQL-код из файла;
+- автоматически перечисляет пользовательские таблицы и выгружает все (или выбранные) в Markdown;
+- явно отображает `NULL`, чтобы отличать его от пустых строк;
+- принимает фильтр `--tables=tbl1,tbl2` для выборочного экспорта таблиц.
 
 ---
 
