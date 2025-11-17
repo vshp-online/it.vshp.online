@@ -348,7 +348,7 @@ WHERE students.id IS NULL;
 
 ## Практические задания
 
-### Задание 1 — новая таблица и внешний ключ
+### Задание 1. `CREATE TABLE` + внешний ключ `ON DELETE CASCADE`
 
 ::: tabs
 
@@ -369,7 +369,7 @@ CREATE TABLE classrooms (
 
 :::
 
-### Задание 2 — `INNER JOIN`
+### Задание 2. `INNER JOIN` таблицы-связки и справочников
 
 ::: tabs
 
@@ -391,7 +391,7 @@ ORDER BY student;
 
 :::
 
-### Задание 3 — Проверяем структуру через `PRAGMA`
+### Задание 3. Проверка структуры через `PRAGMA table_info` и `foreign_key_list`
 
 ::: tabs
 

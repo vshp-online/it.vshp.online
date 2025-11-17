@@ -701,7 +701,7 @@ DROP TABLE IF EXISTS non_existent_table;
 
 ## Практические задания
 
-### Задание 1
+### Задание 1. `CREATE TABLE` + проверка структуры через `PRAGMA`
 
 ::: tabs
 
@@ -745,7 +745,7 @@ PRAGMA table_info('students');
 
 :::
 
-### Задание 2
+### Задание 2. `CREATE TABLE` с ограничениями (`UNIQUE`, `CHECK`, DEFAULT)
 
 ::: tabs
 
@@ -789,7 +789,7 @@ PRAGMA table_info('products');
 
 :::
 
-### Задание 3
+### Задание 3. `DROP TABLE IF EXISTS` — безопасное удаление
 
 ::: tabs
 
@@ -815,7 +815,7 @@ DROP TABLE IF EXISTS non_existent_table;
 
 :::
 
-### Задание 4
+### Задание 4. Функции `date`/`time`/`datetime` в SQLite
 
 ::: tabs
 
@@ -852,7 +852,7 @@ SELECT datetime('now');
 
 :::
 
-### Задание 5
+### Задание 5. Работа с модификаторами дат и времени
 
 ::: tabs
 
@@ -889,7 +889,7 @@ SELECT datetime('now', '+2 hours');
 
 :::
 
-### Задание 6
+### Задание 6. Создаём таблицу событий и выводим отсортированный список
 
 ::: tabs
 
