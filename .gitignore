@@ -2,6 +2,7 @@
 Thumbs.db
 desktop.ini
 node_modules
+db_exports
 build
 *.log
 
