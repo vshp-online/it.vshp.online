@@ -42,45 +42,65 @@ graph BT
   Inner --> Middle --> Outer
 ```
 
-## Пример таблицы `workouts`
+## Учебная база данных «Trainer Workouts»
 
-Это журнал персонального тренера: для каждой тренировки фиксируются спортсмен, формат занятия, длительность, примерные калории и дата. Похожая структура встречается в спортивных клубах, где ведут учёт индивидуальных сессий.
+::: tabs
 
-<!-- @include: ./includes/table_workouts_01.md -->
+@tab Таблицы
 
-::: info Таблица `workouts`
+  ::: tabs
 
-**Поля**
+  @tab workouts
+  <!-- @include: ./includes/trainer_workouts_db/workouts_table.md -->
 
-- `id` — целочисленный первичный ключ;
-- `athlete` — ФИО спортсмена;
-- `session_type` — текстовое описание занятия;
-- `duration` — длительность в минутах;
-- `calories` — приблизительные энергозатраты;
-- `effort` — субъективная оценка нагрузки (`low`, `medium`, `high`);
-- `training_date` — дата тренировки в формате `YYYY-MM-DD`.
-
-**Ограничения**
-
-- Все столбцы обязательны (`NOT NULL`);
-- `effort` ограничен проверкой `CHECK (effort IN ('low','medium','high'))`;
-- `training_date` хранит дату в текстовом ISO-формате.
-
-:::
-
-::: details Код создания таблицы (SQLite)
-
-  ::: play sandbox=sqlite editor=basic id=workouts_01_sqlite.sql
-  @[code sql](./includes/workouts_01_sqlite.sql)
   :::
 
-  Скачать файл: [workouts_01_sqlite.sql](./includes/workouts_01_sqlite.sql)
+@tab Описание
+
+  Журнал персонального тренера, который ведёт разных спортсменов: для каждой сессии фиксируются атлет, формат, длительность, калории и дата — идеальная база для практики вложенных запросов.
+
+  **Особенности:**
+
+  - колонки позволяют сравнивать значения через скалярные и коррелированные подзапросы;
+  - повторяющиеся занятия и даты удобно использовать в `IN`/`EXISTS`;
+  - данные компактные, поэтому легко анализировать результаты подзапросов.
+
+@tab Поля и ограничения
+
+  **Поля**
+
+  - **`workouts`**
+    - `id` — целочисленный первичный ключ;
+    - `athlete` — ФИО спортсмена;
+    - `session_type` — текстовое описание занятия;
+    - `duration` — длительность в минутах;
+    - `calories` — приблизительные энергозатраты;
+    - `effort` — субъективная оценка нагрузки (`low`, `medium`, `high`);
+    - `training_date` — дата тренировки в формате `YYYY-MM-DD`.
+
+  **Ограничения**
+
+  - Все столбцы обязательны (`NOT NULL`);
+  - `effort` ограничен `CHECK (effort IN ('low','medium','high'))`;
+  - `training_date` хранится в ISO-формате `YYYY-MM-DD`.
+
+@tab Структура
+
+  @[code mermaid](./includes/trainer_workouts_db/trainer_workouts.mermaid)
+
+@tab SQL-код
+
+  Скачать в виде файла: [trainer_workouts_sqlite.sql](./includes/trainer_workouts_db/trainer_workouts_sqlite.sql)
+
+  ::: play sandbox=sqlite editor=basic id=trainer_workouts_sqlite.sql
+  @[code sql:collapsed-lines=10](./includes/trainer_workouts_db/trainer_workouts_sqlite.sql)
+  :::
 
 :::
 
 Чтобы убедиться в исходных данных, выполните простой `SELECT`:
 
-::: play sandbox=sqlite editor=basic depends-on=workouts_01_sqlite.sql id=workouts_source_select.sql
+::: play sandbox=sqlite editor=basic depends-on=trainer_workouts_sqlite.sql id=workouts_source_select.sql
 
 ```sql
 SELECT * FROM workouts;
@@ -107,7 +127,7 @@ SELECT * FROM workouts;
 
 ### Пример: тренировки длиннее средней
 
-::: play sandbox=sqlite editor=basic depends-on=workouts_01_sqlite.sql id=subquery_scalar_avg.sql
+::: play sandbox=sqlite editor=basic depends-on=trainer_workouts_sqlite.sql id=subquery_scalar_avg.sql
 
 ```sql
 SELECT athlete, session_type, duration
@@ -124,7 +144,7 @@ WHERE duration > (
 
 ### Пример: максимальные калории
 
-::: play sandbox=sqlite editor=basic depends-on=workouts_01_sqlite.sql id=subquery_scalar_max.sql
+::: play sandbox=sqlite editor=basic depends-on=trainer_workouts_sqlite.sql id=subquery_scalar_max.sql
 
 ```sql
 SELECT athlete, session_type, calories
@@ -151,7 +171,7 @@ SQLite допускает `DISTINCT`, `GROUP BY`, `HAVING`, `ORDER BY`, `LIMIT` 
 
 Найдём тренировки, у которых длительность встречается минимум два раза.
 
-::: play sandbox=sqlite editor=basic depends-on=workouts_01_sqlite.sql id=subquery_list_duration.sql
+::: play sandbox=sqlite editor=basic depends-on=trainer_workouts_sqlite.sql id=subquery_list_duration.sql
 
 ```sql
 SELECT athlete, session_type, duration
@@ -173,7 +193,7 @@ ORDER BY duration, training_date;
 
 Менеджер хочет знать, какие типы занятий в среднем сжигают более 500 калорий. Получим такой список и используем его для выборки всех подходящих тренировок.
 
-::: play sandbox=sqlite editor=basic depends-on=workouts_01_sqlite.sql id=subquery_list_session_type.sql
+::: play sandbox=sqlite editor=basic depends-on=trainer_workouts_sqlite.sql id=subquery_list_session_type.sql
 
 ```sql
 SELECT athlete, session_type, calories
@@ -199,7 +219,7 @@ ORDER BY session_type, calories DESC;
 
 Соберём средние значения по каждому уровню усилий, а затем сравним их с общей средней длительностью.
 
-::: play sandbox=sqlite editor=basic depends-on=workouts_01_sqlite.sql id=subquery_from_stats.sql
+::: play sandbox=sqlite editor=basic depends-on=trainer_workouts_sqlite.sql id=subquery_from_stats.sql
 
 ```sql
 SELECT
@@ -236,7 +256,7 @@ ORDER BY duration_delta DESC;
 
 Пусть тренер оценивает эффективность занятия показателем `intensity = calories / duration`, то есть сколько килокалорий сжигается за одну минуту. Сначала посчитаем интенсивность каждого занятия, а затем оставим только те, что выше средней.
 
-::: play sandbox=sqlite editor=basic depends-on=workouts_01_sqlite.sql id=subquery_from_energy.sql
+::: play sandbox=sqlite editor=basic depends-on=trainer_workouts_sqlite.sql id=subquery_from_energy.sql
 
 ```sql
 SELECT athlete, session_type, ROUND(intensity, 2) AS intensity
@@ -272,7 +292,7 @@ ORDER BY intensity DESC;
 `EXISTS` работает так, будто внутри запроса создаётся мини-таблица `inner_w`, доступная только для проверки условия. Как только в ней найдено хотя бы одно совпадение, условие становится истинным и строка из внешней таблицы `outer_w` попадает в результат.
 :::
 
-::: play sandbox=sqlite editor=basic depends-on=workouts_01_sqlite.sql id=subquery_exists_sessions.sql
+::: play sandbox=sqlite editor=basic depends-on=trainer_workouts_sqlite.sql id=subquery_exists_sessions.sql
 
 ```sql
 SELECT DISTINCT
@@ -318,7 +338,7 @@ ORDER BY athlete_count DESC, outer_w.session_type;
 
 Найдите дату тренировки с максимальной длительностью и выведите все тренировки, прошедшие в эту же дату (их может быть несколько).
 
-  ::: play sandbox=sqlite editor=basic depends-on=workouts_01_sqlite.sql
+  ::: play sandbox=sqlite editor=basic depends-on=trainer_workouts_sqlite.sql
 
   ```sql
   -- Ваш код можете писать тут
@@ -352,7 +372,7 @@ ORDER BY athlete;
 
 Сформируйте список типов тренировок, где среднее количество калорий превышает 500. Затем выведите тренировки только этих типов, отсортировав по убыванию калорий.
 
-  ::: play sandbox=sqlite editor=basic depends-on=workouts_01_sqlite.sql
+  ::: play sandbox=sqlite editor=basic depends-on=trainer_workouts_sqlite.sql
 
   ```sql
   -- Ваш код можете писать тут
@@ -386,7 +406,7 @@ ORDER BY calories DESC;
 
 Создайте табличный подзапрос, который собирает по каждому дню сумму длительности (`total_duration`). Во внешнем запросе оставьте только те дни, где суммарное время превышает 60 минут.
 
-  ::: play sandbox=sqlite editor=basic depends-on=workouts_01_sqlite.sql
+  ::: play sandbox=sqlite editor=basic depends-on=trainer_workouts_sqlite.sql
 
   ```sql
   -- Ваш код можете писать тут
@@ -419,7 +439,7 @@ ORDER BY training_date;
 
 Используя коррелированный подзапрос, найдите тренировки, у которых есть другая тренировка того же спортсмена с большей длительностью. Выведите имя спортсмена, тип занятия и длительность такой «не самой длинной» тренировки.
 
-  ::: play sandbox=sqlite editor=basic depends-on=workouts_01_sqlite.sql
+  ::: play sandbox=sqlite editor=basic depends-on=trainer_workouts_sqlite.sql
 
   ```sql
   -- Ваш код можете писать тут

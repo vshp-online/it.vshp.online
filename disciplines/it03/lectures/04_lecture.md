@@ -49,34 +49,54 @@ FROM имя_таблицы
 
 Фактическое выполнение инструкций определяется СУБД и порядок из этого списка может отличаться.
 
-## Пример таблицы `products`
+## Учебная база данных «Appliance Store»
 
-Это витрина бытовой техники условного интернет-магазина: каждая строка описывает товар, сколько его осталось на складе и по какой цене он продаётся.
+::: tabs
 
-<!-- @include: ./includes/table_products_01.md -->
+@tab Таблицы
 
-::: info Таблица `products`
+  ::: tabs
 
-**Поля**
+  @tab products
+  <!-- @include: ./includes/appliance_store_db/products_table.md -->
 
-- `id` — целочисленный первичный ключ;
-- `title` — название товара;
-- `amount` — остаток на складе;
-- `price` — цена в рублях.
-
-**Ограничения**
-
-- В учебной таблице только `id` строго уникален, остальные поля допускают `NULL`, но по умолчанию заполнены значениями.
-
-:::
-
-::: details Код создания данной таблицы на языке SQL в диалекте SQLite
-
-  ::: play sandbox=sqlite editor=basic id=products_01_sqlite.sql
-  @[code sql](./includes/products_01_sqlite.sql)
   :::
 
-  Скачать код создания таблицы в виде файла можно по ссылке: [products_01_sqlite.sql](./includes/products_01_sqlite.sql)
+@tab Описание
+
+  Витрина бытовой техники условного интернет-магазина: каждая запись содержит наименование, остаток и цену товара.
+
+  **Особенности:**
+
+  - показывает, как выбирать, сортировать и фильтровать отдельные столбцы;
+  - содержит нулевые остатки и разные цены для демонстрации условий;
+  - пригодна для примеров с арифметикой и псевдонимами.
+
+@tab Поля и ограничения
+
+  **Поля**
+
+  - **`products`**
+    - `id` — целочисленный первичный ключ;
+    - `title` — название товара;
+    - `amount` — остаток на складе;
+    - `price` — цена в рублях.
+
+  **Ограничения**
+
+  - Единственным строго уникальным столбцом является `id`; поля могут быть пустыми, но по умолчанию заполнены значениями.
+
+@tab Структура
+
+  @[code mermaid](./includes/appliance_store_db/appliance_store.mermaid)
+
+@tab SQL-код
+
+  Скачать в виде файла: [appliance_store_sqlite.sql](./includes/appliance_store_db/appliance_store_sqlite.sql)
+
+  ::: play sandbox=sqlite editor=basic id=appliance_store_sqlite.sql
+  @[code sql:collapsed-lines=10](./includes/appliance_store_db/appliance_store_sqlite.sql)
+  :::
 
 :::
 
@@ -88,7 +108,7 @@ FROM имя_таблицы
 
 Вы можете выводить любые строки и числа вместо столбцов:
 
-::: play sandbox=sqlite editor=basic depends-on=products_01_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=appliance_store_sqlite.sql
 
 ```sql
 SELECT "Просто строка", 1;
@@ -98,7 +118,7 @@ SELECT "Просто строка", 1;
 
 ### 2. Выбор всех данных
 
-::: play sandbox=sqlite editor=basic depends-on=products_01_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=appliance_store_sqlite.sql
 
 ```sql
 SELECT *
@@ -113,7 +133,7 @@ FROM products;
 
 ### 3. Выбор отдельных столбцов
 
-::: play sandbox=sqlite editor=basic depends-on=products_01_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=appliance_store_sqlite.sql
 
 ```sql
 SELECT title, price
@@ -132,7 +152,7 @@ FROM products;
 
 Иногда названия столбцов слишком длинные или неудобные. Для упрощения используют `AS`:
 
-::: play sandbox=sqlite editor=basic depends-on=products_01_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=appliance_store_sqlite.sql
 
 ```sql
 SELECT
@@ -187,7 +207,7 @@ FROM products;
 
 ### 1. Отбор по строгому числовому условию
 
-::: play sandbox=sqlite editor=basic depends-on=products_01_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=appliance_store_sqlite.sql
 
 ```sql
 SELECT *
@@ -201,7 +221,7 @@ WHERE price < 3000;
 
 ### 2. Отбор по нестрогому числовому условию
 
-::: play sandbox=sqlite editor=basic depends-on=products_01_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=appliance_store_sqlite.sql
 
 ```sql
 SELECT *
@@ -215,7 +235,7 @@ WHERE price >= 10000;
 
 ### 3. Отбор по равенству
 
-::: play sandbox=sqlite editor=basic depends-on=products_01_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=appliance_store_sqlite.sql
 
 ```sql
 SELECT *
@@ -235,7 +255,7 @@ WHERE amount = 0;
 
 - Однострочный:
 
-  ::: play sandbox=sqlite editor=basic depends-on=products_01_sqlite.sql
+  ::: play sandbox=sqlite editor=basic depends-on=appliance_store_sqlite.sql
 
   ```sql
   -- Товары дороже 10000
@@ -246,7 +266,7 @@ WHERE amount = 0;
 
 - Многострочный:
 
-  ::: play sandbox=sqlite editor=basic depends-on=products_01_sqlite.sql
+  ::: play sandbox=sqlite editor=basic depends-on=appliance_store_sqlite.sql
 
   ```sql
   /*
@@ -282,7 +302,7 @@ WHERE amount = 0;
 
 Выведите все данные из таблицы `products`.
 
-  ::: play sandbox=sqlite editor=basic depends-on=products_01_sqlite.sql
+  ::: play sandbox=sqlite editor=basic depends-on=appliance_store_sqlite.sql
 
   ```sql
   -- Ваш код можете писать тут
@@ -309,7 +329,7 @@ FROM products
 
 Выведите названия (`title`) и цены (`price`) всех товаров.
 
-  ::: play sandbox=sqlite editor=basic depends-on=products_01_sqlite.sql
+  ::: play sandbox=sqlite editor=basic depends-on=appliance_store_sqlite.sql
 
   ```sql
   -- Ваш код можете писать тут
@@ -338,7 +358,7 @@ FROM products
 
 Выведите названия (`title`) и остатки (`amount`) товаров, которые отсутствуют на складе.
 
-  ::: play sandbox=sqlite editor=basic depends-on=products_01_sqlite.sql
+  ::: play sandbox=sqlite editor=basic depends-on=appliance_store_sqlite.sql
 
   ```sql
   -- Ваш код можете писать тут
@@ -368,7 +388,7 @@ WHERE amount < 1
 
 Выведите названия (`title`) и цены (`price`) товаров дешевле `4000`.
 
-  ::: play sandbox=sqlite editor=basic depends-on=products_01_sqlite.sql
+  ::: play sandbox=sqlite editor=basic depends-on=appliance_store_sqlite.sql
 
   ```sql
   -- Ваш код можете писать тут
@@ -398,7 +418,7 @@ WHERE price < 4000
 
 Выведите названия (`title`) и цены (`price`) товаров стоимостью `9500` и дороже.
 
-  ::: play sandbox=sqlite editor=basic depends-on=products_01_sqlite.sql
+  ::: play sandbox=sqlite editor=basic depends-on=appliance_store_sqlite.sql
 
   ```sql
   -- Ваш код можете писать тут
@@ -428,7 +448,7 @@ WHERE price >= 9500
 
 Выведите все названия (`title`), цены (`price`) и остатки (`amount`) товаров так, чтобы столбцы с этими значениями назывались «Товар», «Цена» и «Остаток» соответственно.
 
-  ::: play sandbox=sqlite editor=basic depends-on=products_01_sqlite.sql
+  ::: play sandbox=sqlite editor=basic depends-on=appliance_store_sqlite.sql
 
   ```sql
   -- Ваш код можете писать тут

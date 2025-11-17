@@ -10,38 +10,58 @@
 
 Эти операции называют DML (Data Manipulation Language). Они меняют состояние таблиц и по умолчанию не выводят результат на экран. Контекст выполнения — SQLite; необходимые отличия других СУБД отметим по месту.
 
-## Пример таблицы `inventory`
+## Учебная база данных «Tech Inventory»
 
-Это учебный склад аксессуаров и периферии: по каждому SKU (Stock Keeping Unit — это уникальный код складского учёта, который присваивается каждому виду товара в торговой системе) мы видим остаток, цену и признак активности. Таблица напоминает реестр товаров в системах учёта складских остатков.
+::: tabs
 
-<!-- @include: ./includes/table_inventory_01.md -->
+@tab Таблицы
 
-::: info Таблица `inventory`
+  ::: tabs
 
-**Поля**
+  @tab inventory
+  <!-- @include: ./includes/tech_inventory_db/inventory_table.md -->
 
-- `id` — целочисленный первичный ключ;
-- `sku` — символьный артикул товара;
-- `title` — наименование;
-- `amount` — остаток на складе;
-- `price` — цена в рублях;
-- `is_active` — признак отображения товара.
-
-**Ограничения**
-
-- `sku` помечен как `UNIQUE NOT NULL`, поэтому повторный артикул вызывает ошибку вставки;
-- для `amount` и `is_active` заданы значения по умолчанию (`0` и `1`);
-- `price` допускает `NULL`, если стоимость ещё не определена.
-
-:::
-
-::: details Код создания таблицы на языке SQL в диалекте SQLite
-
-  ::: play sandbox=sqlite editor=basic id=inventory_01_sqlite.sql
-  @[code sql](./includes/inventory_01_sqlite.sql)
   :::
 
-  Скачать код создания таблицы в виде файла можно по ссылке: [inventory_01_sqlite.sql](./includes/inventory_01_sqlite.sql)
+@tab Описание
+
+  Учебный склад аксессуаров и периферии: отражает остатки, цены и статусы товаров, имитируя реестр складских систем.
+
+  **Особенности:**
+
+  - удобно показывать `INSERT`, `UPDATE`, `DELETE` и значения по умолчанию;
+  - есть уникальный `sku`, что позволяет обсуждать обработку конфликтов;
+  - данные содержат активные и скрытые позиции для логических условий.
+
+@tab Поля и ограничения
+
+  **Поля**
+
+  - **`inventory`**
+    - `id` — целочисленный первичный ключ;
+    - `sku` — символьный артикул товара;
+    - `title` — наименование;
+    - `amount` — остаток на складе;
+    - `price` — цена в рублях;
+    - `is_active` — признак отображения товара.
+
+  **Ограничения**
+
+  - `sku` помечен как `UNIQUE NOT NULL`, поэтому повторный артикул вызывает ошибку вставки;
+  - для `amount` и `is_active` заданы значения по умолчанию (`0` и `1`);
+  - `price` допускает `NULL`, если стоимость ещё не определена.
+
+@tab Структура
+
+  @[code mermaid](./includes/tech_inventory_db/tech_inventory.mermaid)
+
+@tab SQL-код
+
+  Скачать в виде файла: [tech_inventory_sqlite.sql](./includes/tech_inventory_db/tech_inventory_sqlite.sql)
+
+  ::: play sandbox=sqlite editor=basic id=tech_inventory_sqlite.sql
+  @[code sql:collapsed-lines=10](./includes/tech_inventory_db/tech_inventory_sqlite.sql)
+  :::
 
 :::
 
@@ -64,7 +84,7 @@ SELECT * FROM inventory;
 
 Посмотреть все данные исходной таблицы до каких-либо модификаций мы можем запросом:
 
-::: play sandbox=sqlite editor=basic depends-on=inventory_01_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=tech_inventory_sqlite.sql
 
 ```sql
 SELECT * FROM inventory;
@@ -95,7 +115,7 @@ SELECT поле_таблицы, ... FROM имя_таблицы ...
 
 ### Вставка одной строки
 
-::: play sandbox=sqlite editor=basic template="#auto_select_after" depends-on=inventory_01_sqlite.sql id=insert_one.sql
+::: play sandbox=sqlite editor=basic template="#auto_select_after" depends-on=tech_inventory_sqlite.sql id=insert_one.sql
 
 ```sql
 INSERT INTO inventory (id, sku, title, amount, price, is_active)
@@ -311,7 +331,7 @@ DELETE FROM inventory;
 |:---:|:-----:|:--------------:|:------:|:-----:|:---------:|
 | 101 | T‑100 | Кабель HDMI 2м | 5      | 450   | 1         |
 
-  ::: play sandbox=sqlite editor=basic template="#auto_select_after" depends-on=inventory_01_sqlite.sql
+  ::: play sandbox=sqlite editor=basic template="#auto_select_after" depends-on=tech_inventory_sqlite.sql
 
   ```sql
   -- Ваш код можете писать тут
@@ -344,7 +364,7 @@ VALUES
 | 102 | T‑200 | Адаптер USB-A->USB-C    | 10     | 290  | 1         |
 | 103 | T‑201 | Адаптер USB-C->Jack 3.5  | 4     | NULL  | 1        |
 
-  ::: play sandbox=sqlite editor=basic template="#auto_select_after" depends-on=inventory_01_sqlite.sql
+  ::: play sandbox=sqlite editor=basic template="#auto_select_after" depends-on=tech_inventory_sqlite.sql
 
   ```sql
   -- Ваш код можете писать тут
@@ -373,7 +393,7 @@ VALUES
 
 Для товара с `id = 3` увеличьте цену (`price`) на `50%` и количество (`amount`) на `20`.
 
-  ::: play sandbox=sqlite editor=basic template="#auto_select_after" depends-on=inventory_01_sqlite.sql
+  ::: play sandbox=sqlite editor=basic template="#auto_select_after" depends-on=tech_inventory_sqlite.sql
 
   ```sql
   -- Ваш код можете писать тут
@@ -402,7 +422,7 @@ WHERE id = 3;
 
 Для всех товаров, которых осталось меньше 10 штук на складе установить `is_active = 0`.
 
-  ::: play sandbox=sqlite editor=basic template="#auto_select_after" depends-on=inventory_01_sqlite.sql
+  ::: play sandbox=sqlite editor=basic template="#auto_select_after" depends-on=tech_inventory_sqlite.sql
 
   ```sql
   -- Ваш код можете писать тут
@@ -430,7 +450,7 @@ WHERE amount < 10;
 
 Удалить товар с артикулом `'X-000'`.
 
-  ::: play sandbox=sqlite editor=basic template="#auto_select_after" depends-on=inventory_01_sqlite.sql
+  ::: play sandbox=sqlite editor=basic template="#auto_select_after" depends-on=tech_inventory_sqlite.sql
 
   ```sql
   -- Ваш код можете писать тут
@@ -457,7 +477,7 @@ WHERE sku = 'X-000';
 
 Удалить товары дешевле `1000`, которые закончились на складе.
 
-  ::: play sandbox=sqlite editor=basic template="#auto_select_after" depends-on=inventory_01_sqlite.sql
+  ::: play sandbox=sqlite editor=basic template="#auto_select_after" depends-on=tech_inventory_sqlite.sql
 
   ```sql
   -- Ваш код можете писать тут

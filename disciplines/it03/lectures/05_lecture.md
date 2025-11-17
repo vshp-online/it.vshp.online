@@ -28,34 +28,54 @@
 
 Эти инструменты часто комбинируются в одном запросе, делая фильтрацию данных гибкой и читаемой.
 
-## Пример таблицы `orders`
+## Учебная база данных «Retail Orders»
 
-Эти данные имитируют журнал заказов интернет-магазина комплектующих: хранится идентификатор клиента, сумма и текущий статус заказа. Такой набор помогает представить, как выглядит повседневная отчётность по заказам.
+::: tabs
 
-<!-- @include: ./includes/table_orders_01.md -->
+@tab Таблицы
 
-::: info Таблица `orders`
+  ::: tabs
 
-**Поля**
+  @tab orders
+  <!-- @include: ./includes/retail_orders_db/orders_table.md -->
 
-- `id` — целочисленный первичный ключ;
-- `user_id` — идентификатор покупателя (может отсутствовать);
-- `price` — сумма заказа в рублях;
-- `status` — текстовый статус (`new`, `cancelled`, `delivery`, `returned`, `in_progress`).
-
-**Ограничения**
-
-- Только `id` обязательно и уникально; остальные поля допускают `NULL` и используются для демонстрации логических операторов.
-
-:::
-
-::: details Код создания таблицы на языке SQL в диалекте SQLite
-
-  ::: play sandbox=sqlite editor=basic id=orders_01_sqlite.sql
-  @[code sql](./includes/orders_01_sqlite.sql)
   :::
 
-  Скачать код создания таблицы в виде файла можно по ссылке: [orders_01_sqlite.sql](./includes/orders_01_sqlite.sql)
+@tab Описание
+
+  Журнал заказов интернет-магазина комплектующих: фиксируются клиенты, суммы и статусы, что позволяет показывать составные условия и фильтры.
+
+  **Особенности:**
+
+  - содержит повторяющихся клиентов и разные статусы;
+  - удобно демонстрировать `AND`/`OR`/`NOT`, `IN`, `BETWEEN`, `DISTINCT`;
+  - допускает `NULL` в некоторых полях для примеров с отсутствием данных.
+
+@tab Поля и ограничения
+
+  **Поля**
+
+  - **`orders`**
+    - `id` — целочисленный первичный ключ;
+    - `user_id` — идентификатор покупателя (может отсутствовать);
+    - `price` — сумма заказа в рублях;
+    - `status` — текстовый статус (`new`, `cancelled`, `delivery`, `returned`, `in_progress`).
+
+  **Ограничения**
+
+  - Единственным строго уникальным столбцом является `id`; поля могут быть пустыми, но по умолчанию заполнены значениями.
+
+@tab Структура
+
+  @[code mermaid](./includes/retail_orders_db/retail_orders.mermaid)
+
+@tab SQL-код
+
+  Скачать в виде файла: [retail_orders_sqlite.sql](./includes/retail_orders_db/retail_orders_sqlite.sql)
+
+  ::: play sandbox=sqlite editor=basic id=retail_orders_sqlite.sql
+  @[code sql:collapsed-lines=10](./includes/retail_orders_db/retail_orders_sqlite.sql)
+  :::
 
 :::
 
@@ -63,7 +83,7 @@
 
 Оператор **`AND`** используется, когда нужно выбрать строки, удовлетворяющие **всем условиям одновременно**.
 
-::: play sandbox=sqlite editor=basic depends-on=orders_01_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=retail_orders_sqlite.sql
 
 ```sql
 SELECT id, user_id, price, status
@@ -80,7 +100,7 @@ WHERE status = 'new' AND price > 1000;
 
 Оператор **`OR`** возвращает строки, где выполняется **хотя бы одно** из указанных условий.
 
-::: play sandbox=sqlite editor=basic depends-on=orders_01_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=retail_orders_sqlite.sql
 
 ```sql
 SELECT id, user_id, price, status
@@ -97,7 +117,7 @@ WHERE status = 'cancelled' OR status = 'returned';
 
 Оператор **`NOT`** исключает строки, удовлетворяющие условию.
 
-::: play sandbox=sqlite editor=basic depends-on=orders_01_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=retail_orders_sqlite.sql
 
 ```sql
 SELECT id, user_id, price, status
@@ -120,7 +140,7 @@ WHERE NOT status = 'cancelled';
 
 Чтобы задать свой порядок, используйте скобки `()`.
 
-::: play sandbox=sqlite editor=basic depends-on=orders_01_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=retail_orders_sqlite.sql
 
 ```sql
 SELECT id, user_id, price, status
@@ -153,7 +173,7 @@ WHERE (price > 5000) XOR (status = 'new');
 Поддержка `XOR` зависит от диалекта SQL.
 В MySQL он есть, а в SQLite можно заменить выражением:
 
-  ::: play sandbox=sqlite editor=basic depends-on=orders_01_sqlite.sql
+  ::: play sandbox=sqlite editor=basic depends-on=retail_orders_sqlite.sql
 
   ```sql
   SELECT id, user_id, price, status
@@ -174,7 +194,7 @@ WHERE (price > 5000) XOR (status = 'new');
 
 Он делает запросы короче и нагляднее, чем несколько `OR`.
 
-::: play sandbox=sqlite editor=basic depends-on=orders_01_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=retail_orders_sqlite.sql
 
 ```sql
 SELECT id, user_id, price, status
@@ -189,7 +209,7 @@ WHERE status IN ('cancelled', 'returned', 'delivery');
 
 **Аналогичный запрос через OR:**
 
-::: play sandbox=sqlite editor=basic depends-on=orders_01_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=retail_orders_sqlite.sql
 
 ```sql
 SELECT id, user_id, price, status
@@ -211,7 +231,7 @@ WHERE
 
 Он делает запросы короче и нагляднее, чем два условия с `AND`.
 
-::: play sandbox=sqlite editor=basic depends-on=orders_01_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=retail_orders_sqlite.sql
 
 ```sql
 SELECT id, user_id, price, status
@@ -226,7 +246,7 @@ WHERE price BETWEEN 1000 AND 5000;
 
 **Аналогичный запрос через AND:**
 
-::: play sandbox=sqlite editor=basic depends-on=orders_01_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=retail_orders_sqlite.sql
 
 ```sql
 SELECT id, user_id, price, status
@@ -250,7 +270,7 @@ WHERE
 
 `DISTINCT` используется, чтобы **убрать дубли** в результатах запроса.
 
-::: play sandbox=sqlite editor=basic depends-on=orders_01_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=retail_orders_sqlite.sql
 
 ```sql
 SELECT DISTINCT status
@@ -268,7 +288,7 @@ FROM orders;
 
 Можно объединять `DISTINCT` с условиями фильтрации:
 
-::: play sandbox=sqlite editor=basic depends-on=orders_01_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=retail_orders_sqlite.sql
 
 ```sql
 SELECT DISTINCT user_id
@@ -293,7 +313,7 @@ WHERE status = 'cancelled';
 
 Выведите все новые заказы (`new`), сумма которых больше `1500`.
 
-  ::: play sandbox=sqlite editor=basic depends-on=orders_01_sqlite.sql
+  ::: play sandbox=sqlite editor=basic depends-on=retail_orders_sqlite.sql
 
   ```sql
   -- Ваш код можете писать тут
@@ -326,7 +346,7 @@ WHERE
 
 В решении **не используйте** оператор `IN`.
 
-  ::: play sandbox=sqlite editor=basic depends-on=orders_01_sqlite.sql
+  ::: play sandbox=sqlite editor=basic depends-on=retail_orders_sqlite.sql
 
   ```sql
   -- Ваш код можете писать тут
@@ -359,7 +379,7 @@ WHERE
 
 В решении **не используйте** символ `!=` и оператор `OR`.
 
-  ::: play sandbox=sqlite editor=basic depends-on=orders_01_sqlite.sql
+  ::: play sandbox=sqlite editor=basic depends-on=retail_orders_sqlite.sql
 
   ```sql
   -- Ваш код можете писать тут
@@ -390,7 +410,7 @@ WHERE
 
 В решении **не используйте** символы `>=` или `<=`.
 
-  ::: play sandbox=sqlite editor=basic depends-on=orders_01_sqlite.sql
+  ::: play sandbox=sqlite editor=basic depends-on=retail_orders_sqlite.sql
 
   ```sql
   -- Ваш код можете писать тут
@@ -419,7 +439,7 @@ WHERE
 
 Выведите все уникальные значения статусов заказов.
 
-  ::: play sandbox=sqlite editor=basic depends-on=orders_01_sqlite.sql
+  ::: play sandbox=sqlite editor=basic depends-on=retail_orders_sqlite.sql
 
   ```sql
   -- Ваш код можете писать тут
@@ -449,7 +469,7 @@ FROM orders
 
 В решении **не используйте** символ `=` и оператор `OR`.
 
-  ::: play sandbox=sqlite editor=basic depends-on=orders_01_sqlite.sql
+  ::: play sandbox=sqlite editor=basic depends-on=retail_orders_sqlite.sql
 
   ```sql
   -- Ваш код можете писать тут

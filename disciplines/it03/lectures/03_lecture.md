@@ -244,46 +244,64 @@ WHERE <условие>;
 - `FROM` — из какой таблицы.
 - `WHERE` — при каком условии.
 
-## Пример таблицы `students`
+## Учебная база данных «Academy Students»
 
-Небольшая учебная выборка со студентами колледжа: каждому студенту соответствует идентификатор, ФИО, возраст и пол. Такие справочники встречаются в учётных системах, где фиксируются основные данные обучающихся.
+::: tabs
 
-<!-- @include: ./includes/table_students_01.md -->
+@tab Таблицы
 
-::: info Таблица `students`
+  ::: tabs
 
-**Поля**
+  @tab students
+  <!-- @include: ./includes/academy_students_db/students_table.md -->
 
-- `id` — целочисленный первичный ключ;
-- `name` — ФИО студента;
-- `age` — возраст;
-- `gender` — значение `male` или `female`.
-
-**Ограничения**
-
-- `name` и `gender` обязательны (`NOT NULL`);
-- `age` имеет ограничение `CHECK (age >= 0)`;
-- `gender` ограничен набором (`male`, `female`).
-
-:::
-
-::: details Код создания данной таблицы на языке SQL в диалекте SQLite
-
-  ::: play sandbox=sqlite editor=basic id=students_01_sqlite.sql
-  @[code sql](./includes/students_01_sqlite.sql)
   :::
 
-  Скачать код создания таблицы в виде файла можно по ссылке: [students_01_sqlite.sql](./includes/students_01_sqlite.sql)
+@tab Описание
+
+  Учебная выборка студентов колледжа: каждому студенту соответствует идентификатор, ФИО, возраст и пол — типичный справочник для демонстрации базовых запросов.
+
+  **Особенности:**
+
+  - небольшое количество записей, удобное для ручного разбора;
+  - нет связей с другими таблицами — только справочник;
+  - поля подобраны так, чтобы сразу перейти к фильтрациям и условиям.
+
+@tab Поля и ограничения
+
+  **Поля**
+
+  - **`students`**
+    - `id` — целочисленный первичный ключ;
+    - `name` — ФИО студента;
+    - `age` — возраст;
+    - `gender` — значение `male` или `female`.
+
+  **Ограничения**
+
+  - `name` и `gender` обязательны (`NOT NULL`);
+  - `age` ограничен проверкой `CHECK (age >= 0)`;
+  - `gender` принимает только значения `male` или `female`.
+
+@tab Структура
+
+  @[code mermaid](./includes/academy_students_db/academy_students.mermaid)
+
+@tab SQL-код
+
+  Скачать в виде файла: [academy_students_sqlite.sql](./includes/academy_students_db/academy_students_sqlite.sql)
+
+  ::: play sandbox=sqlite editor=basic id=academy_students_sqlite.sql
+  @[code sql:collapsed-lines=10](./includes/academy_students_db/academy_students_sqlite.sql)
+  :::
 
 :::
-
-К этой таблице мы можем выполнить несколько простых запросов.
 
 ## Примеры простых запросов
 
 ### Выбор всех данных
 
-::: play sandbox=sqlite editor=basic depends-on=students_01_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=academy_students_sqlite.sql
 
 ```sql
 SELECT *
@@ -294,7 +312,7 @@ FROM students;
 
 ### Выбор только конкретных столбцов
 
-::: play sandbox=sqlite editor=basic depends-on=students_01_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=academy_students_sqlite.sql
 
 ```sql
 SELECT name, gender
@@ -307,7 +325,7 @@ FROM students;
 
 **Выбор всех студентов младше 21 года:**
 
-::: play sandbox=sqlite editor=basic depends-on=students_01_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=academy_students_sqlite.sql
 
 ```sql
 SELECT name, age
@@ -319,7 +337,7 @@ WHERE age < 21;
 
 **Выбор всех студентов мужского пола:**
 
-::: play sandbox=sqlite editor=basic depends-on=students_01_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=academy_students_sqlite.sql
 
 ```sql
 SELECT name

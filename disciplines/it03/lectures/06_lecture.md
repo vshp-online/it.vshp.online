@@ -6,38 +6,59 @@
 
 Сегодня разберём **ещё несколько важных инструментов**, которые позволяют гибко управлять выборкой: поиск по шаблону (`LIKE`), сортировку (`ORDER BY`), ограничение количества строк (`LIMIT`), а также познакомимся с особым значением — `NULL`.
 
-## Пример таблицы `employees`
+## Учебная база данных «Digital Agency Employees»
 
-Это учебный справочник сотрудников небольшой компании: в нём видно, что у части работников отсутствуют e-mail или бонусы. Подобные таблицы встречаются в кадровых базах, где хранится основная информация по персоналу.
+::: tabs
 
-<!-- @include: ./includes/table_employees_01.md -->
+@tab Таблицы
 
-::: info Таблица `employees`
+  ::: tabs
 
-**Поля**
+  @tab employees
+  <!-- @include: ./includes/digital_agency_employees_db/employees_table.md -->
 
-- `id` — целочисленный первичный ключ;
-- `first_name`, `last_name` — имя и фамилия сотрудника;
-- `salary` — оклад в рублях;
-- `job_title` — должность;
-- `email` — рабочий адрес, может отсутствовать;
-- `bonus` — доплаты или комментарии по премии;
-- `gender` — обозначение пола;
-- `department` — название отдела.
-
-**Ограничения**
-
-- В примере только `id`, `first_name`, `last_name` и `job_title` всегда заполнены; остальные поля могут быть `NULL`, чтобы показать поведение специальных операторов.
-
-:::
-
-::: details Код создания таблицы на языке SQL в диалекте SQLite
-
-  ::: play sandbox=sqlite editor=basic id=employees_01_sqlite.sql
-  @[code sql](./includes/employees_01_sqlite.sql)
   :::
 
-  Скачать код создания таблицы в виде файла можно по ссылке: [employees_01_sqlite.sql](./includes/employees_01_sqlite.sql)
+@tab Описание
+
+  Учебный справочник сотрудников цифрового агентства: помогает исследовать `NULL`, текстовые фильтры и сортировки.
+
+  **Особенности:**
+
+  - многие записи имеют отсутствующие e-mail или бонусы;
+  - сочетание разных регистров и отделов подчёркивает работу `LIKE`;
+  - подходит для демонстрации `ORDER BY`, `LIMIT` и настройки `.nullvalue`.
+
+@tab Поля и ограничения
+
+  **Поля**
+
+  - **`employees`**
+    - `id` — целочисленный первичный ключ;
+    - `first_name`, `last_name` — имя и фамилия сотрудника;
+    - `salary` — оклад в рублях;
+    - `job_title` — должность;
+    - `email` — рабочий адрес;
+    - `bonus` — доплаты или комментарии по премии;
+    - `gender` — обозначение пола;
+    - `department` — название отдела.
+
+  **Ограничения**
+
+  - Гарантированно заполнены только `id`, `first_name`, `last_name` и `job_title`;
+  - поля `email`, `bonus`, `gender`, `department` позволяют демонстрировать `NULL`.
+
+@tab Структура
+
+  @[code mermaid](./includes/digital_agency_employees_db/digital_agency_employees.mermaid)
+
+@tab SQL-код
+
+  Скачать в виде файла: [digital_agency_employees_sqlite.sql](./includes/digital_agency_employees_db/digital_agency_employees_sqlite.sql)
+
+  ::: play sandbox=sqlite editor=basic id=digital_agency_employees_sqlite.sql
+  @[code sql:collapsed-lines=10](./includes/digital_agency_employees_db/digital_agency_employees_sqlite.sql)
+  :::
 
 :::
 
@@ -112,7 +133,7 @@ SELECT NULL <=> NULL;  -- Результат: 1 (TRUE)
 
 Выведем всех сотрудников, у которых не указана электронная почта:
 
-::: play sandbox=sqlite editor=basic template="#show_null" depends-on=employees_01_sqlite.sql
+::: play sandbox=sqlite editor=basic template="#show_null" depends-on=digital_agency_employees_sqlite.sql
 
 ```sql
 SELECT first_name, last_name, email
@@ -127,7 +148,7 @@ WHERE email IS NULL;
 
 А теперь наоборот — сотрудники, у которых почта **указана**:
 
-::: play sandbox=sqlite editor=basic template="#show_null" depends-on=employees_01_sqlite.sql
+::: play sandbox=sqlite editor=basic template="#show_null" depends-on=digital_agency_employees_sqlite.sql
 
 ```sql
 SELECT first_name, last_name, email
@@ -156,7 +177,7 @@ WHERE email IS NOT NULL;
 
 Для таких нетривиальных поисков по строковым полям и нужен оператор `LIKE`.
 
-::: play sandbox=sqlite editor=basic depends-on=employees_01_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=digital_agency_employees_sqlite.sql
 
 ```sql
 SELECT first_name, last_name, email
@@ -173,7 +194,7 @@ WHERE email LIKE '%@company.%';
 
 В **MySQL** оператор `LIKE` **не чувствителен к регистру** (запрос `'а%'` найдёт и `Анна`, и `анна`), но в **SQLite** — оператор `LIKE` **чувствителен к регистру**, поэтому запрос:
 
-  ::: play sandbox=sqlite editor=basic depends-on=employees_01_sqlite.sql
+  ::: play sandbox=sqlite editor=basic depends-on=digital_agency_employees_sqlite.sql
 
   ```sql
   SELECT first_name
@@ -187,7 +208,7 @@ WHERE email LIKE '%@company.%';
 
 Если нужно найти значения и с прописной, и со строчной буквы, можно сразу указать оба варианта через `OR`:
 
-  ::: play sandbox=sqlite editor=basic depends-on=employees_01_sqlite.sql
+  ::: play sandbox=sqlite editor=basic depends-on=digital_agency_employees_sqlite.sql
 
   ```sql
   SELECT first_name
@@ -207,7 +228,7 @@ WHERE email LIKE '%@company.%';
 
 Вывести сотрудников, чьи имена **содержат букву «а»**:
 
-::: play sandbox=sqlite editor=basic depends-on=employees_01_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=digital_agency_employees_sqlite.sql
 
 ```sql
 SELECT first_name
@@ -222,7 +243,7 @@ WHERE first_name LIKE '%а%';
 
 Вывести сотрудников, чьи адреса электронной почты находятся в зоне **.ru**:
 
-::: play sandbox=sqlite editor=basic depends-on=employees_01_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=digital_agency_employees_sqlite.sql
 
 ```sql
 SELECT first_name, last_name, email
@@ -237,7 +258,7 @@ WHERE email LIKE '%.ru';
 
 Вывести сотрудников, получающих шестизначную зарплату:
 
-::: play sandbox=sqlite editor=basic depends-on=employees_01_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=digital_agency_employees_sqlite.sql
 
 ```sql
 SELECT first_name, last_name, job_title, salary
@@ -256,7 +277,7 @@ WHERE salary LIKE '______';
 
 Например, вы хотите получить информацию по бонусам к окладу в процентах:
 
-::: play sandbox=sqlite editor=basic depends-on=employees_01_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=digital_agency_employees_sqlite.sql
 
 ```sql
 SELECT first_name, last_name, bonus
@@ -275,7 +296,7 @@ WHERE bonus LIKE '%!%%' ESCAPE '!';
 
 Например, выведем всех сотрудников, отсортировав их по зарплате от наименьшей к наибольшей:
 
-::: play sandbox=sqlite editor=basic depends-on=employees_01_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=digital_agency_employees_sqlite.sql
 
 ```sql
 SELECT first_name, last_name, salary
@@ -323,7 +344,7 @@ ORDER BY столбец_1 DESC, столбец_2 DESC
 
 Например, выведем всех сотрудников, отсортировав по алфавиту их сначала по фамилии а потом по имени:
 
-::: play sandbox=sqlite editor=basic depends-on=employees_01_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=digital_agency_employees_sqlite.sql
 
 ```sql
 SELECT last_name, first_name
@@ -338,7 +359,7 @@ ORDER BY last_name ASC, first_name ASC;
 
 Также порядок сортировки каждого столбца может различаться, например если мы хотим вывести сотрудников, упорядочив их сначала по должности, а внутри должностей — по убыванию зарплаты:
 
-::: play sandbox=sqlite editor=basic depends-on=employees_01_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=digital_agency_employees_sqlite.sql
 
 ```sql
 SELECT first_name, last_name, job_title, salary
@@ -355,7 +376,7 @@ ORDER BY job_title ASC, salary DESC;
 
 Оператор **`LIMIT`** ограничивает количество строк, возвращаемых запросом.
 
-::: play sandbox=sqlite editor=basic depends-on=employees_01_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=digital_agency_employees_sqlite.sql
 
 ```sql
 SELECT first_name, last_name, salary
@@ -373,7 +394,7 @@ LIMIT 3;
 
 Можно комбинировать `WHERE`, `LIKE`, `ORDER BY` и `LIMIT` для более точных выборок:
 
-::: play sandbox=sqlite editor=basic template="#show_null" depends-on=employees_01_sqlite.sql
+::: play sandbox=sqlite editor=basic template="#show_null" depends-on=digital_agency_employees_sqlite.sql
 
 ```sql
 SELECT salary, last_name, first_name, department, job_title, email
@@ -405,7 +426,7 @@ LIMIT 3;
 
 Выведите всех сотрудников, у которых **нет электронной почты**.
 
-  ::: play sandbox=sqlite editor=basic template="#show_null" depends-on=employees_01_sqlite.sql
+  ::: play sandbox=sqlite editor=basic template="#show_null" depends-on=digital_agency_employees_sqlite.sql
 
   ```sql
   -- Ваш код можете писать тут
@@ -433,7 +454,7 @@ WHERE email IS NULL;
 
 Найдите сотрудников, чьи **фамилии начинаются на «П»**.
 
-  ::: play sandbox=sqlite editor=basic template="#show_null" depends-on=employees_01_sqlite.sql
+  ::: play sandbox=sqlite editor=basic template="#show_null" depends-on=digital_agency_employees_sqlite.sql
 
   ```sql
   -- Ваш код можете писать тут
@@ -461,7 +482,7 @@ WHERE last_name LIKE 'П%';
 
 Выведите сотрудников, чьи **адреса электронной почты находятся в домене `@company.ru`**, отсортировав их по зарплате **по убыванию**.
 
-  ::: play sandbox=sqlite editor=basic template="#show_null" depends-on=employees_01_sqlite.sql
+  ::: play sandbox=sqlite editor=basic template="#show_null" depends-on=digital_agency_employees_sqlite.sql
 
   ```sql
   -- Ваш код можете писать тут
@@ -490,7 +511,7 @@ ORDER BY salary DESC;
 
 Выведите **троих сотрудников с самыми низкими зарплатами**, результаты отсортируйте **по возрастанию зарплаты**.
 
-  ::: play sandbox=sqlite editor=basic template="#show_null" depends-on=employees_01_sqlite.sql
+  ::: play sandbox=sqlite editor=basic template="#show_null" depends-on=digital_agency_employees_sqlite.sql
 
   ```sql
   -- Ваш код можете писать тут
@@ -519,7 +540,7 @@ LIMIT 3;
 
 Найдите всех сотрудников, у которых в должности встречается слово **«программист»**, и выведите их **в порядке возрастания зарплаты**.
 
-  ::: play sandbox=sqlite editor=basic template="#show_null" depends-on=employees_01_sqlite.sql
+  ::: play sandbox=sqlite editor=basic template="#show_null" depends-on=digital_agency_employees_sqlite.sql
 
   ```sql
   -- Ваш код можете писать тут
@@ -548,7 +569,7 @@ ORDER BY salary ASC;
 
 Выведите сотрудников, у которых **зарплата пятизначная**, но при этом в должности не встречается слово **«программист»**. Отсортируйте их по **фамилии в алфавитном порядке**.
 
-  ::: play sandbox=sqlite editor=basic template="#show_null" depends-on=employees_01_sqlite.sql
+  ::: play sandbox=sqlite editor=basic template="#show_null" depends-on=digital_agency_employees_sqlite.sql
 
   ```sql
   -- Ваш код можете писать тут

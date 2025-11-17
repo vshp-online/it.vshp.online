@@ -4,35 +4,57 @@
 
 На предыдущих занятиях вы освоили выборку и фильтрацию данных (`SELECT`, `WHERE`, `LIKE`, сортировку, ограничение выборки), а также модификаторы `DISTINCT` и работу с составными условиями. Сегодня — первый шаг к **сводной аналитике по группам**: агрегатные функции, группировка `GROUP BY` и постфильтрация групп `HAVING`.
 
-## Пример таблицы `orders`
+## Учебная база данных «Fashion Orders»
 
-Эта таблица моделирует поток заказов от корпоративных клиентов: одни и те же товары заказывают разные компании, причём в разных объёмах. В реальной жизни подобные данные используются для подготовки сводной статистики по продажам.
+::: tabs
 
-<!-- @include: ./includes/table_orders_02.md -->
+@tab Таблицы
 
-::: info Таблица `orders`
+  ::: tabs
 
-**Поля**
+  @tab orders
+  <!-- @include: ./includes/fashion_orders_db/orders_table.md -->
 
-- `id` — целочисленный первичный ключ;
-- `title` — название товара в заказе;
-- `category` — категория товара;
-- `customer` — клиент, оформивший заказ;
-- `amount` — количество единиц.
-
-**Ограничения**
-
-- Текстовые поля намеренно содержат записи в разном регистре и с повторами, чтобы было удобнее показывать группировки и агрегаты; жёсткие ограничения заданы только для `id`.
-
-:::
-
-::: details Код создания таблицы на языке SQL в диалекте SQLite
-
-  ::: play sandbox=sqlite editor=basic id=orders_02_sqlite.sql
-  @[code sql](./includes/orders_02_sqlite.sql)
   :::
 
-  Скачать код создания таблицы в виде файла можно по ссылке: [orders_02_sqlite.sql](./includes/orders_02_sqlite.sql)
+@tab Описание
+
+  Поток заказов от корпоративных клиентов: товары повторяются, объёмы различаются, что помогает тренировать группировки и агрегаты.
+
+  **Особенности:**
+
+  - много дублей в разных регистрах — удобно для `GROUP BY` и `COUNT(DISTINCT)`;
+  - есть несколько категорий и клиентов, чтобы показывать фильтры по группам;
+  - данные легко преобразуются в сводные отчёты с `HAVING`.
+
+@tab Поля и ограничения
+
+  **Поля**
+
+  - **`orders`**
+    - `id` — целочисленный первичный ключ;
+    - `title` — название товара;
+    - `category` — категория товара;
+    - `customer` — клиент, оформивший заказ;
+    - `amount` — количество единиц.
+
+  **Ограничения**
+
+  - `id` уникален и не допускает пропусков;
+  - текстовые столбцы намеренно содержат дубликаты и разный регистр, чтобы тренировать агрегаты;
+  - `amount` — целочисленное поле без дополнительных проверок.
+
+@tab Структура
+
+  @[code mermaid](./includes/fashion_orders_db/fashion_orders.mermaid)
+
+@tab SQL-код
+
+  Скачать в виде файла: [fashion_orders_sqlite.sql](./includes/fashion_orders_db/fashion_orders_sqlite.sql)
+
+  ::: play sandbox=sqlite editor=basic id=fashion_orders_sqlite.sql
+  @[code sql:collapsed-lines=10](./includes/fashion_orders_db/fashion_orders_sqlite.sql)
+  :::
 
 :::
 
@@ -64,7 +86,7 @@
 
 ### Подсчёт количества значений
 
-::: play sandbox=sqlite editor=basic depends-on=orders_02_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=fashion_orders_sqlite.sql
 
 ```sql
 SELECT
@@ -79,7 +101,7 @@ FROM orders;
 
 ### Подсчёт суммы значений
 
-::: play sandbox=sqlite editor=basic depends-on=orders_02_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=fashion_orders_sqlite.sql
 
 ```sql
 SELECT
@@ -94,7 +116,7 @@ FROM orders;
 
 ### Подсчёт уникальных значений
 
-::: play sandbox=sqlite editor=basic depends-on=orders_02_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=fashion_orders_sqlite.sql
 
 ```sql
 SELECT
@@ -126,7 +148,7 @@ FROM orders;
 
 ### Простейшая группировка по товару
 
-::: play sandbox=sqlite editor=basic depends-on=orders_02_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=fashion_orders_sqlite.sql
 
 ```sql
 SELECT
@@ -144,7 +166,7 @@ ORDER BY total_qty DESC;
 
 ### Группировка по покупателю
 
-::: play sandbox=sqlite editor=basic depends-on=orders_02_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=fashion_orders_sqlite.sql
 
 ```sql
 SELECT
@@ -162,7 +184,7 @@ ORDER BY total_qty DESC;
 
 ### Группировка по категории
 
-::: play sandbox=sqlite editor=basic depends-on=orders_02_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=fashion_orders_sqlite.sql
 
 ```sql
 SELECT
@@ -182,7 +204,7 @@ ORDER BY total_qty DESC;
 
 Например, если нам необходимо построить «матрицу»: сколько каждый покупатель взял по каждой категории.
 
-::: play sandbox=sqlite editor=basic depends-on=orders_02_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=fashion_orders_sqlite.sql
 
 ```sql
 SELECT
@@ -207,7 +229,7 @@ ORDER BY customer ASC, total_qty DESC;
 
 ### Заказы на каждый товар
 
-::: play sandbox=sqlite editor=basic depends-on=orders_02_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=fashion_orders_sqlite.sql
 
 ```sql
 SELECT
@@ -225,7 +247,7 @@ ORDER BY orders_count DESC;
 
 ### Средний размер заказа
 
-::: play sandbox=sqlite editor=basic depends-on=orders_02_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=fashion_orders_sqlite.sql
 
 ```sql
 SELECT
@@ -251,7 +273,7 @@ ORDER BY avg_per_category DESC;
 
 Группировать можно по вычисляемому выражению, например по «нормализованному» названию:
 
-::: play sandbox=sqlite editor=basic depends-on=orders_02_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=fashion_orders_sqlite.sql
 
 ```sql
 SELECT
@@ -273,7 +295,7 @@ ORDER BY total_qty DESC;
 
 ### Выборка количества после группировки по клиентам
 
-::: play sandbox=sqlite editor=basic depends-on=orders_02_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=fashion_orders_sqlite.sql
 
 ```sql
 SELECT
@@ -291,7 +313,7 @@ HAVING orders_count >= 3;
 
 ### Выборка суммы после группировки по клиентам
 
-::: play sandbox=sqlite editor=basic depends-on=orders_02_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=fashion_orders_sqlite.sql
 
 ```sql
 SELECT
@@ -310,7 +332,7 @@ ORDER BY total_qty DESC;
 
 ### Выборка минимума после группировки по категориям
 
-::: play sandbox=sqlite editor=basic depends-on=orders_02_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=fashion_orders_sqlite.sql
 
 ```sql
 SELECT
@@ -328,7 +350,7 @@ HAVING min_per_category >= 5;
 
 ### Выборка среднего после группировки по категориям
 
-::: play sandbox=sqlite editor=basic depends-on=orders_02_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=fashion_orders_sqlite.sql
 
 ```sql
 SELECT
@@ -346,7 +368,7 @@ HAVING avg_per_category BETWEEN 5 AND 8;
 
 ### Выборка количества после группировки по категориям
 
-::: play sandbox=sqlite editor=basic depends-on=orders_02_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=fashion_orders_sqlite.sql
 
 ```sql
 SELECT
@@ -367,7 +389,7 @@ ORDER BY rows_count DESC;
 
 Можно фильтровать агрегат по **всей таблице** одной строкой результата:
 
-::: play sandbox=sqlite editor=basic depends-on=orders_02_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=fashion_orders_sqlite.sql
 
 ```sql
 SELECT SUM(amount) AS total_qty
@@ -417,7 +439,7 @@ flowchart TB
 
 ### Пример 1. Отобрать «крупные» **строки** заказов
 
-::: play sandbox=sqlite editor=basic depends-on=orders_02_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=fashion_orders_sqlite.sql
 
 ```sql
 SELECT
@@ -442,7 +464,7 @@ ORDER BY total_qty DESC;
 
 ### Пример 2. Отобрать «крупные» **товары по итогу**
 
-::: play sandbox=sqlite editor=basic depends-on=orders_02_sqlite.sql
+::: play sandbox=sqlite editor=basic depends-on=fashion_orders_sqlite.sql
 
 ```sql
 SELECT
@@ -509,7 +531,7 @@ GROUP BY group_key
 
 Выведите **суммарное количество единиц** по всем заказам и **общее количество заказов** в таблице одним запросом.
 
-  ::: play sandbox=sqlite editor=basic depends-on=orders_02_sqlite.sql
+  ::: play sandbox=sqlite editor=basic depends-on=fashion_orders_sqlite.sql
 
   ```sql
   -- Ваш код можете писать тут
@@ -538,7 +560,7 @@ FROM orders;
 
 В первом запросе выведите **уникальных покупателей**, а во втором запросе **посчитайте их количество**.
 
-  ::: play sandbox=sqlite editor=basic depends-on=orders_02_sqlite.sql
+  ::: play sandbox=sqlite editor=basic depends-on=fashion_orders_sqlite.sql
 
   ```sql
   -- Ваш код можете писать тут
@@ -569,7 +591,7 @@ FROM orders;
 
 Покажите **топ-3 категории** с **наибольшими суммарными продажами**, отсортировав по количеству товаров **по убыванию**.
 
-  ::: play sandbox=sqlite editor=basic depends-on=orders_02_sqlite.sql
+  ::: play sandbox=sqlite editor=basic depends-on=fashion_orders_sqlite.sql
 
   ```sql
   -- Ваш код можете писать тут
@@ -601,7 +623,7 @@ LIMIT 3;
 
 Для каждого покупателя выведите **среднее количество товаров в заказе** и **число заказов**, отсортируйте по **среднему по убыванию**.
 
-  ::: play sandbox=sqlite editor=basic depends-on=orders_02_sqlite.sql
+  ::: play sandbox=sqlite editor=basic depends-on=fashion_orders_sqlite.sql
 
   ```sql
   -- Ваш код можете писать тут
@@ -633,7 +655,7 @@ ORDER BY avg_per_order DESC;
 
 Оставьте только те **категории**, в которых суммарные продажи составили **не менее 50-ти** единиц товара.
 
-  ::: play sandbox=sqlite editor=basic depends-on=orders_02_sqlite.sql
+  ::: play sandbox=sqlite editor=basic depends-on=fashion_orders_sqlite.sql
 
   ```sql
   -- Ваш код можете писать тут
@@ -665,7 +687,7 @@ ORDER BY total_qty DESC;
 
 Оставьте только тех **покупателей**, которые совершили **не более 5 заказов**, но при этом приобрели **не менее 30 единиц** товаров суммарно. Результат отсортируйте сначала по количеству заказов по убыванию, а затем по покупателю в алфавитном порядке.
 
-  ::: play sandbox=sqlite editor=basic depends-on=orders_02_sqlite.sql
+  ::: play sandbox=sqlite editor=basic depends-on=fashion_orders_sqlite.sql
 
   ```sql
   -- Ваш код можете писать тут
