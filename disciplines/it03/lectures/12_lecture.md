@@ -36,6 +36,14 @@ CREATE TABLE дочерняя_таблица (
 
 ## Учебный пример: преподаватели, курсы, студенты
 
+::: tabs
+
+@tab Описание
+
+TODO: здесь описание базы данных и предметной области.
+
+@tab Структура БД
+
 ```mermaid
 erDiagram
   teacher["Преподаватель"]
@@ -48,28 +56,88 @@ erDiagram
   student ||--o{ enrollment : "оформляет"
 ```
 
-### Код создания и заполнения
+@tab Данные таблиц
 
-::: details Код создания таблицы (SQLite)
+  ::: tabs
+
+  @tab **table_1**
+  <!-- @include: ./includes/01_db_01_table_users.md -->
+
+  @tab **table_2**
+  <!-- @include: ./includes/01_db_01_table_users_p.md -->
+
+  :::
+
+@tab Код создания таблицы (SQLite)
 
   ::: play sandbox=sqlite editor=basic id=courses_enrollments_sqlite.sql
-  @[code sql](./includes/courses_enrollments_sqlite.sql)
+  @[code sql:collapsed-lines=10](./includes/courses_enrollments_sqlite.sql)
   :::
+
+:::
+
+::: warning
+
+Напомним, что в SQLite `NULL` отображается как пустая ячейка, из-за чего его легко спутать с пустой строкой (`''`).
+
+Чтобы явно видеть `NULL` в результатах, в интерактивной среде укажите маркер для вывода:
+
+```sql {#show_null}
+-- в интерактивной консоли:
+.nullvalue 'NULL'
+
+-- дальше может идти ваш код:
+##CODE##
+```
+
+После этого `NULL` будет печататься именно словом `NULL`, а пустые строки останутся пустыми — их станет легко различить визуально.
+
+**В наших интерактивных блоках лекций эта настройка уже включена.**
 
 :::
 
 ### Проверяем структуру
 
-::: play sandbox=sqlite editor=basic depends-on=courses_enrollments_sqlite.sql
+Выводим информацию о таблицах:
+
+::: play sandbox=sqlite editor=basic template="#show_null" depends-on=courses_enrollments_sqlite.sql
 
 ```sql
+PRAGMA table_info('teachers');
 PRAGMA table_info('courses');
+PRAGMA table_info('students');
+PRAGMA table_info('enrollments');
+```
+
+:::
+
+Выводим информацию о внешних ключах:
+
+::: play sandbox=sqlite editor=basic template="#show_null" depends-on=courses_enrollments_sqlite.sql
+
+```sql
+PRAGMA foreign_key_list('teachers');
+PRAGMA foreign_key_list('courses');
+PRAGMA foreign_key_list('students');
 PRAGMA foreign_key_list('enrollments');
 ```
 
 :::
 
-`PRAGMA table_info` показывает столбцы и их ограничения, а `foreign_key_list` — таблицы, на которые ссылается выбранная таблица.
+`PRAGMA table_info` показывает столбцы и их ограничения, а `foreign_key_list` — таблицы, на которые ссылается выбранная таблица. Обратите внимание, что `PRAGMA foreign_key_list` показывает только таблицы, на которые ссылается выбранная таблица. Если выбранная таблица не ссылается на другие таблицы, то `foreign_key_list` ничего не показывает.
+
+Ну и наконец выведем данные из таблиц:
+
+::: play sandbox=sqlite editor=basic template="#show_null" depends-on=courses_enrollments_sqlite.sql
+
+```sql
+SELECT * FROM teachers;
+SELECT * FROM courses;
+SELECT * FROM students;
+SELECT * FROM enrollments;
+```
+
+:::
 
 ## Создание таблиц со связями по шагам
 

@@ -45,7 +45,7 @@ INSERT INTO courses (id, title, hours, teacher_id) VALUES
 
 INSERT INTO students (id, full_name, group_code) VALUES
   (1, 'Сергей Ломов', 'DA-01'),
-  (2, 'Елена Морева', 'DA-01'),
+  (2, 'Елена Голубева', 'DA-01'),
   (3, 'Владимир Титов', 'DA-02'),
   (4, 'Александра Соколова', 'DA-02'),
   (5, 'Кирилл Демидов', 'DA-03');
