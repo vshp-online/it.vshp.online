@@ -37,7 +37,9 @@ fi
 base_name="$(basename "$input")"
 db_stub="${base_name%.sql}"
 db_stub="${db_stub%_sqlite}"
-default_dir="${db_stub}_db"
+default_root="db_exports"
+mkdir -p "$default_root"
+default_dir="${default_root}/${db_stub}_db"
 output_dir="${requested_dir:-$default_dir}"
 mkdir -p "$output_dir"
 

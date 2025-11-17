@@ -137,7 +137,7 @@ excerpt: "Это выдержка новости"
 ### Использование
 
 ```bash
-# экспорт всех таблиц в папку <db>_db
+# экспорт всех таблиц в папку db_exports/<db>_db
 scripts/export_sqlite_table.sh path/to/file.sql
 
 # задать папку назначения
@@ -147,14 +147,20 @@ scripts/export_sqlite_table.sh path/to/file.sql ./custom_dir
 scripts/export_sqlite_table.sh path/to/file.sql --tables=teachers,courses
 ```
 
-По умолчанию рядом с файлом создаётся директория `<имя_дампа>_db`, в которой появляются файлы `<table>_table.md`. Например, `learning_portal_sqlite.sql` превратится в папку `learning_portal_db/` с `teachers_table.md`, `courses_table.md` и др.
+По умолчанию все таблицы выгружаются в `db_exports/<имя_дампа>_db`, где для каждой таблицы создаётся файл `<table>_table.md`. Например, `learning_portal_sqlite.sql` превратится в папку `db_exports/learning_portal_db/` с `teachers_table.md`, `courses_table.md` и др.
 
 ### Что делает скрипт
 
 - создаёт временную базу данных (`:memory:`) и выполняет SQL-код из файла;
 - автоматически перечисляет пользовательские таблицы и выгружает все (или выбранные) в Markdown;
 - явно отображает `NULL`, чтобы отличать его от пустых строк;
-- принимает фильтр `--tables=tbl1,tbl2` для выборочного экспорта таблиц.
+- принимает фильтр `--tables=tbl1,tbl2` для выборочного экспорта таблиц;
+- легко запускается сразу на всех дампах:
+
+  ```bash
+  find disciplines/it03/lectures/includes -name '*.sql' -print0 \
+    | xargs -0 -n1 ./scripts/export_sqlite_table.sh
+  ```
 
 ---
 
