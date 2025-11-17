@@ -28,8 +28,15 @@ import { markdownIncludePlugin } from "@vuepress/plugin-markdown-include";
 // https://ecosystem.vuejs.press/plugins/markdown/markdown-image.html
 import { markdownImagePlugin } from "@vuepress/plugin-markdown-image";
 
+// https://ecosystem.vuejs.press/plugins/features/medium-zoom.html
+import { mediumZoomPlugin } from "@vuepress/plugin-medium-zoom";
+
+// https://ecosystem.vuejs.press/plugins/features/photo-swipe.html
+import { photoSwipePlugin } from "@vuepress/plugin-photo-swipe";
+
 // Импортируем плагины
 import { blogPlugin } from "./plugins/blogPlugin.js";
+import { galleryPlugin } from "./plugins/galleryPlugin.js";
 import { railroadFencePlugin } from "./plugins/railroadFencePlugin.js";
 import { markdownContainersPlugin } from "./plugins/markdownContainersPlugin.js";
 import { siteSearchPlugin } from "./plugins/siteSearchPlugin.js";
@@ -45,8 +52,15 @@ const navbar = loadYaml(__dirname, "./navbar.yml");
 
 export default defineUserConfig({
   plugins: [
+    photoSwipePlugin({
+      selector: "[data-gallery] img",
+    }),
+    mediumZoomPlugin({
+      selector: "[vp-content] img:not([data-no-zoom])",
+    }),
     blogPlugin(),
     ...markdownContainersPlugin(),
+    galleryPlugin(),
     railroadFencePlugin(),
     markdownImagePlugin({
       // Enable figure
@@ -148,6 +162,7 @@ export default defineUserConfig({
     contributors: false,
     themePlugins: {
       prismjs: false,
+      mediumZoom: false,
     },
     navbar,
     sidebar: {

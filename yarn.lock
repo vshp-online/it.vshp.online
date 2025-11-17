@@ -1556,6 +1556,16 @@
     "@vuepress/helper" "2.0.0-rc.118"
     chokidar "^4.0.3"
 
+"@vuepress/plugin-photo-swipe@^2.0.0-rc.118":
+  version "2.0.0-rc.118"
+  resolved "https://registry.yarnpkg.com/@vuepress/plugin-photo-swipe/-/plugin-photo-swipe-2.0.0-rc.118.tgz#6749f78c963f2346aa21b44b0004310d49b3a9c1"
+  integrity sha512-P+zV6nU9SqI1zo4I+l3Wqz3ZpadymWJBQBdAU1vu0ladNyBpiXzJ63QgwXwpor34mc3qz2OHlHPrqd2704SQLw==
+  dependencies:
+    "@vuepress/helper" "2.0.0-rc.118"
+    "@vueuse/core" "^14.0.0"
+    photoswipe "^5.4.4"
+    vue "^3.5.22"
+
 "@vuepress/plugin-prismjs@2.0.0-rc.118", "@vuepress/plugin-prismjs@^2.0.0-rc.112":
   version "2.0.0-rc.118"
   resolved "https://registry.yarnpkg.com/@vuepress/plugin-prismjs/-/plugin-prismjs-2.0.0-rc.118.tgz#3b41815ce7b575f0e02c0937195767c24a32526a"
@@ -4589,6 +4599,11 @@ performance-now@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
   integrity sha512-7EAHlyLHI56VEIdK57uwHdHKIaAGbnXPiw0yWbarQZOKaKpvUIgW0jWRVLiatnM+XXlSwsanIBH/hzGMJulMow==
+
+photoswipe@^5.4.4:
+  version "5.4.4"
+  resolved "https://registry.yarnpkg.com/photoswipe/-/photoswipe-5.4.4.tgz#e045dc036453493188d5c8665b0e8f1000ac4d6e"
+  integrity sha512-WNFHoKrkZNnvFFhbHL93WDkW3ifwVOXSW3w1UuZZelSmgXpIGiZSNlZJq37rR8YejqME2rHs9EhH9ZvlvFH2NA==
 
 picocolors@^1.1.1:
   version "1.1.1"

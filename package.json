@@ -42,6 +42,7 @@
     "@vuepress/plugin-markdown-include": "^2.0.0-rc.112",
     "@vuepress/plugin-markdown-math": "^2.0.0-rc.112",
     "@vuepress/plugin-markdown-preview": "^2.0.0-rc.112",
+    "@vuepress/plugin-photo-swipe": "^2.0.0-rc.118",
     "@vuepress/plugin-prismjs": "^2.0.0-rc.112",
     "@vuepress/plugin-search": "^2.0.0-rc.112",
     "@vuepress/theme-default": "^2.0.0-rc.112",
