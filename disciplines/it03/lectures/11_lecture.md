@@ -466,7 +466,7 @@ erDiagram
 
 @tab Условие
 
-По диаграмме из задания 2 напишите SQL-скрипт (SQLite), который создаёт таблицы `teachers`, `courses`, `students`, `enrollments`, настраивает ключи и проверяет структуру через `PRAGMA table_info` и `PRAGMA foreign_key_list`.
+По диаграмме из задания 2 напишите SQL-скрипт (SQLite), который создаёт таблицы `teachers`, `courses`, `students`, `enrollments`, настраивает ключи и проверяет структуру через `PRAGMA foreign_key_list`.
 
 Последовательное выполнение запросов ```PRAGMA foreign_key_list('courses');``` и ```PRAGMA foreign_key_list('enrollments');``` должно вернуть результат:
 
