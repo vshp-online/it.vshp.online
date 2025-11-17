@@ -1,9 +1,9 @@
 PRAGMA foreign_keys = ON;
 
-DROP TABLE IF EXISTS enrollments;
-DROP TABLE IF EXISTS students;
-DROP TABLE IF EXISTS courses;
 DROP TABLE IF EXISTS teachers;
+DROP TABLE IF EXISTS courses;
+DROP TABLE IF EXISTS students;
+DROP TABLE IF EXISTS enrollments;
 
 CREATE TABLE teachers (
   id INTEGER PRIMARY KEY,
