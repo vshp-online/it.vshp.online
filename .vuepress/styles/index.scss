@@ -151,3 +151,8 @@
     }
   }
 }
+
+
+tr > td > a::after {
+    display: none !important;
+  }
