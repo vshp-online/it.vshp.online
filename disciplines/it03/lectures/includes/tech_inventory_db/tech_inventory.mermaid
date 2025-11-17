@@ -1,0 +1,10 @@
+erDiagram
+  %% Учебный склад техники
+  inventory["Складской остаток (inventory)"] {
+    INTEGER    id PK         "Первичный ключ"
+    TEXT       sku UNIQUE    "Артикул"
+    TEXT       title         "Наименование"
+    INTEGER    amount        "Остаток"
+    INTEGER    price         "Цена, ₽"
+    BOOLEAN    is_active     "Активен"
+  }

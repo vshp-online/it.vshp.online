@@ -1,0 +1,32 @@
+erDiagram
+  %% Сущности учебного портала
+  teacher["Преподаватель (teacher)"] {
+    INTEGER    id PK        "Первичный ключ"
+    TEXT       full_name    "ФИО"
+    TEXT       email        "E-mail (может отсутствовать)"
+  }
+
+  course["Курс (course)"] {
+    INTEGER    id PK            "Первичный ключ"
+    TEXT       title            "Название курса"
+    INTEGER    hours            "Длительность, ак.часов"
+    INTEGER    teacher_id FK    "Преподаватель"
+  }
+
+  student["Студент (student)"] {
+    INTEGER    id PK         "Первичный ключ"
+    TEXT       full_name     "ФИО"
+    TEXT       group_code    "Группа (может отсутствовать)"
+  }
+
+  enrollment["Запись на курс (enrollment)"] {
+    INTEGER    id PK            "Первичный ключ"
+    INTEGER    student_id FK    "Студент"
+    INTEGER    course_id FK     "Курс"
+    TEXT       enrolled_at      "Дата записи"
+  }
+
+  %% Связи и кратности
+  teacher ||--o{ course : "ведёт"
+  course ||--o{ enrollment : "имеет"
+  student ||--o{ enrollment : "оформляет"
