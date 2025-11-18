@@ -7,12 +7,6 @@ prev: '/disciplines/it03/'
 
 **Автор курса:** к.ф.н. Ткачев П.С.
 
-::: warning
-
-Раздел находится в процессе наполнения!
-
-:::
-
 ## Тематический план
 
 - **Семестр 1 (68 ак.ч.)**
@@ -46,12 +40,34 @@ prev: '/disciplines/it03/'
   - [BONUS - Проверка существования записей](./lectures/22_p_bonus.md)
   - Практический экзамен
 - **Семестр 2 (104 ак.ч.)**
-  - 23 - Система прав и привилегий
-  - 24 - Создание пользователей и назначение привилегий
-  - 25 - Основы администрирования БД
-  - 26 - Обеспечение безопасности БД
-  - 27 - Резервное копирование и восстановление
-  - 28 - Мониторинг и аудит
-  - 29 - Оптимизация запросов и структуры
+  - [23 - Система прав и привилегий](./lectures/23_lecture.md)
+  - [24 - Создание пользователей и назначение привилегий](./lectures/24_lecture.md)
+  - [25 - Основы администрирования БД](./lectures/25_lecture.md)
+  - [26 - Обеспечение безопасности БД](./lectures/26_lecture.md)
+  - [27 - Резервное копирование и восстановление](./lectures/27_lecture.md)
+  - [28 - Мониторинг и аудит](./lectures/28_lecture.md)
+  - [29 - Оптимизация запросов и структуры](./lectures/29_lecture.md)
   - Консультации по курсовому проекту
   - Защита курсового проекта
+
+## Практический экзамен
+
+- [Условия проведения](./mdk1101_exam.md)
+- [Вариант №1](./mdk1101_exam_var_1.md)
+- [Вариант №2](./mdk1101_exam_var_2.md)
+- [Вариант №3](./mdk1101_exam_var_3.md)
+- [Вариант №4](./mdk1101_exam_var_4.md)
+- [Вариант №5](./mdk1101_exam_var_5.md)
+
+## Курсовой проект
+
+- МДК.11.01 - Курсовой проект - Бланк заявления на утверждение темы
+  - [Открыть в Google-документах ↗](https://docs.google.com/document/d/1KbKFqHVxHahm7Ma6-yLWLKNzgDjAcWbXWu07t6C0g2o)
+  - [Скачать в формате ↓ PDF](https://docs.google.com/document/d/1KbKFqHVxHahm7Ma6-yLWLKNzgDjAcWbXWu07t6C0g2o/export?format=pdf)
+- МДК.11.01 - Курсовой проект - Образец титульного листа
+  - [Открыть в Google-документах ↗](https://docs.google.com/document/d/14ZoHnG1mkcoxeUVxZFyL96n5NpwAHV2YLkQnbJTjPNI)
+  - [Скачать в формате ↓ DOCX](https://docs.google.com/document/d/14ZoHnG1mkcoxeUVxZFyL96n5NpwAHV2YLkQnbJTjPNI/export?format=docx)
+  - [Скачать в формате ↓ ODT](https://docs.google.com/document/d/14ZoHnG1mkcoxeUVxZFyL96n5NpwAHV2YLkQnbJTjPNI/export?format=odt)
+- МДК.11.01 - Курсовой проект - Методические указания
+  - [Открыть в Google-документах ↗](https://docs.google.com/document/d/1899MjMdxAC1SfvNq3w1UrswhdkirUBWLtZG13WlY2Mw/)
+  - [Скачать в формате ↓ PDF](https://docs.google.com/document/d/1899MjMdxAC1SfvNq3w1UrswhdkirUBWLtZG13WlY2Mw/export?format=pdf)

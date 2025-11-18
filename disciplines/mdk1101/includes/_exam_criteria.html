@@ -1,0 +1,133 @@
+<style>
+  thead,
+  tfoot {
+    font-weight: bolder;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .text-bold {
+    font-weight: bold;
+  }
+
+  .markdown-section tr:nth-child(2n),
+  .markdown-section tr:nth-child(1n) {
+    background-color: #fff;
+  }
+</style>
+<table>
+  <thead>
+    <tr>
+      <th>Критерий</th>
+      <th>Уровень выполнения задания по критерию</th>
+      <th>Вес в баллах</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Хранимая процедура -->
+    <tr>
+      <td rowspan="3" class="text-bold">Хранимая процедура</td>
+      <td>Хранимая процедура отсутствует или не работает</td>
+      <td class="text-center">0</td>
+    </tr>
+    <tr>
+      <td>Хранимая процедура реализована, имеет соответствующее название, принимает соответствующие параметры, но
+        содержит ошибки</td>
+      <td class="text-center">3</td>
+    </tr>
+    <tr>
+      <td>Хранимая процедура реализована, содержит транзакцию, выполняет все проверки, включает логирование, обработку
+        ошибок и откат транзакции</td>
+      <td class="text-center">6</td>
+    </tr>
+    <!-- Переменные -->
+    <tr>
+      <td rowspan="2" class="text-bold">Использование переменных</td>
+      <td>Переменные отсутствуют или используются некорректно</td>
+      <td class="text-center">0</td>
+    </tr>
+    <tr>
+      <td>Переменные используются корректно</td>
+      <td class="text-center">1</td>
+    </tr>
+    <!-- Транзакции и обработка ошибок -->
+    <tr>
+      <td rowspan="2" class="text-bold">Транзакции и обработка ошибок</td>
+      <td>Транзакции отсутствуют или ошибки не обрабатываются</td>
+      <td class="text-center">0</td>
+    </tr>
+    <tr>
+      <td>Транзакции реализованы, ошибки корректно обрабатываются, при ошибках происходит автоматический откат</td>
+      <td class="text-center">2</td>
+    </tr>
+    <!-- Пользовательская функция -->
+    <tr>
+      <td rowspan="2" class="text-bold">Пользовательская функция</td>
+      <td>Функция отсутствует или работает некорректно</td>
+      <td class="text-center">0</td>
+    </tr>
+    <tr>
+      <td>Функция реализована и возвращает корректные результаты</td>
+      <td class="text-center">2</td>
+    </tr>
+    <!-- Триггер -->
+    <tr>
+      <td rowspan="2" class="text-bold">Триггер</td>
+      <td>Триггер отсутствует или работает некорректно</td>
+      <td class="text-center">0</td>
+    </tr>
+    <tr>
+      <td>Триггер реализован и логирует изменения корректно</td>
+      <td class="text-center">2</td>
+    </tr>
+    <!-- Представление -->
+    <tr>
+      <td rowspan="2" class="text-bold">Представление</td>
+      <td>Представление отсутствует или работает некорректно</td>
+      <td class="text-center">0</td>
+    </tr>
+    <tr>
+      <td>Представление реализовано, отображает корректные данные</td>
+      <td class="text-center">1</td>
+    </tr>
+    <!-- Бонусы за посещаемость -->
+    <tr>
+      <td rowspan="4" class="text-bold">Бонусы за посещаемость</td>
+      <td>Пропущено более 50% занятий</td>
+      <td class="text-center">-2</td>
+    </tr>
+    <tr>
+      <td>Пропущено более 30% но менее 50% занятий</td>
+      <td class="text-center">0</td>
+    </tr>
+    <tr>
+      <td>Пропущено более 10% но менее 30% занятий</td>
+      <td class="text-center">1</td>
+    </tr>
+    <tr>
+      <td>Пропущено менее 10% занятий</td>
+      <td class="text-center">2</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td rowspan="4">ИТОГО</td>
+      <td>Количество баллов на оценку «отлично»</td>
+      <td class="text-center"> &gt; 13 </td>
+    </tr>
+    <tr>
+      <td>Количество баллов на оценку «хорошо»</td>
+      <td class="text-center"> 10 – 13 </td>
+    </tr>
+    <tr>
+      <td>Количество баллов на оценку «удовлетворительно»</td>
+      <td class="text-center"> 6 – 9 </td>
+    </tr>
+    <tr>
+      <td>Количество баллов на оценку «неудовлетворительно»</td>
+      <td class="text-center"> &lt; 6 </td>
+    </tr>
+  </tfoot>
+</table>
