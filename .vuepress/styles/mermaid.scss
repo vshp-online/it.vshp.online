@@ -31,7 +31,8 @@
     user-select: none;
 
     svg {
-      width: 100%;
+      display: block;
+      width: min(100%, max-content);
       max-width: 100%;
       height: auto;
       max-height: 60vh;

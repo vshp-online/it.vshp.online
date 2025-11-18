@@ -3,6 +3,133 @@
 https://ecosystem.vuejs.press/plugins/markdown/markdown-chart/
 https://ecosystem.vuejs.press/plugins/markdown/markdown-chart/mermaid.html
 
+## Size-test
+
+### small
+
+```mermaid
+erDiagram
+  PERSON {
+      string firstName
+      string lastName
+      int age
+  }
+```
+
+### medium
+
+```mermaid
+erDiagram
+  CAR ||--o{ NAMED-DRIVER : allows
+  CAR {
+      string registrationNumber
+      string make
+      string model
+  }
+  PERSON ||--o{ NAMED-DRIVER : is
+  PERSON {
+      string firstName
+      string lastName
+      int age
+  }
+```
+
+### large
+
+```mermaid
+erDiagram
+  CUSTOMER ||--o{ ORDER : places
+  CUSTOMER ||--o{ CUSTOMER-ADDRESS : owns
+  CUSTOMER {
+      string id
+      string fullName
+      string email
+      date registeredAt
+  }
+  CUSTOMER-ADDRESS {
+      string id
+      string type
+      string line1
+      string city
+  }
+  ADDRESS ||--o{ CUSTOMER-ADDRESS : usedBy
+  ADDRESS {
+      string id
+      string line1
+      string line2
+      string city
+      string country
+      string postalCode
+  }
+  ORDER ||--|{ ORDER-ITEM : contains
+  ORDER ||--o{ PAYMENT : chargedBy
+  ORDER ||--o{ SHIPMENT : fulfilledBy
+  ORDER {
+      string id
+      date placedAt
+      string status
+  }
+  ORDER-ITEM {
+      string id
+      int quantity
+      float unitPrice
+  }
+  PRODUCT ||--|{ ORDER-ITEM : purchased
+  PRODUCT ||--o{ INVENTORY : stockedIn
+  PRODUCT ||--o{ PRODUCT-CATEGORY : tagged
+  PRODUCT {
+      string id
+      string name
+      string sku
+      float price
+  }
+  CATEGORY ||--o{ PRODUCT-CATEGORY : groups
+  CATEGORY {
+      string id
+      string name
+  }
+  PRODUCT-CATEGORY {
+      string id
+  }
+  SUPPLIER ||--o{ PRODUCT : provides
+  SUPPLIER {
+      string id
+      string companyName
+      string contact
+  }
+  INVENTORY ||--|{ WAREHOUSE : storedAt
+  INVENTORY {
+      string id
+      int onHand
+      int reserved
+  }
+  WAREHOUSE {
+      string id
+      string name
+      string region
+  }
+  PAYMENT {
+      string id
+      string method
+      date paidAt
+      float amount
+  }
+  SHIPMENT {
+      string id
+      date shippedAt
+      string carrier
+      string trackingNumber
+  }
+  REVIEW ||--o{ PRODUCT : for
+  REVIEW ||--|| CUSTOMER : authoredBy
+  REVIEW {
+      string id
+      string rating
+      string comment
+      date createdAt
+  }
+```
+
 ## Flowchart
 
 ::: preview Посмотреть код
