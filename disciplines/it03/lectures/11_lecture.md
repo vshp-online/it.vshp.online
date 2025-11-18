@@ -278,8 +278,8 @@ flowchart TB
     order["Заказ"]
     order_item["Позиция заказа"]
     invoice["Счёт на оплату"]
-    order --> order_item
-    order --> invoice
+    order --- order_item
+    order --- invoice
   end
 
   subgraph NonIdentifying["Не определяющие связи"]
