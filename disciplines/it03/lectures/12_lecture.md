@@ -283,17 +283,16 @@ ORDER BY student;
 
 ```sql
 SELECT
-  courses.title,
-  students.full_name AS student
+  courses.title AS course,
+  enrollments.id AS enrollment_id
 FROM courses
 LEFT JOIN enrollments ON enrollments.course_id = courses.id
-LEFT JOIN students ON students.id = enrollments.student_id
-ORDER BY courses.title, student;
+ORDER BY course, enrollment_id;
 ```
 
 :::
 
-В выборке будут все курсы. Там, где нет слушателей, столбец `student` заполнится `NULL`. Например, `Data Visualization` сразу видно как свободный курс.
+В выборке будут все курсы. Там, где нет записей, `enrollment_id` станет `NULL`. Например, `Data Visualization` сразу видно как свободный курс.
 
 ### `RIGHT JOIN`
 
@@ -307,17 +306,16 @@ SQLite не поддерживает `RIGHT JOIN`, но его легко пол
 
 ```sql
 SELECT
-  courses.title AS course,
-  students.full_name AS student
-FROM courses
-LEFT JOIN enrollments ON enrollments.course_id = courses.id
-LEFT JOIN students ON students.id = enrollments.student_id
-ORDER BY course, student;
+  enrollments.id AS enrollment_id,
+  courses.title AS course
+FROM enrollments
+LEFT JOIN courses ON courses.id = enrollments.course_id
+ORDER BY course, enrollment_id;
 ```
 
 :::
 
-Этот запрос эквивалентен `RIGHT JOIN` по направлению «студенты → курсы»: столбец `course` не содержит `NULL`, а `student` станет `NULL`, если на курс никто не записан.
+Этот запрос эквивалентен `RIGHT JOIN` по направлению «курсы ← записи»: поле `enrollment_id` не бывает `NULL`, а название курса может оказаться `NULL`, если запись ссылается на отсутствующий курс.
 
 ### `FULL OUTER JOIN`
 
