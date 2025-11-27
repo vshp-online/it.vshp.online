@@ -15,7 +15,7 @@ CREATE TABLE courses (
   id INTEGER PRIMARY KEY,
   title TEXT NOT NULL,
   hours INTEGER NOT NULL,
-  teacher_id INTEGER NOT NULL REFERENCES teachers(id)
+  teacher_id INTEGER REFERENCES teachers(id)
 );
 
 CREATE TABLE students (
@@ -25,24 +25,25 @@ CREATE TABLE students (
 );
 
 CREATE TABLE enrollments (
-  id INTEGER PRIMARY KEY,
   student_id INTEGER NOT NULL REFERENCES students(id) ON DELETE CASCADE,
   course_id INTEGER NOT NULL REFERENCES courses(id) ON DELETE CASCADE,
   enrolled_at TEXT DEFAULT (date('now')),
-  UNIQUE(student_id, course_id)
+  PRIMARY KEY (student_id, course_id)
 );
 
 INSERT INTO teachers (id, full_name, email) VALUES
   (1, 'Анна Кузнецова', 'anna@skills.example'),
   (2, 'Михаил Орлов', NULL),
-  (3, 'Ирина Гаврилова', 'gavr@skills.example');
+  (3, 'Ирина Гаврилова', 'gavr@skills.example'),
+  (4, 'Дмитрий Лебедев', 'lebedev@skills.example');
 
 INSERT INTO courses (id, title, hours, teacher_id) VALUES
   (1, 'SQL для аналитиков', 32, 1),
   (2, 'Python для аналитиков', 48, 2),
   (3, 'Основы BI', 24, 1),
   (4, 'Проектирование БД', 36, 3),
-  (5, 'Data Visualization', 20, 2);
+  (5, 'Data Visualization', 20, 2),
+  (6, 'Тестовый курс без преподавателя', 12, NULL);
 
 INSERT INTO students (id, full_name, group_code) VALUES
   (1, 'Сергей Ломов', 'DA-01'),
@@ -52,10 +53,10 @@ INSERT INTO students (id, full_name, group_code) VALUES
   (5, 'Кирилл Демидов', 'DA-03'),
   (6, 'Мария Жукова', NULL);
 
-INSERT INTO enrollments (id, student_id, course_id, enrolled_at) VALUES
-  (1, 1, 1, '2024-02-10'),
-  (2, 1, 2, '2024-02-15'),
-  (3, 2, 1, '2024-02-12'),
-  (4, 3, 3, '2024-02-18'),
-  (5, 4, 4, '2024-02-20'),
-  (6, 5, 2, '2024-02-21');
+INSERT INTO enrollments (student_id, course_id, enrolled_at) VALUES
+  (1, 1, '2024-02-10'),
+  (1, 2, '2024-02-15'),
+  (2, 1, '2024-02-12'),
+  (3, 3, '2024-02-18'),
+  (4, 4, '2024-02-20'),
+  (5, 2, '2024-02-21');
