@@ -1,27 +1,21 @@
 erDiagram
     %% Каталог библиотечных книг
+    authors["Авторы (authors)"] {
+        INTEGER    id PK             "Первичный ключ"
+        TEXT       first_name        "Имя"
+        TEXT       last_name         "Фамилия"
+        INTEGER    birth_year        "Год рождения"
+    }
+
     books["Книги (books)"] {
         INTEGER    id PK              "Первичный ключ"
         TEXT       title             "Название"
         INTEGER    publication_year  "Год издания"
         TEXT       isbn              "ISBN"
         TEXT       genre             "Жанр"
+        INTEGER    author_id FK      "Автор"
         INTEGER    pages             "Кол-во страниц"
         INTEGER    available_copies  "Доступно экземпляров"
     }
-    
-    authors["Авторы (authors)"] {
-        INTEGER    id PK             "Первичный ключ"
-        TEXT       first_name        "Имя"
-        TEXT       last_name         "Фамилия"
-        INTEGER    birth_year        "Год рождения"
-        TEXT       nationality       "Национальность"
-    }
-    
-    book_authors["Связь книг и авторов (book_authors)"] {
-        INTEGER    book_id FK        "ID книги"
-        INTEGER    author_id FK      "ID автора"
-    }
-    
-    books ||--o{ book_authors : has
-    authors ||--o{ book_authors : writes
+
+    authors ||--o{ books : "пишут"
