@@ -33,10 +33,12 @@ PRAGMA foreign_keys = ON;
 Команда `.tables` в консоли SQLite выводит все таблицы и представления текущей базы. Её удобно запускать перед и после операций `ALTER TABLE` или `DROP TABLE`, чтобы быстро увидеть, как изменилась структура.
 
 ::: play sandbox=sqlite editor=basic template="#show_null_and_enable_foreign_keys" depends-on=library_books_extended.sql
+
 ```sql
 -- Посмотрим, какие таблицы есть в учебной базе
 .tables
 ```
+
 :::
 
 ::: tip
@@ -131,7 +133,7 @@ PRAGMA foreign_keys = ON;
 
 Важно помнить, что изменение структуры таблицы может повлиять на целостность данных, поэтому необходимо тщательно продумывать каждое изменение.
 
-::: info Фактоид
+::: info
 Впервые команда `ALTER TABLE` появилась в языке SQL в 1992 году как часть стандарта SQL-92. До этого разработчики должны были удалять таблицы и создавать их заново с новой структурой, что было неудобно и опасно для данных.
 :::
 
@@ -150,6 +152,7 @@ ALTER TABLE table_name ADD COLUMN column_name data_type [constraints];
 Предположим, мы хотим добавить в таблицу `books` столбец для хранения краткого описания книги:
 
 ::: play sandbox=sqlite editor=basic template="#show_null_and_enable_foreign_keys" depends-on=library_books_extended.sql
+
 ```sql
 -- Проверим структуру до изменения
 PRAGMA table_info(books);
@@ -160,6 +163,7 @@ ALTER TABLE books ADD COLUMN description TEXT;
 -- Убедимся, что столбец появился
 PRAGMA table_info(books);
 ```
+
 :::
 
 После выполнения этой команды в таблице появится новый столбец `description` типа `TEXT`. Все существующие записи в таблице получат значение `NULL` для этого нового столбца.
@@ -173,6 +177,7 @@ PRAGMA table_info(books);
 Можно также добавлять столбцы с ограничениями. Например, добавим столбец для хранения рейтинга книги (от 1 до 5):
 
 ::: play sandbox=sqlite editor=basic template="#show_null_and_enable_foreign_keys" depends-on=library_books_extended.sql
+
 ```sql
 -- Сравним структуру до изменения
 PRAGMA table_info(books);
@@ -183,6 +188,7 @@ ALTER TABLE books ADD COLUMN rating INTEGER CHECK (rating >= 1 AND rating <= 5);
 -- Проверим актуальную схему
 PRAGMA table_info(books);
 ```
+
 :::
 
 ::: warning
@@ -202,6 +208,7 @@ ALTER TABLE old_table_name RENAME TO new_table_name;
 Если мы хотим переименовать таблицу `books` в `library_books`:
 
 ::: play sandbox=sqlite editor=basic template="#show_null_and_enable_foreign_keys" depends-on=library_books_extended.sql
+
 ```sql
 -- Посмотрим список таблиц до переименования
 .tables
@@ -212,6 +219,7 @@ ALTER TABLE books RENAME TO library_books;
 -- Убедимся, что новое имя появилось
 .tables
 ```
+
 :::
 
 После выполнения этой команды таблица будет доступна под новым именем `library_books`.
@@ -233,6 +241,7 @@ ALTER TABLE table_name RENAME COLUMN old_column_name TO new_column_name;
 Если мы хотим переименовать столбец `title` в `book_title`:
 
 ::: play sandbox=sqlite editor=basic template="#show_null_and_enable_foreign_keys" depends-on=library_books_extended.sql
+
 ```sql
 -- Фиксируем структуру до переименования столбца
 PRAGMA table_info(books);
@@ -243,6 +252,7 @@ ALTER TABLE books RENAME COLUMN title TO book_title;
 -- Проверим результат
 PRAGMA table_info(books);
 ```
+
 :::
 
 ::: info
@@ -262,6 +272,7 @@ ALTER TABLE table_name DROP COLUMN column_name;
 Если мы хотим удалить столбец `publication_year` из таблицы `books`:
 
 ::: play sandbox=sqlite editor=basic template="#show_null_and_enable_foreign_keys" depends-on=library_books_extended.sql
+
 ```sql
 -- Снимем структуру до удаления столбца
 PRAGMA table_info(books);
@@ -272,6 +283,7 @@ ALTER TABLE books DROP COLUMN publication_year;
 -- Убедимся, что столбца больше нет
 PRAGMA table_info(books);
 ```
+
 :::
 
 Обратите внимание, что удаление столбца приведет к безвозвратной потере всех данных из этого столбца.
@@ -307,18 +319,12 @@ SQLite имеет некоторые ограничения при работе 
 4. Переименовать новую таблицу
 5. При необходимости пересоздать зависимости (например, таблицы-связки или индексы), которые ссылались на исходную таблицу
 
-В демонстрации ниже появятся два новых приёма:
-
-- `INSERT INTO ... SELECT ...` — позволяет массово перенести данные из одной таблицы в другую без дополнительного кода;
-- `CAST(<выражение> AS TEXT)` — временно меняет тип значения, чтобы вставить его в столбец другого типа.
-
-Мы используем их только в рамках примера. Обратите внимание на комментарии в коде: каждый шаг расписан отдельно, чтобы вы могли повторить процедуру вручную.
-
 ### Пример: изменение типа данных
 
 Если мы хотим изменить тип столбца `pages` с `INTEGER` на `TEXT`:
 
 ::: play sandbox=sqlite editor=basic template="#show_null_and_enable_foreign_keys" depends-on=library_books_extended.sql
+
 ```sql
 -- Базовая структура исходной таблицы
 PRAGMA table_info(books);
@@ -364,10 +370,111 @@ DROP TABLE book_authors_backup;
 -- Подтверждаем структуру обновленной таблицы
 PRAGMA table_info(books);
 ```
+
+:::
+
+::: info
+В коде выше появляются две новые конструкции:
+
+- `INSERT INTO ... SELECT ...` — переносит данные из старой таблицы в новую. Дальше по тексту есть отдельный раздел, где разбираем синтаксис и простую демо-схему.
+- `CAST(pages AS TEXT)` — явное приведение типов при вставке. Оно нужно, чтобы «старые» целые числа корректно попали в новый текстовый столбец и не нарушили ограничения.
 :::
 
 ::: tip
 При использовании обходных путей для изменения структуры таблицы важно учитывать все зависимости (индексы, триггеры, представления), которые могут ссылаться на изменяемую таблицу.
+:::
+
+## Вставка через `INSERT INTO ... SELECT ...`
+
+Чтобы массово скопировать данные между таблицами, SQLite позволяет выбрать строки и сразу вставить их в другую таблицу. Это избавляет от циклов и удобен при перестройке схемы.
+
+```sql
+INSERT INTO новая_таблица (список_столбцов)
+SELECT выражения_или_столбцы
+FROM старая_таблица
+WHERE условия;
+```
+
+Такая запись читается как «вставь в новую таблицу результаты запроса». Внутри `SELECT` можно:
+
+- перечислить столбцы 1:1;
+- вычислять новые значения (например, `UPPER(SUBSTR(country, 1, 2))`);
+- фильтровать строки через `WHERE`, чтобы переносить только часть данных.
+
+Ниже — практическая демонстрация, в которой мы переносим список сотрудников и на лету формируем двухбуквенный код страны.
+
+::: play sandbox=sqlite editor=basic template="#show_null_and_enable_foreign_keys"
+
+```sql
+-- создаём таблицу-источник
+CREATE TABLE employees_src (id INTEGER PRIMARY KEY, full_name TEXT, country TEXT);
+INSERT INTO employees_src VALUES
+  (1, 'Анна Иванова', 'Russia'),
+  (2, 'Эльчин Сафаралиев', 'Azerbaijan');
+
+-- создаём новую таблицу с дополнительным столбцом
+CREATE TABLE employees_dst (
+  id INTEGER PRIMARY KEY,
+  full_name TEXT,
+  country TEXT,
+  country_code TEXT
+);
+
+-- переносим данные и сразу вычисляем новое поле
+INSERT INTO employees_dst (id, full_name, country, country_code)
+SELECT id, full_name, country, UPPER(SUBSTR(country, 1, 2))
+FROM employees_src;
+
+SELECT * FROM employees_dst;
+```
+
+:::
+
+::: info
+В блоке выше мы пользуемся базовыми текстовыми функциями SQLite:
+
+- `SUBSTR(строка, начало, длина)` возвращает подстроку; `SUBSTR(country, 1, 2)` берёт первые две буквы страны.
+- `UPPER(строка)` переводит строку в верхний регистр. В комбинации `UPPER(SUBSTR(...))` получаем код наподобие `RU`, `AZ`.
+:::
+
+### Изменение поведения внешнего ключа
+
+В SQLite нельзя «переключить» `ON DELETE`/`ON UPDATE` у существующего внешнего ключа. Чтобы, например, включить каскадное удаление для таблицы `book_authors`, придётся пересоздать таблицу. Шаги похожи на предыдущий пример:
+
+1. сохранить данные и удалить таблицу-связку;
+2. создать структуру заново с нужными параметрами внешнего ключа;
+3. вернуть данные в обновлённую таблицу.
+
+::: play sandbox=sqlite editor=basic template="#show_null_and_enable_foreign_keys" depends-on=library_books_extended.sql
+
+```sql
+-- Посмотрим текущее поведение внешнего ключа
+PRAGMA foreign_key_list('book_authors');
+
+-- 1. Сохраняем данные и удаляем исходную таблицу
+CREATE TABLE book_authors_backup AS SELECT * FROM book_authors;
+DROP TABLE book_authors;
+
+-- 2. Создаём таблицу заново, добавляя ON DELETE CASCADE / ON UPDATE CASCADE
+CREATE TABLE book_authors (
+  book_id INTEGER,
+  author_id INTEGER,
+  FOREIGN KEY (book_id) REFERENCES books(id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  FOREIGN KEY (author_id) REFERENCES authors(id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
+
+-- 3. Возвращаем данные
+INSERT INTO book_authors SELECT * FROM book_authors_backup;
+DROP TABLE book_authors_backup;
+
+-- Проверяем, что поведение обновилось
+PRAGMA foreign_key_list('book_authors');
+```
+
 :::
 
 ## Реальные примеры использования ALTER TABLE
@@ -379,6 +486,7 @@ PRAGMA table_info(books);
 Когда интернет-магазин решает начать отслеживать рейтинг товаров, необходимо добавить соответствующее поле:
 
 ::: play sandbox=sqlite editor=basic template="#show_null_and_enable_foreign_keys" depends-on=library_books_extended.sql
+
 ```sql
 -- Снимем структуру до изменения
 PRAGMA table_info(books);
@@ -389,6 +497,7 @@ ALTER TABLE books ADD COLUMN rating REAL DEFAULT 0.0;
 -- Посмотрим на схему после изменения
 PRAGMA table_info(books);
 ```
+
 :::
 
 ### Пример 2: Переименование поля при рефакторинге
@@ -396,6 +505,7 @@ PRAGMA table_info(books);
 При рефакторинге кода может потребоваться изменить названия полей для лучшей читаемости:
 
 ::: play sandbox=sqlite editor=basic template="#show_null_and_enable_foreign_keys" depends-on=library_books_extended.sql
+
 ```sql
 -- Проверим схему таблицы
 PRAGMA table_info(books);
@@ -406,6 +516,7 @@ ALTER TABLE books RENAME COLUMN title TO book_title;
 -- Убедимся, что название обновилось
 PRAGMA table_info(books);
 ```
+
 :::
 
 ### Пример 3: Удаление устаревшего поля
@@ -413,6 +524,7 @@ PRAGMA table_info(books);
 Когда какая-то функциональность устаревает, соответствующие поля можно удалить:
 
 ::: play sandbox=sqlite editor=basic template="#show_null_and_enable_foreign_keys" depends-on=library_books_extended.sql
+
 ```sql
 -- Текущее состояние таблицы
 PRAGMA table_info(books);
@@ -421,23 +533,6 @@ PRAGMA table_info(books);
 ALTER TABLE books DROP COLUMN publication_year;
 
 -- Проверим, что столбец пропал
-PRAGMA table_info(books);
-```
-:::
-
-### Пример 4: Проверка структуры таблицы
-
-Перед и после изменения структуры таблицы полезно проверять её структуру с помощью команды `PRAGMA table_info`:
-
-::: play sandbox=sqlite editor=basic template="#show_null_and_enable_foreign_keys" depends-on=library_books_extended.sql
-```sql
--- Проверим структуру таблицы books до изменений
-PRAGMA table_info(books);
-
--- Добавим новый столбец
-ALTER TABLE books ADD COLUMN publisher TEXT;
-
--- Проверим структуру таблицы books после изменений
 PRAGMA table_info(books);
 ```
 
@@ -477,8 +572,6 @@ PRAGMA table_info(books);
 ```sql
 ALTER TABLE books ADD COLUMN publisher TEXT;
 ```
-
-:::
 
 :::
 
@@ -543,7 +636,6 @@ ALTER TABLE books ADD COLUMN price REAL CHECK (price > 0);
 ```
 
 :::
-
 
 ### Задание 4. Переименование таблицы
 
