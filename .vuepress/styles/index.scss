@@ -80,6 +80,11 @@
   .vp-tab {
     padding: 1rem !important;
 
+    table th,
+    table td {
+      white-space: nowrap;
+    }
+
     .vp-tab-title ~ * {
       margin-top: 0 !important;
     }
