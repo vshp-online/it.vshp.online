@@ -84,7 +84,7 @@ function quizBlock(state, startLine, endLine, silent) {
 function buildQuestions(rawContent, md, meta = {}) {
   const options = meta.options || {};
   if (options.source) {
-    const external = loadExternalQuestions(options.source, meta.filePath, md);
+    const external = loadExternalQuestions(options, meta.filePath, md);
     if (external.length) return external;
   }
   return parseInlineQuestions(rawContent, md);
@@ -193,6 +193,8 @@ function parseOptions(params) {
     disableReset: false,
     questionLimit: null,
     source: null,
+    lectures: null,
+    showQuestionCodes: false,
   };
 
   for (const token of tokens) {
@@ -202,6 +204,16 @@ function parseOptions(params) {
     if (rawValue !== undefined) {
       if (key === "source") {
         options.source = rawValue;
+        continue;
+      }
+      if (key === "lecture" || key === "lectures" || key === "topics" || key === "blocks") {
+        const values = rawValue
+          .split(/[,;]/)
+          .map((value) => value.trim())
+          .filter(Boolean);
+        if (values.length) {
+          options.lectures = values;
+        }
         continue;
       }
       if (
@@ -231,7 +243,7 @@ function parseOptions(params) {
       key === "randomize-answers" ||
       key === "shuffle-answers" ||
       key === "answers-random" ||
-      key === "answers-shuffle"
+        key === "answers-shuffle"
     ) {
       options.shuffleAnswers = true;
       continue;
@@ -242,13 +254,25 @@ function parseOptions(params) {
     }
     if (key === "disable-reset" || key === "no-reset" || key === "hide-reset" || key === "reset-off") {
       options.disableReset = true;
+      continue;
+    }
+    if (
+      key === "show-code" ||
+      key === "show-codes" ||
+      key === "show-question-code" ||
+      key === "show-question-codes" ||
+      key === "show-question-id" ||
+      key === "show-question-ids"
+    ) {
+      options.showQuestionCodes = true;
     }
   }
 
   return options;
 }
 
-function loadExternalQuestions(source, filePath, md) {
+function loadExternalQuestions(options, filePath, md) {
+  const source = options?.source;
   try {
     const absolute = resolveSourcePath(source, filePath);
     if (!absolute) return [];
@@ -262,10 +286,11 @@ function loadExternalQuestions(source, filePath, md) {
     } else {
       return [];
     }
-    const questions = Array.isArray(data) ? data : data?.questions;
-    if (!Array.isArray(questions)) return [];
+    const lectureFilter = buildLectureFilter(options?.lectures);
+    const sourceQuestions = extractQuestionsFromSource(data, lectureFilter);
+    if (!sourceQuestions.length) return [];
     return normalizeQuestions(
-      questions
+      sourceQuestions
         .map((question) => normalizeExternalQuestion(question, md))
         .filter(Boolean)
     );
@@ -277,7 +302,8 @@ function loadExternalQuestions(source, filePath, md) {
 
 function normalizeExternalQuestion(item, md) {
   if (!item || typeof item !== "object") return null;
-  const rawPrompt = item.question ?? item.prompt ?? "";
+  const rawPrompt =
+    item.question ?? item.prompt ?? item.text ?? item.title ?? "";
   const prompt =
     typeof rawPrompt === "string" ? cleanHtml(md.render(rawPrompt)) : "";
   const multiple =
@@ -290,7 +316,19 @@ function normalizeExternalQuestion(item, md) {
         .filter(Boolean)
     : [];
   if (!answers.length) return null;
-  return { prompt, multiple, answers };
+  const normalized = { prompt, multiple, answers };
+  const questionId =
+    item.id ?? item.code ?? item.questionId ?? item.uid ?? item.slug ?? null;
+  if (questionId) normalized.id = questionId;
+  if (item.lectureId ?? item.lecture_id ?? item._lectureId) {
+    normalized.lectureId =
+      item.lectureId ?? item.lecture_id ?? item._lectureId ?? null;
+  }
+  if (item.lectureTitle ?? item.lecture_title ?? item._lectureTitle) {
+    normalized.lectureTitle =
+      item.lectureTitle ?? item.lecture_title ?? item._lectureTitle ?? null;
+  }
+  return normalized;
 }
 
 function normalizeExternalAnswer(answer, md) {
@@ -317,17 +355,101 @@ function normalizeExternalAnswer(answer, md) {
   };
 }
 
+function extractQuestionsFromSource(data, lectureFilter) {
+  if (Array.isArray(data)) return data;
+  if (Array.isArray(data?.questions)) return data.questions;
+  if (Array.isArray(data?.lectures)) {
+    const result = [];
+    data.lectures.forEach((lecture) => {
+      if (!shouldIncludeLecture(lecture, lectureFilter)) return;
+      const lectureQuestions = Array.isArray(lecture?.questions)
+        ? lecture.questions
+        : [];
+      const lectureId = deriveLectureId(lecture);
+      const lectureTitle =
+        lecture?.lecture_title ?? lecture?.lectureTitle ?? lecture?.title ?? null;
+      lectureQuestions.forEach((question) => {
+        result.push({
+          ...question,
+          lectureId,
+          lectureTitle,
+        });
+      });
+    });
+    return result;
+  }
+  return [];
+}
+
+function buildLectureFilter(rawList) {
+  if (!rawList) return null;
+  const items = Array.isArray(rawList)
+    ? rawList
+    : String(rawList)
+        .split(/[,;]/)
+        .map((value) => value.trim())
+        .filter(Boolean);
+  if (!items.length) return null;
+  const set = new Set();
+  items.forEach((value) => {
+    createLectureTokens(value).forEach((token) => set.add(token));
+  });
+  return set.size ? set : null;
+}
+
+function shouldIncludeLecture(lecture, filterSet) {
+  if (!filterSet || !filterSet.size) return true;
+  const tokens = createLectureTokens(deriveLectureId(lecture));
+  if (!tokens.length) return false;
+  return tokens.some((token) => filterSet.has(token));
+}
+
+function deriveLectureId(lecture) {
+  const candidate =
+    lecture?.lecture_id ??
+    lecture?.lectureId ??
+    lecture?.id ??
+    lecture?.code ??
+    null;
+  if (candidate === null || candidate === undefined) return null;
+  const str = String(candidate).trim();
+  return str || null;
+}
+
+function createLectureTokens(value) {
+  if (value === null || value === undefined) return [];
+  const str = String(value).trim();
+  if (!str) return [];
+  const tokens = new Set([str]);
+  if (/^-?\d+$/.test(str)) {
+    const numeric = String(Number(str));
+    tokens.add(numeric);
+    if (!numeric.startsWith("-")) {
+      const padded =
+        numeric.length >= 2 ? numeric : numeric.padStart(2, "0");
+      tokens.add(padded);
+    }
+  }
+  return Array.from(tokens).filter(Boolean);
+}
+
 function normalizeQuestions(raw) {
-  return raw.map((question, index) => ({
-    id: index + 1,
-    prompt: question.prompt,
-    multiple: !!question.multiple,
-    answers: question.answers.map((answer, answerIndex) => ({
-      id: `${index + 1}-${answerIndex + 1}`,
-      content: answer.content,
-      isCorrect: !!answer.isCorrect,
-    })),
-  }));
+  return raw.map((question, index) => {
+    const questionId =
+      question.id ?? question.code ?? question.questionId ?? null;
+    return {
+      id: questionId ?? index + 1,
+      prompt: question.prompt,
+      multiple: !!question.multiple,
+      answers: question.answers.map((answer, answerIndex) => ({
+        id: `${questionId ?? index + 1}-${answerIndex + 1}`,
+        content: answer.content,
+        isCorrect: !!answer.isCorrect,
+      })),
+      lectureId: question.lectureId ?? undefined,
+      lectureTitle: question.lectureTitle ?? undefined,
+    };
+  });
 }
 
 function resolveSourcePath(source, filePath) {

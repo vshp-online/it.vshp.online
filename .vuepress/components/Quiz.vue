@@ -16,6 +16,16 @@
           <span class="quiz-question__hint">
             {{ question.multiple ? "Выберите все подходящие ответы" : "Выберите один ответ" }}
           </span>
+          <span
+            v-if="
+              quizOptions.showQuestionCodes &&
+              question.id !== null &&
+              question.id !== undefined
+            "
+            class="quiz-question__code"
+          >
+            {{ String(question.id) }}
+          </span>
         </div>
       </div>
 
@@ -146,6 +156,7 @@ const quizOptions = computed(() => {
       ? Number(options.questionLimit)
       : options.questionLimit ?? null,
     source: options.source || null,
+    showQuestionCodes: Boolean(options.showQuestionCodes),
   };
 });
 
@@ -441,6 +452,7 @@ const answerStateClass = (qIndex, aIndex, isCorrect) => {
   const selected = isSelected(qIndex, aIndex);
 
   if (quizOptions.value.hideCorrectAnswers) {
+    if (isCorrect && selected) return "quiz-answer--correct";
     if (!isCorrect && selected) return "quiz-answer--wrong";
     return "";
   }

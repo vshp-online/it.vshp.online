@@ -232,6 +232,15 @@ tr > td > a::after {
   color: rgba(15 23 42 / 0.7);
 }
 
+.quiz-question__code {
+  font-size: 0.78rem;
+  color: rgba(15 23 42 / 0.8);
+  background: rgba(15 23 42 / 0.06);
+  border: 1px solid rgba(15 23 42 / 0.12);
+  border-radius: 999px;
+  padding: 0.05rem 0.5rem;
+}
+
 .quiz-question__text {
   margin-top: 0.75rem;
 
