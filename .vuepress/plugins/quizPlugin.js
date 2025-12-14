@@ -184,39 +184,51 @@ function parseOptions(params) {
     shuffleAnswers: false,
     hideCorrectAnswers: false,
     disableReset: false,
+    questionLimit: null,
   };
 
   for (const token of tokens) {
-    const normalized = token.toLowerCase();
+    const [rawKey, rawValue] = token.split("=", 2);
+    const key = rawKey.toLowerCase();
+
+    if (rawValue !== undefined) {
+      if (
+        key === "limit" ||
+        key === "question-limit" ||
+        key === "questions-limit" ||
+        key === "questions"
+      ) {
+        const value = Number(rawValue);
+        if (Number.isFinite(value) && value > 0) {
+          options.questionLimit = Math.floor(value);
+        }
+      }
+      continue;
+    }
+
     if (
-      normalized === "randomize-questions" ||
-      normalized === "shuffle-questions" ||
-      normalized === "questions-random" ||
-      normalized === "questions-shuffle"
+      key === "randomize-questions" ||
+      key === "shuffle-questions" ||
+      key === "questions-random" ||
+      key === "questions-shuffle"
     ) {
       options.shuffleQuestions = true;
+      continue;
     }
     if (
-      normalized === "randomize-answers" ||
-      normalized === "shuffle-answers" ||
-      normalized === "answers-random" ||
-      normalized === "answers-shuffle"
+      key === "randomize-answers" ||
+      key === "shuffle-answers" ||
+      key === "answers-random" ||
+      key === "answers-shuffle"
     ) {
       options.shuffleAnswers = true;
+      continue;
     }
-    if (
-      normalized === "hide-correct" ||
-      normalized === "hide-correct-answers" ||
-      normalized === "no-correct"
-    ) {
+    if (key === "hide-correct" || key === "hide-correct-answers" || key === "no-correct") {
       options.hideCorrectAnswers = true;
+      continue;
     }
-    if (
-      normalized === "disable-reset" ||
-      normalized === "no-reset" ||
-      normalized === "hide-reset" ||
-      normalized === "reset-off"
-    ) {
+    if (key === "disable-reset" || key === "no-reset" || key === "hide-reset" || key === "reset-off") {
       options.disableReset = true;
     }
   }

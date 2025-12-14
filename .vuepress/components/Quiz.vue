@@ -139,6 +139,9 @@ const quizOptions = computed(() => {
     shuffleAnswers: Boolean(options.shuffleAnswers),
     hideCorrectAnswers: Boolean(options.hideCorrectAnswers),
     disableReset: Boolean(options.disableReset),
+    questionLimit: Number.isFinite(options.questionLimit)
+      ? Number(options.questionLimit)
+      : options.questionLimit ?? null,
   };
 });
 
@@ -148,6 +151,7 @@ const results = ref([]);
 const questionRefs = ref([]);
 const attentionIndex = ref(null);
 let attentionTimer = null;
+const generationKey = ref("");
 
 const clearAttention = () => {
   if (attentionTimer) {
@@ -158,6 +162,13 @@ const clearAttention = () => {
 };
 
 const quizName = computed(() => props.quizId || "quiz-block");
+const questionLimit = computed(() => {
+  const limit = Number(quizOptions.value.questionLimit);
+  if (!Number.isFinite(limit) || limit <= 0) return null;
+  const total = normalizedQuestions.value.length;
+  if (!total) return null;
+  return Math.min(Math.floor(limit), total);
+});
 
 const setupState = (length) => {
   selections.value = Array.from({ length }, () => []);
@@ -174,6 +185,15 @@ const shuffleArray = (source) => {
 };
 
 const prepareQuestions = () => {
+  const signature = JSON.stringify({
+    questions: normalizedQuestions.value,
+    shuffleQuestions: quizOptions.value.shuffleQuestions,
+    shuffleAnswers: quizOptions.value.shuffleAnswers,
+    limit: questionLimit.value,
+  });
+  if (signature === generationKey.value) return;
+  generationKey.value = signature;
+
   const base = normalizedQuestions.value.map((question) => ({
     ...question,
     answers: question.answers.map((answer) => ({ ...answer })),
@@ -194,22 +214,31 @@ const prepareQuestions = () => {
     });
   }
 
-  quizQuestions.value = quizOptions.value.shuffleQuestions
+  let prepared = quizOptions.value.shuffleQuestions
     ? shuffleArray(base)
     : base;
 
+  if (questionLimit.value && questionLimit.value < prepared.length) {
+    prepared = prepared.slice(0, questionLimit.value);
+  }
+
+  quizQuestions.value = prepared;
   setupState(quizQuestions.value.length);
-  questionRefs.value = [];
+  questionRefs.value = Array.from({ length: quizQuestions.value.length });
   clearAttention();
 };
 
 watch(
-  [
-    normalizedQuestions,
-    () => quizOptions.value.shuffleQuestions,
-    () => quizOptions.value.shuffleAnswers,
-  ],
-  prepareQuestions,
+  () => JSON.stringify({
+    questions: normalizedQuestions.value,
+    shuffleQuestions: quizOptions.value.shuffleQuestions,
+    shuffleAnswers: quizOptions.value.shuffleAnswers,
+    limit: questionLimit.value,
+  }),
+  () => {
+    generationKey.value = "";
+    prepareQuestions();
+  },
   { immediate: true }
 );
 
