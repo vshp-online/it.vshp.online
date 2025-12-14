@@ -15,3 +15,6 @@ build
 
 # Generated blog posts data
 public/data/blog-posts.json
+
+# Temporary markdown files
+*.tmp.md
