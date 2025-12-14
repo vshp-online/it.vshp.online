@@ -40,6 +40,7 @@ import { galleryPlugin } from "./plugins/galleryPlugin.js";
 import { railroadFencePlugin } from "./plugins/railroadFencePlugin.js";
 import { markdownContainersPlugin } from "./plugins/markdownContainersPlugin.js";
 import { siteSearchPlugin } from "./plugins/siteSearchPlugin.js";
+import { quizPlugin } from "./plugins/quizPlugin.js";
 import { loadYaml } from "./utils/yaml.js";
 import { APP_VERSION, VSHP_EML_VERSION } from "./utils/pkgMeta.js";
 
@@ -61,6 +62,7 @@ export default defineUserConfig({
     blogPlugin(),
     ...markdownContainersPlugin(),
     galleryPlugin(),
+    quizPlugin(),
     railroadFencePlugin(),
     markdownImagePlugin({
       // Enable figure

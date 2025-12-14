@@ -5,6 +5,7 @@ sitemap: false
 
 # Раздел тестирования возможностей системы
 
+- [QUIZ-ы](./quiz.md)
 - [Интеграция codapi](./markdown-codapi.md)
 - [Расширенные возможности Markdown](./markdown-ext.md)
 - [Хинт-Контейнеры](./markdown-hint-containers.md)
