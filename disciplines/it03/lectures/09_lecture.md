@@ -699,6 +699,11 @@ DROP TABLE IF EXISTS non_existent_table;
 
 :::
 
+## Самопроверка
+
+::: quiz source=./includes/quiz-09.yaml
+:::
+
 ## Практические задания
 
 ### Задание 1. `CREATE TABLE` + проверка структуры через `PRAGMA`

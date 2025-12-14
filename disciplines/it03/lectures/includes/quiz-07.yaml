@@ -1,0 +1,66 @@
+lecture_id: '07'
+lecture_title: ИТ.03 - 07 - Агрегатные функции, операторы GROUP BY и HAVING
+questions:
+- id: IT03-07-Q01
+  text: Какую задачу решает агрегат `COUNT(*)` без дополнительных аргументов?
+  type: single
+  answers:
+  - text: Вычисляет сумму значений столбца
+    correct: false
+  - text: Возвращает только уникальные значения
+    correct: false
+  - text: Преобразует строки в столбцы
+    correct: false
+  - text: Считает количество строк в группе или таблице
+    correct: true
+- id: IT03-07-Q02
+  text: Чем `COUNT(DISTINCT customer_id)` отличается от `COUNT(customer_id)`?
+  type: single
+  answers:
+  - text: '`COUNT(DISTINCT ...)` работает только после `HAVING`'
+    correct: false
+  - text: '`COUNT(...)` нельзя использовать с `GROUP BY`'
+    correct: false
+  - text: Первый подсчитывает уникальных клиентов, второй — общее число строк, где
+      поле не `NULL`
+    correct: true
+  - text: Они идентичны и различий нет
+    correct: false
+- id: IT03-07-Q03
+  text: Для чего в запросах сводной аналитики нужен `GROUP BY`?
+  type: single
+  answers:
+  - text: Чтобы добавить ограничения доступа
+    correct: false
+  - text: Чтобы переименовать столбцы
+    correct: false
+  - text: Чтобы объединить строки по ключу и посчитать агрегаты на уровне этих групп
+    correct: true
+  - text: Чтобы удалить строки из таблицы
+    correct: false
+- id: IT03-07-Q04
+  text: Когда следует применять `HAVING`, а не `WHERE`?
+  type: single
+  answers:
+  - text: Когда фильтр относится к исходным строкам до группировки
+    correct: false
+  - text: Когда нужно отфильтровать группы по агрегатным значениям (например, `SUM(amount)
+      > 100`)
+    correct: true
+  - text: Когда запрос не содержит агрегатных функций
+    correct: false
+  - text: Когда нужно отсортировать результат
+    correct: false
+- id: IT03-07-Q05
+  text: Зачем в «скелете» группового запроса добавляют `ORDER BY metric DESC LIMIT
+    N`?
+  type: single
+  answers:
+  - text: Чтобы получить верхние N групп по метрике и сделать вывод осмысленным
+    correct: true
+  - text: Чтобы автоматически заменить `GROUP BY`
+    correct: false
+  - text: Чтобы убрать необходимость агрегатов
+    correct: false
+  - text: Чтобы увеличить количество строк
+    correct: false

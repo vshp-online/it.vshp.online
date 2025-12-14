@@ -1,0 +1,70 @@
+lecture_id: 08
+lecture_title: 'ИТ.03 - 08 - Добавление, обновление и удаление данных: операторы INSERT,
+  UPDATE, DELETE'
+questions:
+- id: IT03-08-Q01
+  text: Чем отличается `INSERT INTO ... VALUES (...)` от `INSERT INTO ... SELECT ...`?
+  type: single
+  answers:
+  - text: Ничем, это полностью взаимозаменяемые записи
+    correct: false
+  - text: '`VALUES` доступен только в PostgreSQL'
+    correct: false
+  - text: '`SELECT` нельзя использовать при вставке нескольких строк'
+    correct: false
+  - text: Первый вставляет перечисленные значения вручную, второй копирует результат
+      другого запроса
+    correct: true
+- id: IT03-08-Q02
+  text: Зачем в операторе `INSERT` иногда перечисляют имена столбцов?
+  type: single
+  answers:
+  - text: Чтобы автоматически создать новую таблицу
+    correct: false
+  - text: Чтобы обойти ограничения типов данных
+    correct: false
+  - text: Чтобы разрешить дубли первичных ключей
+    correct: false
+  - text: Чтобы явно указать, какие поля заполняются, и не зависеть от порядка столбцов
+      в таблице
+    correct: true
+- id: IT03-08-Q03
+  text: Что делает конструкция `UPDATE inventory SET price = price * 1.1 WHERE sku
+    = 'TV-01';`?
+  type: single
+  answers:
+  - text: Сбрасывает таблицу к начальному состоянию
+    correct: false
+  - text: Удаляет выбранный товар
+    correct: false
+  - text: Повышает цену конкретной позиции на 10 %, изменяя только строки с нужным
+      `sku`
+    correct: true
+  - text: Создаёт новый товар с обновлённой ценой
+    correct: false
+- id: IT03-08-Q04
+  text: Каковы последствия `DELETE FROM inventory;` без условия?
+  type: single
+  answers:
+  - text: Удалится только первая строка
+    correct: false
+  - text: Таблица полностью очистится — исчезнут все записи
+    correct: true
+  - text: Столбцы будут переименованы
+    correct: false
+  - text: Произойдёт автоматический `ROLLBACK`
+    correct: false
+- id: IT03-08-Q05
+  text: Почему важно осторожно использовать `ON CONFLICT` (или аналогичные конструкции)
+    при вставке уникальных значений?
+  type: single
+  answers:
+  - text: 'Потому что нужно осознанно выбрать стратегию: игнорировать дубликат или
+      обновлять существующую строку'
+    correct: true
+  - text: Потому что они автоматически удаляют индексы
+    correct: false
+  - text: Потому что они применимы только к текстовым столбцам
+    correct: false
+  - text: Потому что они запрещены стандартом SQL
+    correct: false

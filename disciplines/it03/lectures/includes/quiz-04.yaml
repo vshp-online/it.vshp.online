@@ -1,0 +1,65 @@
+lecture_id: '04'
+lecture_title: 'ИТ.03 - 04 - Основные SQL-конструкции: SELECT, FROM, WHERE'
+questions:
+- id: IT03-04-Q01
+  text: Какая часть базового запроса отвечает именно за фильтрацию строк по условию?
+  type: single
+  answers:
+  - text: '`SELECT`'
+    correct: false
+  - text: '`FROM`'
+    correct: false
+  - text: '`GROUP BY`'
+    correct: false
+  - text: '`WHERE`'
+    correct: true
+- id: IT03-04-Q02
+  text: Для чего добавляют ключевое слово `DISTINCT` сразу после `SELECT`?
+  type: single
+  answers:
+  - text: Чтобы автоматически подключить все таблицы базы
+    correct: false
+  - text: Чтобы разрешить использование операторов `<` и `>`
+    correct: false
+  - text: Чтобы сортировать результат по возрастанию
+    correct: false
+  - text: Чтобы убрать повторяющиеся строки из результата
+    correct: true
+- id: IT03-04-Q03
+  text: 'Как интерпретировать запрос: ```sql SELECT title, price FROM products WHERE
+    amount = 0; ```'
+  type: single
+  answers:
+  - text: Он выводит названия и цены только тех товаров, которых нет на складе
+    correct: true
+  - text: Он удаляет товары с нулевым остатком
+    correct: false
+  - text: Он выставляет всем товарам цену 0
+    correct: false
+  - text: Он создаёт новую таблицу с нулевым остатком
+    correct: false
+- id: IT03-04-Q04
+  text: Почему в реальных системах стараются избегать `SELECT *`?
+  type: single
+  answers:
+  - text: Потому что запрос обязательно завершится ошибкой синтаксиса
+    correct: false
+  - text: Потому что `*` запрещён стандартом SQL
+    correct: false
+  - text: Потому что он тянет все столбцы и перегружает сеть/СУБД, даже если нужны
+      только несколько полей
+    correct: true
+  - text: Потому что такой запрос нельзя выполнить без `GROUP BY`
+    correct: false
+- id: IT03-04-Q05
+  text: Когда псевдонимы столбцов нужно заключать в кавычки?
+  type: single
+  answers:
+  - text: Когда алиас содержит пробелы или совпадает с зарезервированным словом
+    correct: true
+  - text: Только если алиас написан на английском языке
+    correct: false
+  - text: Всегда, вне зависимости от содержания
+    correct: false
+  - text: Никогда, SQL сам расставит кавычки
+    correct: false

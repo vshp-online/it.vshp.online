@@ -1,0 +1,65 @@
+lecture_id: '05'
+lecture_title: ИТ.03 - 05 - Составные условия запросов AND, OR, NOT. Специальные операторы
+  IN и BETWEEN. Модификатор запроса DISTINCT
+questions:
+- id: IT03-05-Q01
+  text: Какое условие выберет только оплаченные заказы дороже 5000 рублей?
+  type: single
+  answers:
+  - text: '`WHERE status = ''paid'' OR price > 5000`'
+    correct: false
+  - text: '`WHERE status = ''paid'' XOR price > 5000`'
+    correct: false
+  - text: '`WHERE NOT status = ''paid'' AND price > 5000`'
+    correct: false
+  - text: '`WHERE status = ''paid'' AND price > 5000`'
+    correct: true
+- id: IT03-05-Q02
+  text: Почему `IN ('new','processing')` часто предпочтительнее длинной цепочки `OR`?
+  type: single
+  answers:
+  - text: Потому что `IN` работает только с числовыми значениями
+    correct: false
+  - text: Потому что `IN` игнорирует `NULL`
+    correct: false
+  - text: Потому что `IN` автоматически сортирует результат
+    correct: false
+  - text: Потому что `IN` делает проверку принадлежности множеству наглядной и сокращает
+      повторение `column = value`
+    correct: true
+- id: IT03-05-Q03
+  text: Каково основное свойство `BETWEEN a AND b` при фильтрации по сумме?
+  type: single
+  answers:
+  - text: Оно автоматически сортирует результат
+    correct: false
+  - text: Оно исключает границы `a` и `b`
+    correct: false
+  - text: Оно включает обе границы, выбирая значения от `a` до `b` включительно
+    correct: true
+  - text: Оно может применяться только к строковым полям
+    correct: false
+- id: IT03-05-Q04
+  text: Что произойдёт при использовании `NOT IN ('cancelled','returned')`?
+  type: single
+  answers:
+  - text: Записи с этими статусами будут удвоены
+    correct: false
+  - text: Из набора будут исключены строки со статусами `cancelled` и `returned`
+    correct: true
+  - text: Статусы внутри списка поменяются местами
+    correct: false
+  - text: Никакого эффекта — `NOT IN` не относится к статусам
+    correct: false
+- id: IT03-05-Q05
+  text: Для чего добавляют `DISTINCT` к выборке клиентов?
+  type: single
+  answers:
+  - text: Чтобы гарантировать сортировку по алфавиту
+    correct: false
+  - text: Чтобы убрать повторяющиеся значения в выбранных столбцах
+    correct: true
+  - text: Чтобы автоматически добавить колонку с идентификатором
+    correct: false
+  - text: Чтобы пересчитать сумму заказа
+    correct: false

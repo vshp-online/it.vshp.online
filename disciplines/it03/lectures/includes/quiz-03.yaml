@@ -1,0 +1,68 @@
+lecture_id: '03'
+lecture_title: ИТ.03 - 03 - Введение в SQL. Основные возможности языка структурированных
+  запросов
+questions:
+- id: IT03-03-Q01
+  text: Чем декларативный характер SQL отличается от императивных языков?
+  type: single
+  answers:
+  - text: В SQL каждое выражение обязательно содержит циклы и условия
+    correct: false
+  - text: В SQL описывается желаемый результат запроса, а план выполнения выбирает
+      СУБД
+    correct: true
+  - text: SQL работает только при наличии встроенного интерпретатора Python
+    correct: false
+  - text: SQL требует описывать пошаговый алгоритм обработки данных
+    correct: false
+- id: IT03-03-Q02
+  text: Какая пара «раздел SQL — пример команды» составлена корректно?
+  type: single
+  answers:
+  - text: DML — `CREATE`
+    correct: false
+  - text: DDL — `INSERT`
+    correct: false
+  - text: TCL — `COMMIT`
+    correct: true
+  - text: DCL — `SELECT`
+    correct: false
+- id: IT03-03-Q03
+  text: В чём практическая ценность стандартов SQL (ANSI/ISO), перечисленных в лекции?
+  type: single
+  answers:
+  - text: Они служат исключительно для лицензирования платных продуктов
+    correct: false
+  - text: Они описывают только графический интерфейс админ-панелей СУБД
+    correct: false
+  - text: Они фиксируют минимальный набор возможностей языка, который поддерживают
+      разные СУБД
+    correct: true
+  - text: Они запрещают добавлять расширения в конкретных диалектах
+    correct: false
+- id: IT03-03-Q04
+  text: Что чаще всего отличает диалекты SQL вроде PL/SQL, T-SQL или PL/pgSQL?
+  type: single
+  answers:
+  - text: Они заменяют оператор `SELECT` на `CHOOSE`
+    correct: false
+  - text: Они работают только с XML и не поддерживают таблицы
+    correct: false
+  - text: Они добавляют процедурные конструкции и специальные функции сверх базового
+      стандарта
+    correct: true
+  - text: Они требуют писать запросы в двоичном формате
+    correct: false
+- id: IT03-03-Q05
+  text: 'Как правильно интерпретировать запрос: ```sql SELECT name, age FROM students
+    WHERE age < 21; ```'
+  type: single
+  answers:
+  - text: Он создаёт новую таблицу и заполняет её случайными возрастами
+    correct: false
+  - text: Он удаляет всех студентов старше 21 года
+    correct: false
+  - text: Он назначает каждому студенту возраст 21
+    correct: false
+  - text: Он возвращает имена и возраст всех студентов моложе 21 года
+    correct: true

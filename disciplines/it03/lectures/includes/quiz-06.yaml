@@ -1,0 +1,67 @@
+lecture_id: '06'
+lecture_title: ИТ.03 - 06 - Особый тип данных NULL. Операторы LIKE, ORDER BY, LIMIT
+questions:
+- id: IT03-06-Q01
+  text: Почему проверка на пустое значение выполняется через `IS NULL`, а не через
+    `= NULL`?
+  type: single
+  answers:
+  - text: Потому что оператор `=` запрещён стандартом SQL
+    correct: false
+  - text: Потому что `IS NULL` автоматически сортирует строки
+    correct: false
+  - text: Потому что `IS NULL` работает только с числовыми полями
+    correct: false
+  - text: Потому что `NULL` обозначает неизвестное значение, и сравнение через `=`
+      всегда возвращает неопределённость
+    correct: true
+- id: IT03-06-Q02
+  text: Что вернёт условие `email LIKE 'dev%'`?
+  type: single
+  answers:
+  - text: Только строки, полностью равные `dev`
+    correct: false
+  - text: Ничего — символ `%` запрещён
+    correct: false
+  - text: Строки, где `email` начинается с `dev`
+    correct: true
+  - text: Строки, где `email` заканчивается на `dev`
+    correct: false
+- id: IT03-06-Q03
+  text: Когда имеет смысл указывать `ESCAPE '\\'` в запросе с `LIKE`?
+  type: single
+  answers:
+  - text: Когда нужно ускорить сортировку
+    correct: false
+  - text: Когда нужно отключить поиск по шаблону
+    correct: false
+  - text: Когда требуется искать символы `%` или `_` как обычные, экранируя их другим
+      символом
+    correct: true
+  - text: Когда шаблон содержит только буквы
+    correct: false
+- id: IT03-06-Q04
+  text: Что делает связка `ORDER BY salary DESC LIMIT 3`?
+  type: single
+  answers:
+  - text: Выводит все записи без сортировки
+    correct: false
+  - text: Сортирует по убыванию зарплаты и возвращает три самые дорогие записи
+    correct: true
+  - text: Сортирует по возрастанию и возвращает случайные три строки
+    correct: false
+  - text: Суммирует зарплаты и делит на три
+    correct: false
+- id: IT03-06-Q05
+  text: Как работает сортировка `ORDER BY department ASC, salary DESC`?
+  type: single
+  answers:
+  - text: Сначала группирует по отделу по алфавиту, внутри каждого отдела упорядочивает
+      зарплаты по убыванию
+    correct: true
+  - text: Применяет только второе поле из списка
+    correct: false
+  - text: Всегда возвращает случайный порядок
+    correct: false
+  - text: Сначала сортирует по зарплате, затем по отделу
+    correct: false

@@ -1,0 +1,66 @@
+lecture_id: '12'
+lecture_title: ИТ.03 - 12 - Создание связанных таблиц. Операции `JOIN` и `UNION`
+questions:
+- id: IT03-12-Q01
+  text: Что делает правило `ON DELETE CASCADE` у внешнего ключа?
+  type: single
+  answers:
+  - text: Запрещает удалять родителя
+    correct: false
+  - text: Переносит дочерние записи в архив
+    correct: false
+  - text: Игнорирует удаление
+    correct: false
+  - text: При удалении родительской строки автоматически удаляет дочерние записи
+    correct: true
+- id: IT03-12-Q02
+  text: Чем `INNER JOIN` отличается от `LEFT JOIN`?
+  type: single
+  answers:
+  - text: '`LEFT JOIN` работает только с тремя таблицами'
+    correct: false
+  - text: Разницы нет
+    correct: false
+  - text: '`INNER JOIN` оставляет только пары, где совпадение найдено с обеих сторон;
+      `LEFT JOIN` сохраняет все строки из левой таблицы даже без совпадений'
+    correct: true
+  - text: '`INNER JOIN` всегда быстрее'
+    correct: false
+- id: IT03-12-Q03
+  text: Когда пригодится `RIGHT JOIN`?
+  type: single
+  answers:
+  - text: Когда нужно изменить порядок столбцов
+    correct: false
+  - text: Когда нужно сохранить все строки из правой таблицы, даже если в левой нет
+      совпадений
+    correct: true
+  - text: Когда нужно удалить таблицу
+    correct: false
+  - text: Когда join выполняется только по числовым ключам
+    correct: false
+- id: IT03-12-Q04
+  text: Почему `UNION` может скрыть некоторые строки?
+  type: single
+  answers:
+  - text: Потому что он убирает дубликаты — одинаковые строки объединяются в одну
+    correct: true
+  - text: Потому что он удаляет все `NULL`
+    correct: false
+  - text: Потому что он работает только с 10 строками
+    correct: false
+  - text: Потому что он требует `ORDER BY`
+    correct: false
+- id: IT03-12-Q05
+  text: Зачем включать `PRAGMA foreign_keys = ON;` в SQLite перед работой со связями?
+  type: single
+  answers:
+  - text: Чтобы ускорить сортировку
+    correct: false
+  - text: Чтобы разрешить `RIGHT JOIN`
+    correct: false
+  - text: Чтобы отключить проверки `NOT NULL`
+    correct: false
+  - text: Чтобы СУБД проверяла ограничения внешних ключей и применяла правила `ON
+      DELETE/UPDATE`
+    correct: true

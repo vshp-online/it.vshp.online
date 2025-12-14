@@ -315,7 +315,10 @@ DELETE FROM inventory;
 
 :::
 
----
+## Самопроверка
+
+::: quiz source=./includes/quiz-08.yaml
+:::
 
 ## Практические задания
 
