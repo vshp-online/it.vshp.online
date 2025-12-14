@@ -93,6 +93,7 @@
 
 <script setup>
 import { computed, ref, watch, onBeforeUnmount } from "vue";
+import { useQuizStore } from "../stores/quizStore";
 
 const props = defineProps({
   questions: {
@@ -108,6 +109,8 @@ const props = defineProps({
     default: () => ({}),
   },
 });
+
+const quizStore = useQuizStore();
 
 const normalizeAnswers = (answers = []) =>
   (answers || [])
@@ -142,6 +145,7 @@ const quizOptions = computed(() => {
     questionLimit: Number.isFinite(options.questionLimit)
       ? Number(options.questionLimit)
       : options.questionLimit ?? null,
+    source: options.source || null,
   };
 });
 
@@ -152,6 +156,7 @@ const questionRefs = ref([]);
 const attentionIndex = ref(null);
 let attentionTimer = null;
 const generationKey = ref("");
+const currentSessionKey = ref("");
 
 const clearAttention = () => {
   if (attentionTimer) {
@@ -184,20 +189,109 @@ const shuffleArray = (source) => {
   return list;
 };
 
-const prepareQuestions = () => {
-  const signature = JSON.stringify({
+const buildBaseQuestions = () =>
+  normalizedQuestions.value.map((question) => ({
+    ...question,
+    answers: question.answers.map((answer) => ({ ...answer })),
+  }));
+
+const reorderAnswers = (question, storedOrder = []) => {
+  if (!Array.isArray(storedOrder) || !storedOrder.length) {
+    return question.answers;
+  }
+  const map = new Map(
+    question.answers.map((answer) => [String(answer.id), { ...answer }])
+  );
+  const ordered = [];
+  storedOrder.forEach((id) => {
+    const answer = map.get(String(id));
+    if (answer) {
+      ordered.push(answer);
+      map.delete(String(id));
+    }
+  });
+  return ordered.concat(Array.from(map.values()));
+};
+
+const applyStoredOrder = (base, session) => {
+  if (!session?.questionOrder?.length) return null;
+  const limit = questionLimit.value;
+  const map = new Map(
+    base.map((question) => [String(question.id), { ...question, answers: question.answers.map((answer) => ({ ...answer })) }])
+  );
+  const ordered = [];
+  session.questionOrder.forEach((questionId, index) => {
+    if (limit && ordered.length >= limit) return;
+    const question = map.get(String(questionId));
+    if (!question) return;
+    question.answers = reorderAnswers(
+      question,
+      session.answersOrder?.[index] || []
+    );
+    ordered.push(question);
+    map.delete(String(questionId));
+  });
+  for (const question of map.values()) {
+    if (limit && ordered.length >= limit) break;
+    ordered.push(question);
+  }
+  return ordered;
+};
+
+const applyRandomization = (base) => {
+  let prepared = base.map((question) => ({
+    ...question,
+    answers: quizOptions.value.shuffleAnswers
+      ? shuffleArray(question.answers)
+      : question.answers,
+  }));
+
+  if (quizOptions.value.shuffleQuestions) {
+    prepared = shuffleArray(prepared);
+  }
+
+  if (questionLimit.value && prepared.length > questionLimit.value) {
+    prepared = prepared.slice(0, questionLimit.value);
+  }
+
+  return prepared;
+};
+
+const restoreSessionState = (session) => {
+  if (!session) return;
+  if (
+    !Array.isArray(session.selections) ||
+    session.selections.length !== quizQuestions.value.length
+  ) {
+    quizStore.clearSession(currentSessionKey.value);
+    return;
+  }
+  selections.value = session.selections.map((list) => [...list]);
+  if (
+    Array.isArray(session.results) &&
+    session.results.length === quizQuestions.value.length
+  ) {
+    results.value = session.results.slice();
+  }
+};
+
+const computeSignature = () =>
+  JSON.stringify({
     questions: normalizedQuestions.value,
     shuffleQuestions: quizOptions.value.shuffleQuestions,
     shuffleAnswers: quizOptions.value.shuffleAnswers,
     limit: questionLimit.value,
+    source: quizOptions.value.source || null,
   });
-  if (signature === generationKey.value) return;
-  generationKey.value = signature;
 
-  const base = normalizedQuestions.value.map((question) => ({
-    ...question,
-    answers: question.answers.map((answer) => ({ ...answer })),
-  }));
+const prepareQuestions = () => {
+  const signature = computeSignature();
+  generationKey.value = signature;
+  const sessionKey = `${quizName.value || "quiz-block"}::${signature}`;
+  currentSessionKey.value = sessionKey;
+  const storedSession = quizStore.getSession(sessionKey);
+
+  const base = buildBaseQuestions();
 
   if (!base.length) {
     quizQuestions.value = [];
@@ -208,35 +302,28 @@ const prepareQuestions = () => {
     return;
   }
 
-  if (quizOptions.value.shuffleAnswers) {
-    base.forEach((question) => {
-      question.answers = shuffleArray(question.answers);
-    });
-  }
+  let prepared =
+    storedSession && storedSession.questionOrder?.length
+      ? applyStoredOrder(base, storedSession)
+      : null;
 
-  let prepared = quizOptions.value.shuffleQuestions
-    ? shuffleArray(base)
-    : base;
-
-  if (questionLimit.value && questionLimit.value < prepared.length) {
-    prepared = prepared.slice(0, questionLimit.value);
+  if (!prepared) {
+    prepared = applyRandomization(base);
   }
 
   quizQuestions.value = prepared;
-  setupState(quizQuestions.value.length);
-  questionRefs.value = Array.from({ length: quizQuestions.value.length });
+  setupState(prepared.length);
+  questionRefs.value = Array.from({ length: prepared.length });
   clearAttention();
+
+  if (storedSession) {
+    restoreSessionState(storedSession);
+  }
 };
 
 watch(
-  () => JSON.stringify({
-    questions: normalizedQuestions.value,
-    shuffleQuestions: quizOptions.value.shuffleQuestions,
-    shuffleAnswers: quizOptions.value.shuffleAnswers,
-    limit: questionLimit.value,
-  }),
+  () => computeSignature(),
   () => {
-    generationKey.value = "";
     prepareQuestions();
   },
   { immediate: true }
@@ -256,6 +343,23 @@ const allAnswered = computed(() =>
 );
 const canCheck = computed(() => allAnswered.value);
 const showResetButton = computed(() => !quizOptions.value.disableReset);
+
+const persistSession = () => {
+  if (!currentSessionKey.value) return;
+  if (!hasAnySelection.value) {
+    quizStore.clearSession(currentSessionKey.value);
+    return;
+  }
+  const payload = {
+    questionOrder: quizQuestions.value.map((question) => question.id),
+    answersOrder: quizQuestions.value.map((question) =>
+      question.answers.map((answer) => answer.id)
+    ),
+    selections: selections.value.map((items) => [...items]),
+    results: results.value.slice(),
+  };
+  quizStore.saveSession(currentSessionKey.value, payload);
+};
 
 const isSelected = (qIndex, aIndex) => {
   return selections.value[qIndex]?.includes(aIndex) ?? false;
@@ -286,6 +390,8 @@ const onSelect = (qIndex, aIndex, isMultiple, event) => {
       idx === qIndex ? null : result
     );
   }
+
+  persistSession();
 };
 
 const evaluateQuestion = (question, qIndex) => {
@@ -309,6 +415,7 @@ const checkAnswers = () => {
     if (!(selections.value[index]?.length)) return null;
     return evaluateQuestion(question, index);
   });
+  persistSession();
 };
 
 const totalQuestions = computed(() => quizQuestions.value.length);
@@ -319,6 +426,7 @@ const correctCount = computed(
 const resetQuiz = () => {
   setupState(quizQuestions.value.length);
   clearAttention();
+  quizStore.clearSession(currentSessionKey.value);
 };
 
 const questionStateClass = (qIndex) => {

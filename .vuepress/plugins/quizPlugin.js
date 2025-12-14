@@ -277,7 +277,7 @@ function loadExternalQuestions(source, filePath, md) {
 
 function normalizeExternalQuestion(item, md) {
   if (!item || typeof item !== "object") return null;
-  const rawPrompt = item.prompt ?? item.question ?? "";
+  const rawPrompt = item.question ?? item.prompt ?? "";
   const prompt =
     typeof rawPrompt === "string" ? cleanHtml(md.render(rawPrompt)) : "";
   const multiple =
