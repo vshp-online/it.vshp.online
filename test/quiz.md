@@ -1,8 +1,4 @@
----
-sidebar: false
----
-
-# QUIZ-ы
+# Квизы (Markdown-плагин)
 
 `::: quiz` — кастомный контейнер для вопросов с вариантами ответов.
 
@@ -12,7 +8,10 @@ sidebar: false
 - `randomize-answers` (false) — перемешать ответы в каждом вопросе;
 - `hide-correct-answers` (false) — не подсвечивать правильные варианты после проверки;
 - `disable-reset` (false) — скрыть кнопку сброса (повторное прохождение будет недоступно);
-- `questions-limit=<n>` (используются все вопросы) — ограничить число вопросов, выбранных из базы (актуально при перемешивании).
+- `questions-limit=<n>` (используются все вопросы) — ограничить число вопросов, выбранных из базы (актуально при перемешивании);
+- `source=<path>` (не задано) — загрузить базу вопросов из внешнего JSON или YAML файла.
+
+Если используется `source`, путь считается относительно текущего Markdown-файла (можно также указывать абсолютные или `@/` пути). В файле достаточно перечислить массив объектов с полями `question` (или `prompt`), `type` (`single` / `multiple`) и `answers` (строка или объект с `text`/`content` и `correct`/`isCorrect`).
 
 Служебные директивы внутри контейнера:
 
@@ -20,7 +19,11 @@ sidebar: false
 - `@answer` — дальше идёт список с радиокнопками (один правильный вариант);
 - `@answers` — список с чекбоксами (несколько правильных вариантов).
 
-::: preview Посмотреть код
+## Встроенный (Markdown) вариант
+
+Классический случай: все вопросы задаём прямо в Markdown, в нужных местах оставляем `@question`, `@answer` или `@answers`. Для демонстрации добавлен лимит в три вопроса, чтобы показать, что даже при большой «базе» можно отдать пользователю только часть.
+
+::: preview Показать исходник
 
   ::: quiz randomize-questions randomize-answers hide-correct-answers questions-limit=3
 
@@ -76,6 +79,28 @@ sidebar: false
     - [ ] Второй ответ
     - [x] Третий ответ
 
+  :::
+
+:::
+
+## Квиз из JSON-файла
+
+Можно вынести базу вопросов в JSON и просто ссылаться на неё через параметр `source`. Для примера используем файл `./includes/quiz-bank.json`.
+
+::: preview Показать исходник
+
+  ::: quiz source=./includes/quiz-bank.json randomize-questions randomize-answers hide-correct-answers questions-limit=3
+  :::
+
+:::
+
+## Квиз из YAML-файла
+
+Аналогично работает YAML-файл `./includes/quiz-bank.yaml`.
+
+::: preview Показать исходник
+
+  ::: quiz source=./includes/quiz-bank.yaml randomize-questions randomize-answers hide-correct-answers questions-limit=3
   :::
 
 :::

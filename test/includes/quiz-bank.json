@@ -1,0 +1,49 @@
+[
+  {
+    "question": "Это вопрос на который есть один верный вариант.",
+    "type": "single",
+    "answers": [
+      { "text": "неверный", "correct": false },
+      { "text": "верный", "correct": true },
+      { "text": "еще неверный", "correct": false },
+      { "text": "и еще неверный", "correct": false }
+    ]
+  },
+  {
+    "question": "На этот вопрос есть несколько верных вариантов.",
+    "type": "multiple",
+    "answers": [
+      { "text": "неверный", "correct": false },
+      { "text": "верный", "correct": true },
+      { "text": "еще неверный", "correct": false },
+      { "text": "и еще верный", "correct": true }
+    ]
+  },
+  {
+    "question": "Здесь дополнительный одиночный вопрос без перемешивания внутри текста.",
+    "type": "single",
+    "answers": [
+      { "text": "Единственный верный вариант", "correct": true },
+      { "text": "Вариант без галочки считается неверным", "correct": false }
+    ]
+  },
+  {
+    "question": "Выберите лишнее число.",
+    "type": "single",
+    "answers": [
+      { "text": "1", "correct": false },
+      { "text": "0", "correct": true },
+      { "text": "2", "correct": false },
+      { "text": "4", "correct": false }
+    ]
+  },
+  {
+    "question": "Вопрос с множественными вариантами без описания.",
+    "type": "multiple",
+    "answers": [
+      { "text": "Первый ответ", "correct": true },
+      { "text": "Второй ответ", "correct": false },
+      { "text": "Третий ответ", "correct": true }
+    ]
+  }
+]

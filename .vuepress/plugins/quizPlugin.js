@@ -1,3 +1,7 @@
+import { readFileSync, existsSync } from "node:fs";
+import path from "node:path";
+import { parse as parseYaml } from "yaml";
+
 /**
  * Плагин Markdown для синтаксиса ::: quiz
  * Позволяет описывать вопросы/ответы и конвертирует их в Vue-компонент <Quiz>.
@@ -11,7 +15,7 @@ export const quizPlugin = () => ({
 
     md.renderer.rules.quiz = (tokens, idx) => {
       const token = tokens[idx];
-      const questions = buildQuestions(token.content, md);
+      const questions = buildQuestions(token.content, md, token.meta);
       if (!questions.length) {
         return `<div class="quiz quiz--invalid">Не удалось разобрать блок quiz.</div>`;
       }
@@ -67,14 +71,26 @@ function quizBlock(state, startLine, endLine, silent) {
   token.info = params;
   token.map = [startLine, nextLine];
   token.markup = markup;
-  token.meta = { options: parseOptions(params) };
+  token.meta = {
+    options: parseOptions(params),
+    filePath: state.env?.filePath || "",
+  };
   token.content = state.getLines(startLine + 1, nextLine, 0, true).trimEnd();
 
   state.line = nextLine + 1;
   return true;
 }
 
-function buildQuestions(rawContent, md) {
+function buildQuestions(rawContent, md, meta = {}) {
+  const options = meta.options || {};
+  if (options.source) {
+    const external = loadExternalQuestions(options.source, meta.filePath, md);
+    if (external.length) return external;
+  }
+  return parseInlineQuestions(rawContent, md);
+}
+
+function parseInlineQuestions(rawContent, md) {
   const lines = dedent(rawContent).split(/\r?\n/);
   const questions = [];
   let current = null;
@@ -163,16 +179,7 @@ function buildQuestions(rawContent, md) {
 
   finalizeQuestion();
 
-  return questions.map((question, index) => ({
-    id: index + 1,
-    prompt: question.prompt,
-    multiple: question.multiple,
-    answers: question.answers.map((answer, answerIndex) => ({
-      id: `${index + 1}-${answerIndex + 1}`,
-      content: answer.content,
-      isCorrect: !!answer.isCorrect,
-    })),
-  }));
+  return normalizeQuestions(questions);
 }
 
 function parseOptions(params) {
@@ -185,6 +192,7 @@ function parseOptions(params) {
     hideCorrectAnswers: false,
     disableReset: false,
     questionLimit: null,
+    source: null,
   };
 
   for (const token of tokens) {
@@ -192,6 +200,10 @@ function parseOptions(params) {
     const key = rawKey.toLowerCase();
 
     if (rawValue !== undefined) {
+      if (key === "source") {
+        options.source = rawValue;
+        continue;
+      }
       if (
         key === "limit" ||
         key === "question-limit" ||
@@ -234,6 +246,108 @@ function parseOptions(params) {
   }
 
   return options;
+}
+
+function loadExternalQuestions(source, filePath, md) {
+  try {
+    const absolute = resolveSourcePath(source, filePath);
+    if (!absolute) return [];
+    const content = readFileSync(absolute, "utf8");
+    const ext = path.extname(absolute).toLowerCase();
+    let data;
+    if (ext === ".json") {
+      data = JSON.parse(content);
+    } else if (ext === ".yaml" || ext === ".yml") {
+      data = parseYaml(content);
+    } else {
+      return [];
+    }
+    const questions = Array.isArray(data) ? data : data?.questions;
+    if (!Array.isArray(questions)) return [];
+    return normalizeQuestions(
+      questions
+        .map((question) => normalizeExternalQuestion(question, md))
+        .filter(Boolean)
+    );
+  } catch (error) {
+    console.warn(`[quizPlugin] Failed to load quiz source "${source}":`, error);
+    return [];
+  }
+}
+
+function normalizeExternalQuestion(item, md) {
+  if (!item || typeof item !== "object") return null;
+  const rawPrompt = item.prompt ?? item.question ?? "";
+  const prompt =
+    typeof rawPrompt === "string" ? cleanHtml(md.render(rawPrompt)) : "";
+  const multiple =
+    typeof item.multiple === "boolean"
+      ? item.multiple
+      : item.type === "multiple";
+  const answers = Array.isArray(item.answers)
+    ? item.answers
+        .map((answer) => normalizeExternalAnswer(answer, md))
+        .filter(Boolean)
+    : [];
+  if (!answers.length) return null;
+  return { prompt, multiple, answers };
+}
+
+function normalizeExternalAnswer(answer, md) {
+  if (!answer) return null;
+  if (typeof answer === "string") {
+    return {
+      content: cleanHtml(md.renderInline(answer)),
+      isCorrect: false,
+    };
+  }
+  if (typeof answer !== "object") return null;
+  const rawContent =
+    answer.content ?? answer.text ?? answer.value ?? answer.title ?? "";
+  if (!rawContent) return null;
+  const isCorrect =
+    typeof answer.isCorrect === "boolean"
+      ? answer.isCorrect
+      : typeof answer.correct === "boolean"
+      ? answer.correct
+      : answer.right === true;
+  return {
+    content: cleanHtml(md.renderInline(String(rawContent))),
+    isCorrect: !!isCorrect,
+  };
+}
+
+function normalizeQuestions(raw) {
+  return raw.map((question, index) => ({
+    id: index + 1,
+    prompt: question.prompt,
+    multiple: !!question.multiple,
+    answers: question.answers.map((answer, answerIndex) => ({
+      id: `${index + 1}-${answerIndex + 1}`,
+      content: answer.content,
+      isCorrect: !!answer.isCorrect,
+    })),
+  }));
+}
+
+function resolveSourcePath(source, filePath) {
+  if (!source) return null;
+  if (path.isAbsolute(source)) {
+    return source;
+  }
+  const candidates = [];
+  if (source.startsWith("@/")) {
+    candidates.push(path.resolve(process.cwd(), source.slice(2)));
+  } else {
+    if (filePath) {
+      candidates.push(path.resolve(path.dirname(filePath), source));
+    }
+    candidates.push(path.resolve(process.cwd(), source));
+  }
+  for (const candidate of candidates) {
+    if (existsSync(candidate)) return candidate;
+  }
+  return candidates[0] || null;
 }
 
 function dedent(content) {
