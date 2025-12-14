@@ -23,7 +23,7 @@
 
 Классический случай: все вопросы задаём прямо в Markdown, в нужных местах оставляем `@question`, `@answer` или `@answers`. Для демонстрации добавлен лимит в три вопроса, чтобы показать, что даже при большой «базе» можно отдать пользователю только часть.
 
-::: preview Показать исходник
+::: preview Посмотреть код
 
   ::: quiz randomize-questions randomize-answers hide-correct-answers questions-limit=3
 
@@ -87,7 +87,7 @@
 
 Можно вынести базу вопросов в JSON и просто ссылаться на неё через параметр `source`. Для примера используем файл `./includes/quiz-bank.json`.
 
-::: preview Показать исходник
+::: preview Посмотреть код
 
   ::: quiz source=./includes/quiz-bank.json randomize-questions randomize-answers hide-correct-answers questions-limit=3
   :::
@@ -98,7 +98,7 @@
 
 Аналогично работает YAML-файл `./includes/quiz-bank.yaml`.
 
-::: preview Показать исходник
+::: preview Посмотреть код
 
   ::: quiz source=./includes/quiz-bank.yaml randomize-questions randomize-answers hide-correct-answers questions-limit=3
   :::
