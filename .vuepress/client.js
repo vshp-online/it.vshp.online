@@ -1,16 +1,14 @@
 import { defineClientConfig } from "vuepress/client";
+import { defineAsyncComponent } from "vue";
 import Layout from "./layouts/Layout.vue";
 import RailroadDiagram from "./components/RailroadDiagram.vue";
 import Pill from "./components/Pill.vue";
-import Quiz from "./components/Quiz.vue";
 
 import BlogPostMeta from "./components/BlogPostMeta.vue";
 
 import BlogIndexPage from "./pages/BlogIndexPage.vue";
 import AuthPage from "./pages/AuthPage.vue";
 import AccountPage from "./pages/AccountPage.vue";
-
-import { createPinia } from "pinia";
 
 import Prism from "prismjs";
 import "prismjs/components/prism-python";
@@ -47,10 +45,12 @@ export default defineClientConfig({
     });
   },
 
-  enhance({ app, router }) {
-    if (!isClient) return;
+  async enhance({ app, router }) {
+    const { createPinia } = await import("pinia");
+    const pinia = createPinia();
+    app.use(pinia);
 
-    app.use(createPinia());
+    const Quiz = defineAsyncComponent(() => import("./components/Quiz.vue"));
 
     app.component("AuthPage", AuthPage);
     app.component("AccountPage", AccountPage);
@@ -60,11 +60,13 @@ export default defineClientConfig({
     app.component("BlogIndexPage", BlogIndexPage);
     app.component("BlogPostMeta", BlogPostMeta);
 
-    router.afterEach(() =>
-      raf(() => {
-        rescanEditablePrism(Prism, EDITABLE_SELECTOR);
-        initSimpleMermaid();
-      })
-    );
+    if (isClient) {
+      router.afterEach(() =>
+        raf(() => {
+          rescanEditablePrism(Prism, EDITABLE_SELECTOR);
+          initSimpleMermaid();
+        })
+      );
+    }
   },
 });

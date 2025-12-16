@@ -1,3 +1,4 @@
+import "../utils/ssrStoragePolyfill";
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 

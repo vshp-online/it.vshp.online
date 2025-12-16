@@ -1,11 +1,21 @@
+import "../utils/ssrStoragePolyfill";
 import { defineStore } from "pinia";
+import { ref } from "vue";
 import { useStorage } from "@vueuse/core";
 
 const STORAGE_KEY = "vshp-quiz-sessions";
 const MAX_SESSIONS = 30;
+const isClient = typeof window !== "undefined";
+
+const createSessionsRef = () => {
+  if (!isClient) {
+    return ref({});
+  }
+  return useStorage(STORAGE_KEY, {});
+};
 
 export const useQuizStore = defineStore("quiz-sessions", () => {
-  const sessions = useStorage(STORAGE_KEY, {});
+  const sessions = createSessionsRef();
 
   const getSession = (key) => {
     if (!key) return null;

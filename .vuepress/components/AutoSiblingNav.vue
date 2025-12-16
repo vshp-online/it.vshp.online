@@ -1,6 +1,5 @@
 <script setup>
 import { computed } from "vue";
-import { RouterLink } from "vue-router";
 import { useNavigate } from "@theme/useNavigate";
 import { usePageData, useRoutes } from "@vuepress/client";
 import { useEventListener } from "@vueuse/core";
@@ -156,11 +155,33 @@ useEventListener("keydown", (event) => {
     event.preventDefault();
   }
 });
+
+const handleNavClick = (event, target) => {
+  if (!target) return;
+  if (
+    event &&
+    (event.defaultPrevented ||
+      event.button !== 0 ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey)
+  ) {
+    return; // let browser handle new tab / modifiers
+  }
+  event?.preventDefault();
+  navigate(target);
+};
 </script>
 
 <template>
   <nav v-if="!isHomePage && (prevLink || nextLink)" class="bottom-nav">
-    <RouterLink v-if="prevLink" class="nav-button prev" :to="prevLink.link">
+    <a
+      v-if="prevLink"
+      class="nav-button prev"
+      :href="prevLink.link"
+      @click="handleNavClick($event, prevLink.link)"
+    >
       <div class="hint">
         <span class="arrow left" />
         <span>{{ "Предыдущая" }}</span>
@@ -168,8 +189,13 @@ useEventListener("keydown", (event) => {
       <div class="link">
         <span>{{ prevLink.text }}</span>
       </div>
-    </RouterLink>
-    <RouterLink v-if="nextLink" class="nav-button next" :to="nextLink.link">
+    </a>
+    <a
+      v-if="nextLink"
+      class="nav-button next"
+      :href="nextLink.link"
+      @click="handleNavClick($event, nextLink.link)"
+    >
       <div class="hint">
         <span>{{ "Следующая" }}</span>
         <span class="arrow right" />
@@ -177,7 +203,7 @@ useEventListener("keydown", (event) => {
       <div class="link">
         <span>{{ nextLink.text }}</span>
       </div>
-    </RouterLink>
+    </a>
   </nav>
 </template>
 

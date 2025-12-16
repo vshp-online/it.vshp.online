@@ -10,12 +10,13 @@ import {
 import VPAutoLink from "@theme/VPAutoLink.vue";
 import VPHomeFeatures from "@theme/VPHomeFeatures.vue";
 import { useDarkMode } from "@theme/useDarkMode";
+import { useNavigate } from "@theme/useNavigate";
 import SiteFooter from "../components/SiteFooter.vue";
-import { RouterLink } from "vue-router";
 
 const frontmatter = usePageFrontmatter();
 const siteLocale = useSiteLocaleData();
 const isDarkMode = useDarkMode();
+const navigate = useNavigate();
 const featuredPosts = ref([]);
 const featuredLoaded = ref(false);
 
@@ -110,6 +111,22 @@ async function loadFeaturedPosts() {
 onMounted(() => {
   loadFeaturedPosts();
 });
+
+const handleCardClick = (event, target) => {
+  if (!target) return;
+  if (
+    event?.defaultPrevented ||
+    event?.button !== 0 ||
+    event?.metaKey ||
+    event?.ctrlKey ||
+    event?.shiftKey ||
+    event?.altKey
+  ) {
+    return;
+  }
+  event?.preventDefault();
+  navigate(target);
+};
 </script>
 
 <template>
@@ -158,9 +175,13 @@ onMounted(() => {
           :key="post.path"
           class="home-featured-card"
         >
-          <RouterLink :to="post.path" class="home-featured-link">
+          <a
+            :href="post.path"
+            class="home-featured-link"
+            @click="handleCardClick($event, post.path)"
+          >
             <h3>{{ post.title }}</h3>
-          </RouterLink>
+          </a>
           <time :datetime="post.date" class="home-featured-date">
             {{ formatFeaturedDate(post.date) }}
           </time>

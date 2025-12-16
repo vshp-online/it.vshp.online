@@ -1,3 +1,4 @@
+import "./utils/ssrStoragePolyfill.js";
 // https://vuepress.vuejs.org/reference/config.html
 import { defineUserConfig } from "vuepress";
 

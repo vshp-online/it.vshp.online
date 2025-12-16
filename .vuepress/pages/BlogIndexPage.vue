@@ -41,7 +41,12 @@
           <header class="blog-post-header">
             <div class="blog-post-headline">
               <h2 class="blog-post-title">
-                <RouterLink :to="post.path">{{ post.title }}</RouterLink>
+                <a
+                  :href="post.path"
+                  @click="handlePostClick($event, post.path)"
+                >
+                  {{ post.title }}
+                </a>
               </h2>
               <Pill
                 v-if="post.featured"
@@ -87,13 +92,14 @@
 
 <script setup>
 import { ref, computed, onMounted, watch } from "vue";
-import { RouterLink } from "vue-router";
+import { useNavigate } from "@theme/useNavigate";
 import Pill from "../components/Pill.vue";
 
 // Константа для количества постов на странице
 const POSTS_PER_PAGE = 10;
 
 // Реактивные данные
+const navigate = useNavigate();
 const posts = ref([]);
 const selectedTag = ref(null);
 const displayedCount = ref(POSTS_PER_PAGE);
@@ -178,6 +184,22 @@ watch(selectedTag, () => {
 onMounted(() => {
   loadPosts();
 });
+
+const handlePostClick = (event, target) => {
+  if (!target) return;
+  if (
+    event?.defaultPrevented ||
+    event?.button !== 0 ||
+    event?.metaKey ||
+    event?.ctrlKey ||
+    event?.shiftKey ||
+    event?.altKey
+  ) {
+    return;
+  }
+  event?.preventDefault();
+  navigate(target);
+};
 </script>
 
 <style scoped>
