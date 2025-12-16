@@ -1,0 +1,48 @@
+erDiagram
+  %% WoodFlow: клиенты заказывают изделия, мастера исполняют, заказ состоит из материалов
+  clients ||--o{ orders : "размещает"
+  products ||--o{ orders : "заказывают"
+  masters ||--o{ orders : "назначен"
+  orders ||--o{ order_items : "состоит из"
+
+  clients["Клиенты (clients)"] {
+    INTEGER id PK          "Первичный ключ"
+    TEXT    name           "Название магазина"
+    TEXT    city           "Город"
+    TEXT    email          "Контактная почта"
+    INTEGER is_vip         "VIP-статус (0/1)"
+  }
+
+  products["Изделия (products)"] {
+    INTEGER id PK          "Первичный ключ"
+    TEXT    title          "Название изделия"
+    TEXT    category       "Категория"
+    REAL    base_price     "Базовая стоимость"
+    INTEGER is_active      "Доступность (0/1)"
+  }
+
+  masters["Мастера (masters)"] {
+    INTEGER id PK          "Первичный ключ"
+    TEXT    full_name      "ФИО мастера"
+    TEXT    grade          "Грейд"
+    TEXT    hire_date      "Дата найма"
+  }
+
+  orders["Заказы (orders)"] {
+    INTEGER id PK          "Первичный ключ"
+    INTEGER client_id FK   "Клиент"
+    INTEGER product_id FK  "Изделие"
+    INTEGER master_id FK   "Ответственный мастер"
+    TEXT    status         "Статус заказа"
+    TEXT    planned_ship_date "План отгрузки"
+    TEXT    actual_ship_date  "Факт отгрузки"
+    TEXT    created_at     "Дата создания"
+  }
+
+  order_items["Материалы в заказе (order_items)"] {
+    INTEGER id PK          "Первичный ключ"
+    INTEGER order_id FK    "Ссылка на заказ"
+    TEXT    material       "Название материала"
+    INTEGER quantity       "Количество"
+    REAL    unit_price     "Цена за единицу"
+  }
