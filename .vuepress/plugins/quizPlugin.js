@@ -84,8 +84,28 @@ function quizBlock(state, startLine, endLine, silent) {
 function buildQuestions(rawContent, md, meta = {}) {
   const options = meta.options || {};
   if (options.source) {
-    const external = loadExternalQuestions(options, meta.filePath, md);
-    if (external.length) return external;
+    const sources = Array.isArray(options.source)
+      ? options.source
+      : [options.source];
+    const lecturesFilter = buildLectureFilter(options?.lectures);
+    let collected = [];
+    for (const source of sources) {
+      const external = loadExternalQuestions(
+        { ...options, source, lectures: null },
+        meta.filePath,
+        md
+      );
+      if (external.length) {
+        collected = collected.concat(external);
+      }
+    }
+    const normalized = normalizeQuestions(collected);
+  if (lecturesFilter && normalized.length) {
+    return normalized.filter((question) =>
+      shouldKeepQuestion(question, lecturesFilter)
+    );
+  }
+    if (normalized.length) return normalized;
   }
   return parseInlineQuestions(rawContent, md);
 }
@@ -203,7 +223,13 @@ function parseOptions(params) {
 
     if (rawValue !== undefined) {
       if (key === "source") {
-        options.source = rawValue;
+        if (!options.source) {
+          options.source = rawValue;
+        } else if (Array.isArray(options.source)) {
+          options.source.push(rawValue);
+        } else {
+          options.source = [options.source, rawValue];
+        }
         continue;
       }
       if (key === "lecture" || key === "lectures" || key === "topics" || key === "blocks") {
@@ -286,16 +312,13 @@ function loadExternalQuestions(options, filePath, md) {
     } else {
       return [];
     }
-    const lectureFilter = buildLectureFilter(options?.lectures);
-    const sourceQuestions = extractQuestionsFromSource(data, lectureFilter);
+    const sourceQuestions = extractQuestionsFromSource(data);
     if (!sourceQuestions.length) return [];
-    return normalizeQuestions(
-      sourceQuestions
-        .map((question) => normalizeExternalQuestion(question, md))
-        .filter(Boolean)
-    );
+    return sourceQuestions
+      .map((question) => normalizeExternalQuestion(question, md))
+      .filter(Boolean);
   } catch (error) {
-    console.warn(`[quizPlugin] Failed to load quiz source "${source}":`, error);
+    console.warn(`[quizPlugin] Failed to load quiz source \"${source}\":`, error);
     return [];
   }
 }
@@ -361,7 +384,6 @@ function extractQuestionsFromSource(data, lectureFilter) {
   if (Array.isArray(data?.lectures)) {
     const result = [];
     data.lectures.forEach((lecture) => {
-      if (!shouldIncludeLecture(lecture, lectureFilter)) return;
       const lectureQuestions = Array.isArray(lecture?.questions)
         ? lecture.questions
         : [];
@@ -400,6 +422,13 @@ function buildLectureFilter(rawList) {
 function shouldIncludeLecture(lecture, filterSet) {
   if (!filterSet || !filterSet.size) return true;
   const tokens = createLectureTokens(deriveLectureId(lecture));
+  if (!tokens.length) return false;
+  return tokens.some((token) => filterSet.has(token));
+}
+
+function shouldKeepQuestion(question, filterSet) {
+  if (!filterSet || !filterSet.size) return true;
+  const tokens = createLectureTokens(question.lectureId);
   if (!tokens.length) return false;
   return tokens.some((token) => filterSet.has(token));
 }

@@ -1,0 +1,27 @@
+lecture_id: 'demo-01'
+lecture_title: Пример (лекция 01)
+questions:
+  - id: SAMPLE-01-Q01
+    text: Этот файл имитирует отдельную лекцию. Какая опция позволяет перемешать ответы?
+    type: single
+    answers:
+      - text: randomize-answers
+        correct: true
+      - text: disable-reset
+        correct: false
+      - text: hide-correct-answers
+        correct: false
+      - text: lectures
+        correct: false
+  - id: SAMPLE-01-Q02
+    text: Какая опция включает отображение кодов вопросов?
+    type: single
+    answers:
+      - text: show-question-codes
+        correct: true
+      - text: questions-limit
+        correct: false
+      - text: randomize-questions
+        correct: false
+      - text: hide-correct-answers
+        correct: false

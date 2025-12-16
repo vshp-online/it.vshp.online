@@ -1,0 +1,27 @@
+lecture_id: 'demo-02'
+lecture_title: Пример (лекция 02)
+questions:
+  - id: SAMPLE-02-Q01
+    text: Какая опция ограничивает количество вопросов из базы?
+    type: single
+    answers:
+      - text: questions-limit
+        correct: true
+      - text: show-question-codes
+        correct: false
+      - text: source
+        correct: false
+      - text: randomize-questions
+        correct: false
+  - id: SAMPLE-02-Q02
+    text: Какой параметр выключает кнопку сброса?
+    type: single
+    answers:
+      - text: disable-reset
+        correct: true
+      - text: shuffle-answers
+        correct: false
+      - text: lectures
+        correct: false
+      - text: source
+        correct: false
