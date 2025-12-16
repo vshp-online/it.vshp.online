@@ -11,4 +11,5 @@ MD033: false # MD033/no-inline-html
 MD034: false # MD034/no-bare-urls
 MD036: false # MD036/no-emphasis-as-heading
 MD041: false # MD041/first-line-heading/first-line-h1
+MD046: false # MD046/code-block-style
 MD050: false # MD050/strong-style
