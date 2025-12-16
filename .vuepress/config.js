@@ -101,6 +101,7 @@ export default defineUserConfig({
         "json",
         "diff",
         "vue",
+        "yaml"
       ],
     }),
     markdownPreviewPlugin(),
