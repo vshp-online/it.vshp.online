@@ -52,8 +52,7 @@ questions:
   - text: Когда нужно отсортировать результат
     correct: false
 - id: IT03-07-Q05
-  text: Зачем в «скелете» группового запроса добавляют `ORDER BY metric DESC LIMIT
-    N`?
+  text: Зачем в шаблоне группового запроса после `GROUP BY` добавляют `ORDER BY metric DESC LIMIT N`?
   type: single
   answers:
   - text: Чтобы получить верхние N групп по метрике и сделать вывод осмысленным
