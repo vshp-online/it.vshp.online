@@ -215,6 +215,10 @@ function parseOptions(params) {
     source: null,
     lectures: null,
     showQuestionCodes: false,
+    examMode: false,
+    requireName: false,
+    timeLimitMinutes: null,
+    resetAfterMinutes: null,
   };
 
   for (const token of tokens) {
@@ -252,6 +256,32 @@ function parseOptions(params) {
         if (Number.isFinite(value) && value > 0) {
           options.questionLimit = Math.floor(value);
         }
+      }
+      if (
+        key === "time-limit" ||
+        key === "time-limit-minutes" ||
+        key === "time" ||
+        key === "duration" ||
+        key === "duration-minutes"
+      ) {
+        const value = Number(rawValue);
+        if (Number.isFinite(value) && value > 0) {
+          options.timeLimitMinutes = Math.floor(value);
+        }
+      }
+      if (
+        key === "reset-after" ||
+        key === "reset-after-minutes" ||
+        key === "reset-after-min" ||
+        key === "reset-delay"
+      ) {
+        const value = Number(rawValue);
+        if (Number.isFinite(value) && value > 0) {
+          options.resetAfterMinutes = Math.floor(value);
+        }
+      }
+      if (key === "mode" && String(rawValue).toLowerCase() === "exam") {
+        options.examMode = true;
       }
       continue;
     }
@@ -292,6 +322,24 @@ function parseOptions(params) {
     ) {
       options.showQuestionCodes = true;
     }
+    if (key === "exam" || key === "exam-mode" || key === "proctored") {
+      options.examMode = true;
+      continue;
+    }
+    if (
+      key === "require-name" ||
+      key === "name-required" ||
+      key === "student-name"
+    ) {
+      options.requireName = true;
+      continue;
+    }
+  }
+
+  if (options.examMode) {
+    options.requireName = true;
+    options.hideCorrectAnswers = true;
+    options.disableReset = true;
   }
 
   return options;

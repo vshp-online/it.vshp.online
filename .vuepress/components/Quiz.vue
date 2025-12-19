@@ -1,98 +1,157 @@
 <template>
-  <div v-if="quizQuestions.length" class="quiz">
-    <div
-      v-for="(question, qIndex) in quizQuestions"
-      :key="question.id ?? qIndex"
-      :class="[
-        'quiz-question',
-        questionStateClass(qIndex),
-        { 'quiz-question--attention': attentionIndex === qIndex },
-      ]"
-      :ref="(el) => setQuestionRef(el, qIndex)"
-    >
-      <div class="quiz-question__head">
-        <div class="quiz-question__title">
-          <span class="quiz-question__index">Вопрос {{ qIndex + 1 }}</span>
-          <span class="quiz-question__hint">
-            {{ question.multiple ? "Выберите все подходящие ответы" : "Выберите один ответ" }}
-          </span>
-          <span
-            v-if="
-              quizOptions.showQuestionCodes &&
-              question.id !== null &&
-              question.id !== undefined
-            "
-            class="quiz-question__code"
-          >
-            {{ String(question.id) }}
-          </span>
-        </div>
+  <div
+    v-if="quizQuestions.length"
+    class="quiz"
+    :class="{ 'quiz--exam-active': isExam && examStarted }"
+  >
+    <div v-if="isExam" class="quiz-exam">
+      <div v-if="!examStarted" class="quiz-exam__setup">
+        <label class="quiz-exam__label">
+          ФИО студента
+          <input
+            v-model.trim="studentName"
+            type="text"
+            class="quiz-exam__input"
+            placeholder="Иванов Иван Иванович"
+            :disabled="examStarted"
+          />
+        </label>
+        <button
+          type="button"
+          class="quiz-btn"
+          :disabled="startDisabled"
+          @click="startExam"
+        >
+          Начать тестирование
+        </button>
+        <p v-if="nameError" class="quiz-exam__error">{{ nameError }}</p>
       </div>
 
-      <div
-        v-if="question.prompt"
-        class="quiz-question__text"
-        v-html="question.prompt"
-      />
-
-      <ul class="quiz-question__answers">
-        <li
-          v-for="(answer, aIndex) in question.answers"
-          :key="answer.id ?? `${qIndex}-${aIndex}`"
-          class="quiz-answer"
-          :class="answerStateClass(qIndex, aIndex, answer.isCorrect)"
-        >
-          <label>
-            <input
-              :type="question.multiple ? 'checkbox' : 'radio'"
-              :name="`${quizName}-${qIndex}`"
-              :checked="isSelected(qIndex, aIndex)"
-              :disabled="isLocked"
-              @change="onSelect(qIndex, aIndex, question.multiple, $event)"
-            />
-            <span
-              v-if="answer.content"
-              class="quiz-answer__content"
-              v-html="answer.content"
-            />
-            <span v-else class="quiz-answer__content">
-              Ответ {{ aIndex + 1 }}
-            </span>
-          </label>
-        </li>
-      </ul>
-
-      <p
-        v-if="results[qIndex] !== null"
-        class="quiz-question__result"
-        :class="results[qIndex] ? 'quiz-question__result--success' : 'quiz-question__result--error'"
-      >
-        {{ results[qIndex] ? "Верно" : "Не верно" }}
-      </p>
+      <div v-else class="quiz-exam__bar">
+        <div class="quiz-exam__meta">
+          <span class="quiz-exam__name">{{ studentName }}</span>
+          <span class="quiz-exam__time">Старт: {{ startedAtLabel }}</span>
+        </div>
+        <div class="quiz-exam__timer">
+          Осталось: {{ timeLeftLabel }}
+        </div>
+      </div>
     </div>
 
-    <div class="quiz__actions">
-      <button
-        type="button"
-        class="quiz-btn"
-        :class="{ 'quiz-btn--inactive': !canCheck }"
-        :aria-disabled="!canCheck"
-        @click="handleCheckClick"
+    <template v-if="!isExam || examStarted">
+      <div
+        v-for="(question, qIndex) in quizQuestions"
+        :key="question.id ?? qIndex"
+        :class="[
+          'quiz-question',
+          questionStateClass(qIndex),
+          { 'quiz-question--attention': attentionIndex === qIndex },
+        ]"
+        :ref="(el) => setQuestionRef(el, qIndex)"
       >
-        Проверить ответы
-      </button>
-      <button
-        v-if="showResetButton"
-        type="button"
-        class="quiz-btn quiz-btn--ghost"
-        @click="resetQuiz"
-        :disabled="!hasAnySelection && !hasResults"
-      >
-        Сбросить
-      </button>
-      <span v-if="hasResults" class="quiz__score" aria-live="polite">
-        {{ correctCount }} / {{ totalQuestions }}
-      </span>
+        <div class="quiz-question__head">
+          <div class="quiz-question__title">
+            <span class="quiz-question__index">Вопрос {{ qIndex + 1 }}</span>
+            <span class="quiz-question__hint">
+              {{ question.multiple ? "Выберите все подходящие ответы" : "Выберите один ответ" }}
+            </span>
+            <span
+              v-if="
+                quizOptions.showQuestionCodes &&
+                question.id !== null &&
+                question.id !== undefined
+              "
+              class="quiz-question__code"
+            >
+              {{ String(question.id) }}
+            </span>
+          </div>
+        </div>
+
+        <div
+          v-if="question.prompt"
+          class="quiz-question__text"
+          v-html="question.prompt"
+        />
+
+        <ul class="quiz-question__answers">
+          <li
+            v-for="(answer, aIndex) in question.answers"
+            :key="answer.id ?? `${qIndex}-${aIndex}`"
+            class="quiz-answer"
+            :class="answerStateClass(qIndex, aIndex, answer.isCorrect)"
+          >
+            <label>
+              <input
+                :type="question.multiple ? 'checkbox' : 'radio'"
+                :name="`${quizName}-${qIndex}`"
+                :checked="isSelected(qIndex, aIndex)"
+                :disabled="isLocked"
+                @change="onSelect(qIndex, aIndex, question.multiple, $event)"
+              />
+              <span
+                v-if="answer.content"
+                class="quiz-answer__content"
+                v-html="answer.content"
+              />
+              <span v-else class="quiz-answer__content">
+                Ответ {{ aIndex + 1 }}
+              </span>
+            </label>
+          </li>
+        </ul>
+
+        <p
+          v-if="results[qIndex] !== null"
+          class="quiz-question__result"
+          :class="results[qIndex] ? 'quiz-question__result--success' : 'quiz-question__result--error'"
+        >
+          {{ results[qIndex] ? "Верно" : "Не верно" }}
+        </p>
+      </div>
+
+      <div class="quiz__actions">
+        <button
+          v-if="showCheckButton"
+          type="button"
+          class="quiz-btn"
+          :class="{ 'quiz-btn--inactive': !canCheck }"
+          :aria-disabled="!canCheck"
+          @click="handleCheckClick"
+        >
+          Проверить ответы
+        </button>
+        <button
+          v-if="showDownloadButton"
+          type="button"
+          class="quiz-btn quiz-btn--ghost"
+          @click="downloadResults"
+        >
+          Скачать результаты
+        </button>
+        <span
+          v-if="showDownloadButton && resetAfterMs"
+          class="quiz-exam__reset-hint"
+        >
+          {{ resetCountdownLabel }}
+        </span>
+        <button
+          v-if="showResetButton"
+          type="button"
+          class="quiz-btn quiz-btn--ghost"
+          @click="resetQuiz"
+          :disabled="!hasAnySelection && !hasResults"
+        >
+          Сбросить
+        </button>
+        <span v-if="hasResults" class="quiz__score" aria-live="polite">
+          {{ correctCount }} / {{ totalQuestions }}
+        </span>
+      </div>
+    </template>
+
+    <div v-else class="quiz-exam__placeholder">
+      Введите ФИО и нажмите «Начать тестирование», чтобы получить вопросы.
     </div>
   </div>
 
@@ -157,6 +216,14 @@ const quizOptions = computed(() => {
       : options.questionLimit ?? null,
     source: options.source || null,
     showQuestionCodes: Boolean(options.showQuestionCodes),
+    examMode: Boolean(options.examMode),
+    requireName: Boolean(options.requireName),
+    timeLimitMinutes: Number.isFinite(options.timeLimitMinutes)
+      ? Number(options.timeLimitMinutes)
+      : options.timeLimitMinutes ?? null,
+    resetAfterMinutes: Number.isFinite(options.resetAfterMinutes)
+      ? Number(options.resetAfterMinutes)
+      : options.resetAfterMinutes ?? null,
   };
 });
 
@@ -168,6 +235,65 @@ const attentionIndex = ref(null);
 let attentionTimer = null;
 const generationKey = ref("");
 const currentSessionKey = ref("");
+const studentName = ref("");
+const nameError = ref("");
+const examStarted = ref(false);
+const examFinished = ref(false);
+const examStartedAt = ref(null);
+const examFinishedAt = ref(null);
+const examEndsAt = ref(null);
+const examTimeLeftMs = ref(null);
+const timerTick = ref(Date.now());
+let examTimer = null;
+
+const isExam = computed(() => quizOptions.value.examMode);
+const timeLimitMinutes = computed(() => {
+  const limit = Number(quizOptions.value.timeLimitMinutes);
+  if (Number.isFinite(limit) && limit > 0) return limit;
+  return isExam.value ? 60 : null;
+});
+const timeLimitMs = computed(() =>
+  timeLimitMinutes.value ? timeLimitMinutes.value * 60 * 1000 : null
+);
+const resetAfterMinutes = computed(() => {
+  const value = Number(quizOptions.value.resetAfterMinutes);
+  if (Number.isFinite(value) && value > 0) return value;
+  return null;
+});
+const resetAfterMs = computed(() =>
+  resetAfterMinutes.value ? resetAfterMinutes.value * 60 * 1000 : null
+);
+const startedAtLabel = computed(() =>
+  examStartedAt.value
+    ? new Date(examStartedAt.value).toLocaleString("ru-RU")
+    : ""
+);
+const timeLeftMs = computed(() => {
+  if (examFinished.value && examTimeLeftMs.value !== null) {
+    return examTimeLeftMs.value;
+  }
+  if (!examEndsAt.value) return null;
+  return Math.max(examEndsAt.value - timerTick.value, 0);
+});
+const resetAvailable = computed(() => {
+  if (
+    !isExam.value ||
+    !examStarted.value ||
+    !examFinished.value ||
+    !resetAfterMs.value
+  ) {
+    return false;
+  }
+  if (!examFinishedAt.value) return false;
+  return timerTick.value - examFinishedAt.value.getTime() >= resetAfterMs.value;
+});
+const timeLeftLabel = computed(() => {
+  if (timeLeftMs.value === null) return "--:--";
+  const totalSeconds = Math.ceil(timeLeftMs.value / 1000);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+});
 
 const clearAttention = () => {
   if (attentionTimer) {
@@ -269,13 +395,13 @@ const applyRandomization = (base) => {
 };
 
 const restoreSessionState = (session) => {
-  if (!session) return;
+  if (!session) return false;
   if (
     !Array.isArray(session.selections) ||
     session.selections.length !== quizQuestions.value.length
   ) {
     quizStore.clearSession(currentSessionKey.value);
-    return;
+    return false;
   }
   selections.value = session.selections.map((list) => [...list]);
   if (
@@ -284,6 +410,60 @@ const restoreSessionState = (session) => {
   ) {
     results.value = session.results.slice();
   }
+  return true;
+};
+
+const startExamTimer = () => {
+  stopExamTimer();
+  timerTick.value = Date.now();
+  examTimer = setInterval(() => {
+    timerTick.value = Date.now();
+    if (!examFinished.value && timeLeftMs.value !== null && timeLeftMs.value <= 0) {
+      finalizeExam("timeout");
+    }
+  }, 1000);
+  if (!examFinished.value && timeLeftMs.value !== null && timeLeftMs.value <= 0) {
+    finalizeExam("timeout");
+  }
+};
+
+const restoreExamState = (session) => {
+  const state = session?.examState;
+  if (!state) return false;
+  examStarted.value = Boolean(state.examStarted);
+  examFinished.value = Boolean(state.examFinished);
+  studentName.value = state.studentName || "";
+  nameError.value = "";
+  examStartedAt.value = state.examStartedAt
+    ? new Date(state.examStartedAt)
+    : null;
+  examFinishedAt.value = state.examFinishedAt
+    ? new Date(state.examFinishedAt)
+    : null;
+  if (examFinished.value && !examFinishedAt.value) {
+    examFinishedAt.value = new Date();
+  }
+  if (Number.isFinite(state.examEndsAt)) {
+    examEndsAt.value = state.examEndsAt;
+  } else if (examStartedAt.value && timeLimitMs.value) {
+    examEndsAt.value = examStartedAt.value.getTime() + timeLimitMs.value;
+  } else {
+    examEndsAt.value = null;
+  }
+  examTimeLeftMs.value = Number.isFinite(state.examTimeLeftMs)
+    ? state.examTimeLeftMs
+    : null;
+  timerTick.value = Date.now();
+  const shouldTick =
+    examStarted.value &&
+    (!examFinished.value ||
+      (resetAfterMs.value && !resetAvailable.value));
+  if (shouldTick) {
+    startExamTimer();
+  } else {
+    stopExamTimer();
+  }
+  return true;
 };
 
 const computeSignature = () =>
@@ -327,8 +507,21 @@ const prepareQuestions = () => {
   questionRefs.value = Array.from({ length: prepared.length });
   clearAttention();
 
-  if (storedSession) {
-    restoreSessionState(storedSession);
+  const restoredSession = storedSession
+    ? restoreSessionState(storedSession)
+    : false;
+
+  if (isExam.value) {
+    const restored = restoredSession && restoreExamState(storedSession);
+    if (!restored) {
+      examStarted.value = false;
+      examFinished.value = false;
+      examStartedAt.value = null;
+      examFinishedAt.value = null;
+      examEndsAt.value = null;
+      examTimeLeftMs.value = null;
+      stopExamTimer();
+    }
   }
 };
 
@@ -346,21 +539,31 @@ const hasAnySelection = computed(() =>
 const hasResults = computed(() =>
   results.value.some((result) => result !== null)
 );
-const isLocked = computed(() => hasResults.value);
+const isLocked = computed(() => {
+  if (isExam.value) {
+    return !examStarted.value || examFinished.value;
+  }
+  return hasResults.value;
+});
 const allAnswered = computed(() =>
   quizQuestions.value.length > 0 &&
   selections.value.length === quizQuestions.value.length &&
   selections.value.every((answers) => (answers?.length ?? 0) > 0)
 );
 const canCheck = computed(() => allAnswered.value);
-const showResetButton = computed(() => !quizOptions.value.disableReset);
+const showResetButton = computed(() => {
+  if (!isExam.value) return !quizOptions.value.disableReset;
+  return resetAvailable.value;
+});
+const showCheckButton = computed(
+  () => !isExam.value || (examStarted.value && !examFinished.value)
+);
+const showDownloadButton = computed(
+  () => isExam.value && examFinished.value
+);
 
-const persistSession = () => {
+function persistSession() {
   if (!currentSessionKey.value) return;
-  if (!hasAnySelection.value) {
-    quizStore.clearSession(currentSessionKey.value);
-    return;
-  }
   const payload = {
     questionOrder: quizQuestions.value.map((question) => question.id),
     answersOrder: quizQuestions.value.map((question) =>
@@ -368,9 +571,32 @@ const persistSession = () => {
     ),
     selections: selections.value.map((items) => [...items]),
     results: results.value.slice(),
+    examState: isExam.value
+      ? {
+          examStarted: examStarted.value,
+          examFinished: examFinished.value,
+          studentName: studentName.value,
+          examStartedAt: examStartedAt.value
+            ? examStartedAt.value.getTime()
+            : null,
+          examFinishedAt: examFinishedAt.value
+            ? examFinishedAt.value.getTime()
+            : null,
+          examEndsAt: examEndsAt.value ?? null,
+          examTimeLeftMs: examTimeLeftMs.value ?? null,
+        }
+      : null,
   };
+  if (!isExam.value && !hasAnySelection.value) {
+    quizStore.clearSession(currentSessionKey.value);
+    return;
+  }
+  if (isExam.value && !examStarted.value) {
+    quizStore.clearSession(currentSessionKey.value);
+    return;
+  }
   quizStore.saveSession(currentSessionKey.value, payload);
-};
+}
 
 const isSelected = (qIndex, aIndex) => {
   return selections.value[qIndex]?.includes(aIndex) ?? false;
@@ -405,7 +631,7 @@ const onSelect = (qIndex, aIndex, isMultiple, event) => {
   persistSession();
 };
 
-const evaluateQuestion = (question, qIndex) => {
+function evaluateQuestion(question, qIndex) {
   const selected = new Set(selections.value[qIndex] ?? []);
   const correct = new Set();
 
@@ -419,13 +645,19 @@ const evaluateQuestion = (question, qIndex) => {
     if (!selected.has(index)) return false;
   }
   return true;
-};
+}
 
-const checkAnswers = () => {
-  results.value = quizQuestions.value.map((question, index) => {
-    if (!(selections.value[index]?.length)) return null;
+function buildResults(markUnansweredAsFalse = false) {
+  return quizQuestions.value.map((question, index) => {
+    if (!(selections.value[index]?.length)) {
+      return markUnansweredAsFalse ? false : null;
+    }
     return evaluateQuestion(question, index);
   });
+}
+
+const checkAnswers = () => {
+  results.value = buildResults(false);
   persistSession();
 };
 
@@ -438,6 +670,17 @@ const resetQuiz = () => {
   setupState(quizQuestions.value.length);
   clearAttention();
   quizStore.clearSession(currentSessionKey.value);
+  if (isExam.value) {
+    examStarted.value = false;
+    examFinished.value = false;
+    examStartedAt.value = null;
+    examFinishedAt.value = null;
+    examEndsAt.value = null;
+    examTimeLeftMs.value = null;
+    studentName.value = "";
+    nameError.value = "";
+    stopExamTimer();
+  }
 };
 
 const questionStateClass = (qIndex) => {
@@ -502,7 +745,170 @@ const handleCheckClick = () => {
   checkAnswers();
 };
 
+function stopExamTimer() {
+  if (examTimer) {
+    clearInterval(examTimer);
+    examTimer = null;
+  }
+}
+
+function finalizeExam(reason = "completed") {
+  if (examFinished.value) return;
+  results.value = buildResults(true);
+  examFinished.value = true;
+  const finishedAt =
+    reason === "timeout" && examEndsAt.value
+      ? new Date(examEndsAt.value)
+      : new Date();
+  examFinishedAt.value = finishedAt;
+  if (examEndsAt.value) {
+    examTimeLeftMs.value = Math.max(
+      examEndsAt.value - finishedAt.getTime(),
+      0
+    );
+  }
+  if (!resetAfterMs.value) {
+    stopExamTimer();
+  }
+  persistSession();
+}
+
+const startDisabled = computed(() => {
+  if (examStarted.value) return true;
+  if (quizOptions.value.requireName && !studentName.value.trim()) return true;
+  return false;
+});
+
+const startExam = () => {
+  if (startDisabled.value) {
+    nameError.value = quizOptions.value.requireName
+      ? "Введите ФИО перед началом тестирования."
+      : "";
+    return;
+  }
+  nameError.value = "";
+  examStarted.value = true;
+  examFinished.value = false;
+  const startedAt = new Date();
+  examStartedAt.value = startedAt;
+  examFinishedAt.value = null;
+  if (timeLimitMs.value) {
+    examEndsAt.value = startedAt.getTime() + timeLimitMs.value;
+  }
+  examTimeLeftMs.value = null;
+  startExamTimer();
+  persistSession();
+};
+
+const plainText = (html) => {
+  if (typeof window === "undefined") return html || "";
+  const div = document.createElement("div");
+  div.innerHTML = html || "";
+  return div.textContent?.trim() || "";
+};
+
+const formatDateTime = (value) =>
+  value ? new Date(value).toLocaleString("ru-RU") : "";
+
+const formatDuration = (ms) => {
+  if (!Number.isFinite(ms) || ms < 0) return "00:00";
+  const totalSeconds = Math.max(0, Math.floor(ms / 1000));
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+};
+
+const resetRemainingMs = computed(() => {
+  if (!resetAfterMs.value || !examFinishedAt.value) return null;
+  const elapsed = timerTick.value - examFinishedAt.value.getTime();
+  return Math.max(resetAfterMs.value - elapsed, 0);
+});
+
+const resetCountdownLabel = computed(() => {
+  if (!resetAfterMs.value) return "";
+  if (resetAvailable.value) return "";
+  const remaining = resetRemainingMs.value;
+  if (remaining === null) return "";
+  return `Сброс доступен через ${formatDuration(remaining)}`;
+});
+
+const downloadResults = () => {
+  const started = formatDateTime(examStartedAt.value);
+  const finishedAt = examFinishedAt.value || new Date();
+  const finished = formatDateTime(finishedAt);
+  const startedAt = examStartedAt.value || new Date();
+  const rawDuration = finishedAt.getTime() - startedAt.getTime();
+  const durationMs = timeLimitMs.value
+    ? Math.min(rawDuration, timeLimitMs.value)
+    : rawDuration;
+  const lines = [];
+  lines.push(`ФИО: ${studentName.value || "Не указано"}`);
+  lines.push(`Начало: ${started}`);
+  lines.push(`Окончание: ${finished}`);
+  lines.push(`Длительность: ${formatDuration(durationMs)}`);
+  lines.push(`Результат: ${correctCount.value} / ${totalQuestions.value}`);
+  lines.push("");
+  quizQuestions.value.forEach((question, qIndex) => {
+    const qTitle = plainText(question.prompt);
+    lines.push(`Вопрос ${qIndex + 1}: ${qTitle}`);
+    if (question.id !== null && question.id !== undefined) {
+      lines.push(`Код вопроса: ${question.id}`);
+    }
+    const selectedIndexes = selections.value[qIndex] ?? [];
+    if (!selectedIndexes.length) {
+      lines.push("Ответ: нет");
+    } else {
+      const selectedTexts = selectedIndexes
+        .map((aIndex) => plainText(question.answers[aIndex]?.content))
+        .filter(Boolean);
+      lines.push(`Ответ: ${selectedTexts.join("; ") || "нет"}`);
+    }
+    lines.push(`Статус: ${results.value[qIndex] ? "верно" : "неверно"}`);
+    lines.push("");
+  });
+  const blob = new Blob([lines.join("\n")], {
+    type: "text/plain;charset=utf-8",
+  });
+  const safeName = (studentName.value || "student").replace(/[\\/:*?\"<>|]/g, "_");
+  const fileName = `quiz_result_${safeName}.txt`;
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = fileName;
+  link.click();
+  URL.revokeObjectURL(url);
+};
+
+watch(
+  () => allAnswered.value,
+  (value) => {
+    if (!isExam.value || !examStarted.value || examFinished.value) return;
+    if (value) {
+      finalizeExam("completed");
+    }
+  }
+);
+
+watch(
+  () => studentName.value,
+  (value) => {
+    if (value && nameError.value) {
+      nameError.value = "";
+    }
+  }
+);
+
+watch(
+  () => resetAvailable.value,
+  (value) => {
+    if (value && examFinished.value) {
+      stopExamTimer();
+    }
+  }
+);
+
 onBeforeUnmount(() => {
   clearAttention();
+  stopExamTimer();
 });
 </script>
