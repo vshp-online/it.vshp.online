@@ -32,8 +32,46 @@
           <span class="quiz-exam__name">{{ studentName }}</span>
           <span class="quiz-exam__time">Старт: {{ startedAtLabel }}</span>
         </div>
-        <div class="quiz-exam__timer">
-          Осталось: {{ timeLeftLabel }}
+        <div class="quiz-exam__actions">
+          <div class="quiz-exam__timer">
+            Осталось: {{ timeLeftLabel }}
+          </div>
+          <button
+            v-if="showSurrenderButton"
+            type="button"
+            class="quiz-btn quiz-btn--danger"
+            @click="requestSurrender"
+          >
+            Сдаться
+          </button>
+        </div>
+      </div>
+      <div
+        v-if="showSurrenderConfirm"
+        class="quiz-exam__overlay"
+        role="dialog"
+        aria-modal="true"
+      >
+        <div class="quiz-exam__confirm">
+          <p class="quiz-exam__confirm-text">
+            Если вы сейчас сдадитесь, то попытка сгорит и результаты засчитаны не будут. Вы точно уверены что хотите сдаться?
+          </p>
+          <div class="quiz-exam__confirm-actions">
+            <button
+              type="button"
+              class="quiz-btn quiz-btn--danger"
+              @click="confirmSurrender"
+            >
+              Да, уверен, хочу сдаться
+            </button>
+            <button
+              type="button"
+              class="quiz-btn quiz-btn--ghost"
+              @click="cancelSurrender"
+            >
+              Нет, не хочу сдаваться!
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -245,6 +283,7 @@ const examEndsAt = ref(null);
 const examTimeLeftMs = ref(null);
 const timerTick = ref(Date.now());
 let examTimer = null;
+const surrenderOpen = ref(false);
 
 const isExam = computed(() => quizOptions.value.examMode);
 const timeLimitMinutes = computed(() => {
@@ -520,6 +559,7 @@ const prepareQuestions = () => {
       examFinishedAt.value = null;
       examEndsAt.value = null;
       examTimeLeftMs.value = null;
+      surrenderOpen.value = false;
       stopExamTimer();
     }
   }
@@ -561,6 +601,10 @@ const showCheckButton = computed(
 const showDownloadButton = computed(
   () => isExam.value && examFinished.value
 );
+const showSurrenderButton = computed(
+  () => isExam.value && examStarted.value && !examFinished.value
+);
+const showSurrenderConfirm = computed(() => surrenderOpen.value);
 
 function persistSession() {
   if (!currentSessionKey.value) return;
@@ -679,6 +723,7 @@ const resetQuiz = () => {
     examTimeLeftMs.value = null;
     studentName.value = "";
     nameError.value = "";
+    surrenderOpen.value = false;
     stopExamTimer();
   }
 };
@@ -756,6 +801,7 @@ function finalizeExam(reason = "completed") {
   if (examFinished.value) return;
   results.value = buildResults(true);
   examFinished.value = true;
+  surrenderOpen.value = false;
   const finishedAt =
     reason === "timeout" && examEndsAt.value
       ? new Date(examEndsAt.value)
@@ -789,6 +835,7 @@ const startExam = () => {
   nameError.value = "";
   examStarted.value = true;
   examFinished.value = false;
+  surrenderOpen.value = false;
   const startedAt = new Date();
   examStartedAt.value = startedAt;
   examFinishedAt.value = null;
@@ -798,6 +845,20 @@ const startExam = () => {
   examTimeLeftMs.value = null;
   startExamTimer();
   persistSession();
+};
+
+const requestSurrender = () => {
+  if (!showSurrenderButton.value) return;
+  surrenderOpen.value = true;
+};
+
+const cancelSurrender = () => {
+  surrenderOpen.value = false;
+};
+
+const confirmSurrender = () => {
+  surrenderOpen.value = false;
+  resetQuiz();
 };
 
 const plainText = (html) => {
