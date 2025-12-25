@@ -12,7 +12,6 @@
   border-radius: 1.25rem;
   border: 1px solid var(--quiz-border);
   background: var(--quiz-bg);
-  box-shadow: 0 12px 50px rgb(15 23 42 / 6%);
 
   &--invalid {
     border-style: dashed;
@@ -282,6 +281,10 @@
 .vp-preview,
 .vp-preview-showcase {
   overflow: visible !important;
+}
+
+.vp-preview-showcase .quiz {
+  margin: 0.5rem;
 }
 
 // Служебные элементы панели экзамена

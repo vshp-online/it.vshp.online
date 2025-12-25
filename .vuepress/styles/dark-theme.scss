@@ -1,10 +1,202 @@
-[data-theme="dark"] {
+:root[data-theme="dark"] {
+  --vp-c-accent: #d7232f;
+  --vp-c-accent-hover: #e92f2f;
+  --vp-c-accent-bg: #a40e16;
+  --vp-c-accent-soft: rgba(208, 45, 55, 0.2);
+  --pill-tip-text: #8fbcbb;
+  --pill-tip-bg: rgba(143, 188, 187, 0.16);
+  --pill-tip-border: rgba(143, 188, 187, 0.45);
+  --pill-info-text: #81a1c1;
+  --pill-info-bg: rgba(129, 161, 193, 0.16);
+  --pill-info-border: rgba(129, 161, 193, 0.45);
+  --pill-warning-text: #ebcb8b;
+  --pill-warning-bg: rgba(235, 203, 139, 0.18);
+  --pill-warning-border: rgba(235, 203, 139, 0.45);
+  --pill-danger-text: #bf616a;
+  --pill-danger-bg: rgba(191, 97, 106, 0.16);
+  --pill-danger-border: rgba(191, 97, 106, 0.45);
 
   .nav-icon img {
     filter: invert(1);
   }
 
+  .vp-back-to-top-button {
+    background-color: #282c34;
+
+    .vp-scroll-progress {
+      color: #a40e16;
+    }
+
+    .back-to-top-icon {
+      background-color: #a40e16;
+    }
+
+    &:hover {
+      .vp-scroll-progress {
+        color: #ff2e3c;
+      }
+
+      .back-to-top-icon {
+        background-color: #ff2e3c;
+      }
+    }
+  }
+
   codapi-output > pre {
     background-color: rgb(40, 39, 35);
+  }
+
+  .quiz {
+    --quiz-bg: #282c34;
+    --quiz-border: rgba(216, 222, 233, 0.22);
+    --quiz-answer-hover: rgba(216, 222, 233, 0.1);
+    --quiz-success: #3fbd99;
+    --quiz-error: #e57373;
+    --quiz-info: rgba(236, 239, 244, 0.82);
+
+    box-shadow: 0 12px 50px rgb(0 0 0 / 45%);
+  }
+
+  .quiz-question {
+    border-color: rgba(216, 222, 233, 0.16);
+    background: rgba(48, 54, 66, 0.85);
+  }
+
+  .quiz-question--success {
+    border-color: rgba(45, 212, 191, 0.5);
+    background: rgba(45, 212, 191, 0.12);
+  }
+
+  .quiz-question--error {
+    border-color: rgba(248, 113, 113, 0.5);
+    background: rgba(248, 113, 113, 0.12);
+  }
+
+  .quiz-question__index {
+    color: #ff2e3c;
+  }
+
+  .quiz-question__hint {
+    color: rgba(216, 222, 233, 0.75);
+  }
+
+  .quiz-question__code {
+    color: rgba(236, 239, 244, 0.9);
+    background: rgba(216, 222, 233, 0.16);
+    border-color: rgba(216, 222, 233, 0.35);
+  }
+
+  .quiz-answer label {
+    border-color: rgba(216, 222, 233, 0.24);
+    background: rgba(42, 48, 59, 0.92);
+  }
+
+  .quiz-answer:hover label {
+    border-color: #ff2e3c;
+    background: rgba(216, 222, 233, 0.12);
+    box-shadow: 0 6px 20px rgb(0 0 0 / 45%);
+  }
+
+  .quiz-answer--correct label {
+    border-color: rgba(45, 212, 191, 0.65);
+    background: rgba(45, 212, 191, 0.18);
+  }
+
+  .quiz-answer--wrong label {
+    border-color: rgba(248, 113, 113, 0.65);
+    background: rgba(248, 113, 113, 0.18);
+  }
+
+  .quiz-answer--missed label {
+    border-color: rgba(56, 189, 248, 0.6);
+    background: rgba(56, 189, 248, 0.15);
+  }
+
+  .quiz-btn {
+    color: #fff;
+  }
+
+  .quiz-btn--ghost {
+    color: rgba(226, 232, 240, 0.9);
+    border-color: rgba(226, 232, 240, 0.7);
+
+    &:hover:not(:disabled) {
+      color: #fff;
+      border-color: #fff;
+    }
+  }
+
+  .quiz-btn--danger {
+    background: #ef4444;
+    border-color: #ef4444;
+  }
+
+  .quiz-exam__setup {
+    border-color: rgba(216, 222, 233, 0.22);
+    background: rgba(42, 48, 59, 0.82);
+  }
+
+  .quiz-exam__input {
+    border-color: rgba(216, 222, 233, 0.36);
+    background: rgba(42, 48, 59, 0.96);
+    color: inherit;
+  }
+
+  .quiz-exam__bar {
+    border-color: rgba(216, 222, 233, 0.22);
+    background: rgba(42, 48, 59, 0.96);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+  }
+
+  .quiz-exam__placeholder {
+    border-color: rgba(216, 222, 233, 0.38);
+  }
+
+  .quiz-exam__confirm {
+    border-color: rgba(248, 113, 113, 0.4);
+    background: rgba(127, 29, 29, 0.4);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+  }
+
+  .quiz-exam__overlay {
+    background: rgba(2, 6, 23, 0.7);
+  }
+
+  .vp-sidebar-item {
+    color: rgba(236, 239, 244, 0.85);
+
+    &.vp-sidebar-heading {
+      color: #ff2e3c;
+    }
+
+    &.active:not(p.vp-sidebar-heading) {
+      color: #ff2e3c;
+    }
+  }
+
+  .vp-sidebar-item.auto-link:hover {
+    color: #ff2e3c;
+  }
+
+  .breadcrumbs .breadcrumb-item img {
+    filter: invert(1);
+  }
+
+  .vp-hero-action-button {
+    background-color: rgba(255, 255, 255, 0.03);
+    border-color: #a40e16;
+    color: #ff4c58;
+
+    &.primary {
+      background-color: #a40e16;
+      border-color: #a40e16;
+      color: #fff;
+
+      &:hover {
+        background-color: #ff2e3c;
+        border-color: #ff2e3c;
+        color: #fff;
+      }
+    }
   }
 }
