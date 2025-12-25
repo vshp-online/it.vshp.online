@@ -6,12 +6,46 @@ sidebar: false
 
 Этот вариант предназначен для контрольной попытки. Перед началом студент вводит ФИО, затем запускается таймер, а после завершения доступна выгрузка результатов.
 
-## Правила
+## Правила проведения промежуточной аттестации
 
-- 40 вопросов из лекций 01-13, порядок вопросов и ответов перемешивается.
-- Время на попытку — 60 минут.
-- Неотвеченные вопросы по окончании времени считаются неверными.
-- После завершения доступна кнопка «Скачать результаты».
+### 1. Общие положения
 
-::: quiz exam require-name time-limit=60 reset-after=3 randomize-questions randomize-answers show-question-codes hide-correct-answers questions-limit=40 source=./lectures/includes/quiz-01.yaml source=./lectures/includes/quiz-02.yaml source=./lectures/includes/quiz-03.yaml source=./lectures/includes/quiz-04.yaml source=./lectures/includes/quiz-05.yaml source=./lectures/includes/quiz-06.yaml source=./lectures/includes/quiz-07.yaml source=./lectures/includes/quiz-08.yaml source=./lectures/includes/quiz-09.yaml source=./lectures/includes/quiz-10.yaml source=./lectures/includes/quiz-11.yaml source=./lectures/includes/quiz-12.yaml source=./lectures/includes/quiz-13.yaml
+- **Количество вопросов:** тест содержит 40 заданий, сформированных на основе лекционных материалов 01-13
+- **Проходной балл:** для успешного прохождения необходимо правильно ответить на **30 вопросов из 40**
+- **Попытки:** в рамках текущей сессии предоставляется **одна попытка** сдачи
+
+### 2. Временные параметры
+
+- **Длительность теста:** 40 минут
+- **Порядок выполнения:**
+  - тестирование можно завершить досрочно после ответа на все вопросы
+  - система автоматически фиксирует:
+    - время начала тестирования
+    - время окончания
+    - общую продолжительность прохождения
+
+### 3. Технические требования
+
+- **Разрешенные материалы:** только материалы лекций
+- **Запрещенные действия:**
+  - использование интернет-ресурсов
+  - применение любых форм искусственного интеллекта
+- **Видеофиксация:** обязательна для студентов очной формы обучения
+
+### 4. Процедура проведения
+
+- **Система контроля:**
+  - при попытке отправки теста система автоматически показывает неотвеченные вопросы
+  - по истечении времени неотвеченные вопросы автоматически считаются неверными
+
+- **Завершение теста:**
+  - после завершения доступна функция скачивания результатов
+  - возможно досрочное завершение через кнопку «Сдаться», однако результаты не засчитываются и попытка считается использованной
+
+### 5. Порядок утверждения результатов
+
+- Результаты аттестации утверждаются после проверки видеозаписи при отсутствии нарушений
+- При неудовлетворительном результате пересдача возможна только в период пересдач
+
+::: quiz exam require-name time-limit=40 reset-after=2 randomize-questions randomize-answers show-question-codes hide-correct-answers questions-limit=40 source=./lectures/includes/quiz-01.yaml source=./lectures/includes/quiz-02.yaml source=./lectures/includes/quiz-03.yaml source=./lectures/includes/quiz-04.yaml source=./lectures/includes/quiz-05.yaml source=./lectures/includes/quiz-06.yaml source=./lectures/includes/quiz-07.yaml source=./lectures/includes/quiz-08.yaml source=./lectures/includes/quiz-09.yaml source=./lectures/includes/quiz-10.yaml source=./lectures/includes/quiz-11.yaml source=./lectures/includes/quiz-12.yaml source=./lectures/includes/quiz-13.yaml
 :::
