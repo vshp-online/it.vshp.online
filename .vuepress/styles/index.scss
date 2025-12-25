@@ -13,6 +13,18 @@
   --vp-c-accent-soft: rgba(185, 14, 14, 0.14);
   --code-font-size: 0.9rem !important;
   --mermaid-preview-bg: rgba(255, 255, 255, 1) !important;
+  --pill-tip-text: #047857;
+  --pill-tip-bg: rgba(16, 185, 129, 0.12);
+  --pill-tip-border: rgba(16, 185, 129, 0.35);
+  --pill-info-text: #1d4ed8;
+  --pill-info-bg: rgba(59, 130, 246, 0.12);
+  --pill-info-border: rgba(59, 130, 246, 0.35);
+  --pill-warning-text: #92400e;
+  --pill-warning-bg: rgba(245, 158, 11, 0.15);
+  --pill-warning-border: rgba(245, 158, 11, 0.35);
+  --pill-danger-text: #b91c1c;
+  --pill-danger-bg: rgba(239, 68, 68, 0.12);
+  --pill-danger-border: rgba(239, 68, 68, 0.35);
 
   scrollbar-width: thin;
 
@@ -167,4 +179,8 @@ tr > td > a::after {
 .vp-back-to-top-button {
   bottom: 1rem !important;
   right: 1rem !important;
+}
+
+.vp-preview-showcase {
+  padding: 0.5rem!important;
 }

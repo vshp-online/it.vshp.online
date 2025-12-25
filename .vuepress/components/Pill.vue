@@ -22,23 +22,23 @@ defineProps<{
 }
 /* Палитра по типам */
 .tip {
-  color: #047857;
-  background: rgba(16, 185, 129, 0.12);
-  border-color: rgba(16, 185, 129, 0.35);
+  color: var(--pill-tip-text);
+  background: var(--pill-tip-bg);
+  border-color: var(--pill-tip-border);
 }
 .info {
-  color: #1d4ed8;
-  background: rgba(59, 130, 246, 0.12);
-  border-color: rgba(59, 130, 246, 0.35);
+  color: var(--pill-info-text);
+  background: var(--pill-info-bg);
+  border-color: var(--pill-info-border);
 }
 .warning {
-  color: #92400e;
-  background: rgba(245, 158, 11, 0.15);
-  border-color: rgba(245, 158, 11, 0.35);
+  color: var(--pill-warning-text);
+  background: var(--pill-warning-bg);
+  border-color: var(--pill-warning-border);
 }
 .danger {
-  color: #b91c1c;
-  background: rgba(239, 68, 68, 0.12);
-  border-color: rgba(239, 68, 68, 0.35);
+  color: var(--pill-danger-text);
+  background: var(--pill-danger-bg);
+  border-color: var(--pill-danger-border);
 }
 </style>
