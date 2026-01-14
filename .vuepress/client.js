@@ -1,5 +1,6 @@
 import { defineClientConfig } from "vuepress/client";
 import { defineAsyncComponent } from "vue";
+import { createPinia } from "pinia";
 import Layout from "./layouts/Layout.vue";
 import RailroadDiagram from "./components/RailroadDiagram.vue";
 import Pill from "./components/Pill.vue";
@@ -46,7 +47,6 @@ export default defineClientConfig({
   },
 
   async enhance({ app, router }) {
-    const { createPinia } = await import("pinia");
     const pinia = createPinia();
     app.use(pinia);
 
