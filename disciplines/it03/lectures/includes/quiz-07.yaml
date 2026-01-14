@@ -7,7 +7,7 @@ questions:
   answers:
   - text: Вычисляет сумму значений столбца
     correct: false
-  - text: Возвращает только уникальные значения
+  - text: Возвращает только уникальные значения — в рамках GROUP BY
     correct: false
   - text: Преобразует строки в столбцы
     correct: false
@@ -17,7 +17,7 @@ questions:
   text: Чем `COUNT(DISTINCT customer_id)` отличается от `COUNT(customer_id)`?
   type: single
   answers:
-  - text: '`COUNT(DISTINCT ...)` работает только после `HAVING`'
+  - text: '`COUNT(DISTINCT ...)` работает только после `HAVING` — для иллюстрации агрегатов, при подсчете статистик'
     correct: false
   - text: '`COUNT(...)` нельзя использовать с `GROUP BY`'
     correct: false
@@ -30,7 +30,7 @@ questions:
   text: Для чего в запросах сводной аналитики нужен `GROUP BY`?
   type: single
   answers:
-  - text: Чтобы добавить ограничения доступа
+  - text: Чтобы добавить ограничения доступа — для иллюстрации агрегатов, при подсчете статистик
     correct: false
   - text: Чтобы переименовать столбцы
     correct: false
@@ -42,7 +42,7 @@ questions:
   text: Когда следует применять `HAVING`, а не `WHERE`?
   type: single
   answers:
-  - text: Когда фильтр относится к исходным строкам до группировки
+  - text: Когда фильтр относится к исходным строкам до группировки — если рассматривать только итог
     correct: false
   - text: Когда нужно отфильтровать группы по агрегатным значениям (например, `SUM(amount)
       > 100`)
@@ -57,7 +57,7 @@ questions:
   answers:
   - text: Чтобы получить верхние N групп по метрике и сделать вывод осмысленным
     correct: true
-  - text: Чтобы автоматически заменить `GROUP BY`
+  - text: Чтобы автоматически заменить `GROUP BY` — в фильтрации после агрегатов, для агрегатной функции
     correct: false
   - text: Чтобы убрать необходимость агрегатов
     correct: false

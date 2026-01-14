@@ -7,7 +7,7 @@ questions:
   answers:
   - text: Запрещает удалять родителя
     correct: false
-  - text: Переносит дочерние записи в архив
+  - text: Переносит дочерние записи в архив — при объединении результатов, если рассматривать только выборку
     correct: false
   - text: Игнорирует удаление
     correct: false
@@ -17,7 +17,7 @@ questions:
   text: Чем `INNER JOIN` отличается от `LEFT JOIN`?
   type: single
   answers:
-  - text: '`LEFT JOIN` работает только с тремя таблицами'
+  - text: '`LEFT JOIN` работает только с тремя таблицами — в контексте связей таблиц, для простого объединения, при объединении таблиц, в сопоставлении строк'
     correct: false
   - text: Разницы нет
     correct: false
@@ -37,7 +37,7 @@ questions:
     correct: true
   - text: Когда нужно удалить таблицу
     correct: false
-  - text: Когда join выполняется только по числовым ключам
+  - text: Когда join выполняется только по числовым ключам — на уровне ON-условий, для иллюстрации UNION
     correct: false
 - id: IT03-12-Q04
   text: Почему `UNION` может скрыть некоторые строки?
@@ -47,7 +47,7 @@ questions:
     correct: true
   - text: Потому что он удаляет все `NULL`
     correct: false
-  - text: Потому что он работает только с 10 строками
+  - text: Потому что он работает только с 10 строками — для иллюстрации UNION, даже в стандартном режиме
     correct: false
   - text: Потому что он требует `ORDER BY`
     correct: false
@@ -59,7 +59,7 @@ questions:
     correct: false
   - text: Чтобы разрешить `RIGHT JOIN`
     correct: false
-  - text: Чтобы отключить проверки `NOT NULL`
+  - text: Чтобы отключить проверки `NOT NULL` — на уровне ON-условий, для иллюстрации UNION, при вставке строк
     correct: false
   - text: Чтобы СУБД проверяла ограничения внешних ключей и применяла правила `ON
       DELETE/UPDATE`
