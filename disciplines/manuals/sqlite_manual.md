@@ -8,7 +8,7 @@
 
 ## 1. Скачивание официального архива
 
-1. Перейдите на страницу загрузки: [https://www.sqlite.org/download.html ↗](https://www.sqlite.org/download.html).
+1. Перейдите на страницу загрузки: [https://sqlite.org/download.html ↗](https://sqlite.org/download.html). Если официальный сайт не открывается, используйте поисковик.
 2. В блоке **Precompiled Binaries for Windows** скачайте файл `sqlite-tools-win-x64-<версия>.zip`.
 
 ![Страница загрузки SQLite с выделенным блоком Precompiled Binaries](./img/sqlite_manual/2025-12-16_16-53-29.png)
