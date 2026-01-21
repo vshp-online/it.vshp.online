@@ -128,3 +128,102 @@ SELECT * FROM deposit_transactions;
 Этот запрос вернет список всех транзакций типа `deposit` вместе с именем владельца счета для каждой транзакции.
 
 В заключение, представления в MySQL 8 — это мощный инструмент для упрощения работы с данными и повышения производительности запросов. Они позволяют создавать логические структуры данных и использовать их как обычные таблицы.
+
+---
+
+## Практикум
+
+### Задание 1. Хранимые процедуры
+
+::: tabs
+
+@tab Условие
+
+Создайте процедуру `deposit_money`, которая принимает `p_account_id` и `p_amount`, пополняет баланс и добавляет запись о транзакции.
+
+@tab Решение
+
+```sql
+DELIMITER //
+
+CREATE PROCEDURE deposit_money(
+    IN p_account_id INT,
+    IN p_amount DECIMAL(10, 2)
+)
+BEGIN
+    DECLARE v_user_id INT;
+
+    SELECT user_id INTO v_user_id
+    FROM accounts
+    WHERE id = p_account_id;
+
+    UPDATE accounts
+    SET balance = balance + p_amount
+    WHERE id = p_account_id;
+
+    INSERT INTO transactions (date_time, amount, transaction_type, user_id, account_id, transfer_to_account_id)
+    VALUES (NOW(), p_amount, 'deposit', v_user_id, p_account_id, NULL);
+END //
+
+DELIMITER ;
+```
+
+:::
+
+### Задание 2. Триггеры
+
+::: tabs
+
+@tab Условие
+
+Создайте триггер, который при добавлении транзакции типа `deposit` увеличивает баланс счета, а при `withdrawal` уменьшает. Для `transfer` можно ничего не делать.
+
+@tab Решение
+
+```sql
+DELIMITER //
+
+CREATE TRIGGER apply_transaction
+AFTER INSERT ON transactions
+FOR EACH ROW
+BEGIN
+    IF NEW.transaction_type = 'deposit' THEN
+        UPDATE accounts
+        SET balance = balance + NEW.amount
+        WHERE id = NEW.account_id;
+    ELSEIF NEW.transaction_type = 'withdrawal' THEN
+        UPDATE accounts
+        SET balance = balance - NEW.amount
+        WHERE id = NEW.account_id;
+    END IF;
+END //
+
+DELIMITER ;
+```
+
+:::
+
+### Задание 3. Представления
+
+::: tabs
+
+@tab Условие
+
+Создайте представление `withdrawal_transactions`, которое показывает только транзакции типа `withdrawal` и выводит имя владельца счета.
+
+@tab Решение
+
+```sql
+CREATE VIEW withdrawal_transactions AS
+SELECT
+   transactions.id,
+   transactions.date_time,
+   transactions.amount,
+   users.name AS account_owner
+FROM transactions
+JOIN accounts ON transactions.account_id = accounts.id
+JOIN users ON accounts.user_id = users.id
+WHERE transactions.transaction_type = 'withdrawal';
+```
+
+:::
