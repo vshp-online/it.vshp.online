@@ -6,9 +6,13 @@
 
 ---
 
-## Пример задачи
+## Учебная база данных
 
-Таблица заказов:
+Примеры в этой теме используют упрощённую таблицу заказов.
+
+::: tabs
+
+@tab Таблица orders
 
 | order_id | customer_id | product_id | quantity |
 |----------|-------------|------------|----------|
@@ -17,6 +21,36 @@
 | 3        | 1           | 103        | 5        |
 | 4        | 1           | 101        | 3        |
 | 5        | 3           | 104        | 7        |
+
+@tab Дамп
+
+```sql
+-- Создание базы данных
+CREATE DATABASE IF NOT EXISTS test_db;
+USE test_db;
+
+-- Создание таблицы заказов
+CREATE TABLE orders (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_id INT NOT NULL,
+    product_id INT NOT NULL,
+    quantity INT NOT NULL
+);
+
+-- Наполнение таблицы данными
+INSERT INTO orders (customer_id, product_id, quantity) VALUES
+(1, 101, 2),
+(2, 102, 1),
+(1, 103, 5),
+(1, 101, 3),
+(3, 104, 7);
+```
+
+:::
+
+---
+
+## Пример задачи
 
 **Вопросы:**
 
@@ -79,37 +113,9 @@ DELIMITER ;
 
 ---
 
-## Тестовая база данных
-
-Создадим таблицу и наполним её данными для проверки:
-
-```sql
--- Создание базы данных
-CREATE DATABASE IF NOT EXISTS test_db;
-USE test_db;
-
--- Создание таблицы заказов
-CREATE TABLE orders (
-    order_id INT AUTO_INCREMENT PRIMARY KEY,
-    customer_id INT NOT NULL,
-    product_id INT NOT NULL,
-    quantity INT NOT NULL
-);
-
--- Наполнение таблицы данными
-INSERT INTO orders (customer_id, product_id, quantity) VALUES
-(1, 101, 2),
-(2, 102, 1),
-(1, 103, 5),
-(1, 101, 3),
-(3, 104, 7);
-```
-
----
-
 ## Проверка
 
-1. Если записи несколько:
+1. Если записей несколько:
 
 ```sql
 CALL add_order(1, 101, 2);
