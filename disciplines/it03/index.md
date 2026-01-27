@@ -35,8 +35,8 @@ next: '/disciplines/mdk1101/'
     - [Аттестационный вариант](./midterm_quiz_real.md)
 - **Семестр 2 (100 ак.ч.)**
   - [16 - Введение в MySQL: назначение, редакции, архитектура, особенности, отличие от SQLite](./lectures/16_lecture.md)
-  - 17 - MySQL Workbench и подключение к серверу.
-  - 18 - Типы данных MySQL (AUTO_INCREMENT, дата/время, charset/collation).
+  - [17 - MySQL Workbench и подключение к серверу](./lectures/17_lecture.md)
+  - 18 - Типы данных MySQL, особенности даты и времени
   - 19 - Ограничения и целостность данных (PRIMARY/UNIQUE/FOREIGN/CHECK).
   - 20 - Проектирование моделей БД в MySQL Workbench (ERD).
   - 21 - DDL в MySQL: CREATE, ALTER, DROP.

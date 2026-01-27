@@ -1,0 +1,100 @@
+lecture_id: '17'
+lecture_title: 'ИТ.03 - 17 - MySQL Workbench: интерфейс, подключение, базовые типы
+  и создание БД'
+questions:
+- id: IT03-17-Q01
+  text: Что такое MySQL Workbench?
+  type: single
+  answers:
+  - text: Отдельная СУБД, не связанная с MySQL
+    correct: false
+  - text: Файловый формат для хранения и обмена баз данных между приложениями
+    correct: false
+  - text: Язык программирования для работы с SQL
+    correct: false
+  - text: Графический инструмент для работы с MySQL
+    correct: true
+- id: IT03-17-Q02
+  text: Что делает Workbench при работе через GUI?
+  type: single
+  answers:
+  - text: Отправляет на сервер SQL‑запросы от имени пользователя
+    correct: true
+  - text: Заменяет сервер MySQL
+    correct: false
+  - text: Создает данные только в памяти и не сохраняет их на диск
+    correct: false
+  - text: Выполняет запросы локально без сервера
+    correct: false
+- id: IT03-17-Q03
+  text: Какие параметры обычно используются для локального подключения в учебной среде?
+  type: single
+  answers:
+  - text: host `localhost`, порт `27017`, пользователь `root`
+    correct: false
+  - text: host `127.0.0.1`, порт `5432`, пользователь `postgres`
+    correct: false
+  - text: host `remote`, порт `1521`, пользователь `admin`
+    correct: false
+  - text: host `localhost`, порт `3306`, пользователь `root`
+    correct: true
+- id: IT03-17-Q04
+  text: Зачем используется команда USE?
+  type: single
+  answers:
+  - text: Чтобы удалить базу данных
+    correct: false
+  - text: Чтобы задать базу данных, с которой дальше работают запросы
+    correct: true
+  - text: Чтобы обновить структуру таблицы и её поля после изменений
+    correct: false
+  - text: Чтобы создать нового пользователя
+    correct: false
+- id: IT03-17-Q05
+  text: Что означает AUTO_INCREMENT в MySQL?
+  type: single
+  answers:
+  - text: Автоматическое удаление дубликатов
+    correct: false
+  - text: Запрет на добавление новых строк
+    correct: false
+  - text: Автоматическое увеличение значения первичного ключа при вставке новых данных
+    correct: true
+  - text: Автоматическое создание таблицы
+    correct: false
+- id: IT03-17-Q06
+  text: Что такое charset и collation?
+  type: single
+  answers:
+  - text: Типы данных для чисел и дат
+    correct: false
+  - text: Команды для резервного копирования и восстановления данных
+    correct: false
+  - text: Набор символов и правила сравнения/сортировки текста
+    correct: true
+  - text: Параметры безопасности сервера
+    correct: false
+- id: IT03-17-Q07
+  text: Что является рекомендуемым набором символов по умолчанию в MySQL 8.0+?
+  type: single
+  answers:
+  - text: utf8
+    correct: false
+  - text: latin1
+    correct: false
+  - text: ascii
+    correct: false
+  - text: utf8mb4
+    correct: true
+- id: IT03-17-Q08
+  text: Как правильно удалить базу данных?
+  type: single
+  answers:
+  - text: REMOVE DATABASE имя_базы;
+    correct: false
+  - text: DELETE DATABASE имя_базы;
+    correct: false
+  - text: TRUNCATE DATABASE имя_базы;
+    correct: false
+  - text: DROP DATABASE имя_базы;
+    correct: true
