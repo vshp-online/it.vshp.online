@@ -1,0 +1,123 @@
+lecture_id: '18'
+lecture_title: ИТ.03 - 18 - Типы данных MySQL
+questions:
+- id: IT03-18-Q01
+  text: Для чего в MySQL используются типы данных?
+  type: single
+  answers:
+  - text: Чтобы определять допустимые значения и размер хранения
+    correct: true
+  - text: Чтобы автоматически шифровать данные
+    correct: false
+  - text: Чтобы скрывать структуру базы данных
+    correct: false
+  - text: Чтобы автоматически создавать таблицы
+    correct: false
+- id: IT03-18-Q02
+  text: Какой тип лучше использовать для денежных значений?
+  type: single
+  answers:
+  - text: FLOAT
+    correct: false
+  - text: DOUBLE
+    correct: false
+  - text: DECIMAL
+    correct: true
+  - text: TEXT
+    correct: false
+- id: IT03-18-Q03
+  text: Какой тип подходит для переменной длины строки?
+  type: single
+  answers:
+  - text: CHAR
+    correct: false
+  - text: VARCHAR
+    correct: true
+  - text: DATE
+    correct: false
+  - text: INT
+    correct: false
+- id: IT03-18-Q04
+  text: Что означает UNSIGNED у целочисленного типа?
+  type: single
+  answers:
+  - text: Хранение только дробной части
+    correct: false
+  - text: Запрет отрицательных значений
+    correct: true
+  - text: Увеличение длины строки
+    correct: false
+  - text: Автоматическое округление
+    correct: false
+- id: IT03-18-Q05
+  text: В чём принципиальная разница между TEXT и BLOB?
+  type: single
+  answers:
+  - text: TEXT для чисел, BLOB для дат
+    correct: false
+  - text: TEXT учитывает кодировку и collation, BLOB хранит байты как есть
+    correct: true
+  - text: TEXT всегда быстрее BLOB
+    correct: false
+  - text: BLOB нельзя хранить в MySQL
+    correct: false
+- id: IT03-18-Q06
+  text: Что на самом деле делает MySQL с типами BOOL/BOOLEAN?
+  type: single
+  answers:
+  - text: Хранит как JSON
+    correct: false
+  - text: Преобразует в VARCHAR
+    correct: false
+  - text: Приводит к TINYINT(1)
+    correct: true
+  - text: Хранит как отдельный логический тип
+    correct: false
+- id: IT03-18-Q07
+  text: Какой тип используют для меток времени created_at/updated_at?
+  type: single
+  answers:
+  - text: DATE
+    correct: false
+  - text: TIME
+    correct: false
+  - text: YEAR
+    correct: false
+  - text: TIMESTAMP
+    correct: true
+- id: IT03-18-Q08
+  text: Для чего чаще всего используют BIT(M)?
+  type: single
+  answers:
+  - text: Для набора флагов (битовой маски)
+    correct: true
+  - text: Для хранения длинных текстов
+    correct: false
+  - text: Для хранения дробных чисел
+    correct: false
+  - text: Для времени и даты
+    correct: false
+- id: IT03-18-Q09
+  text: Какой тип предназначен для хранения структурированных данных?
+  type: single
+  answers:
+  - text: CHAR
+    correct: false
+  - text: JSON
+    correct: true
+  - text: INT
+    correct: false
+  - text: BLOB
+    correct: false
+- id: IT03-18-Q10
+  text: Для чего используют BINARY/VARBINARY?
+  type: single
+  answers:
+  - text: Для человекочитаемого текста
+    correct: false
+  - text: Для даты и времени
+    correct: false
+  - text: Для сырых байтов (хэши, бинарные идентификаторы)
+    correct: true
+  - text: Для хранения SQL-запросов
+    correct: false

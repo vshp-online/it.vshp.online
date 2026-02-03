@@ -1,0 +1,50 @@
+@startuml Пример интерпретации 3-битных значений
+top to bottom direction
+skinparam rectangle {
+  BackgroundColor #F7F7F7
+  BorderColor #666666
+  HorizontalAlignment center
+}
+skinparam defaultTextAlignment center
+skinparam ArrowColor #888888
+
+package "UNSIGNED (3 бита)" as PUnsigned {
+  rectangle "0\n000" as U0
+  rectangle "1\n001" as U1
+  rectangle "2\n010" as U2
+  rectangle "3\n011" as U3
+  rectangle "4\n100" as U4
+  rectangle "5\n101" as U5
+  rectangle "6\n110" as U6
+  rectangle "7\n111" as U7
+
+  U0 -right-> U1
+  U1 -right-> U2
+  U2 -right-> U3
+  U3 -right-> U4
+  U4 -right-> U5
+  U5 -right-> U6
+  U6 -right-> U7
+}
+
+package "SIGNED (3 бита)" as PSigned {
+  rectangle "-4\n100" as S0
+  rectangle "-3\n101" as S1
+  rectangle "-2\n110" as S2
+  rectangle "-1\n111" as S3
+  rectangle "0\n000" as S4
+  rectangle "1\n001" as S5
+  rectangle "2\n010" as S6
+  rectangle "3\n011" as S7
+
+  S0 -right-> S1
+  S1 -right-> S2
+  S2 -right-> S3
+  S3 -right-> S4
+  S4 -right-> S5
+  S5 -right-> S6
+  S6 -right-> S7
+}
+
+PUnsigned -[hidden]-> PSigned
+@enduml
