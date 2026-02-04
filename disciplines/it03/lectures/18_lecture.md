@@ -622,11 +622,6 @@ CREATE TABLE products_demo (
   quantity INT UNSIGNED NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
-INSERT INTO products_demo (title, price, quantity, created_at) VALUES
-('Ноутбук', 89990.00, 5, '2025-09-01 10:00:00'),
-('Клавиатура', 4990.50, 20, '2025-09-01 12:30:00'),
-('Монитор', 29990.99, 7, '2025-09-02 09:15:00');
 ```
 
 :::
