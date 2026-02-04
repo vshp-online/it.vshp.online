@@ -492,17 +492,57 @@ SELECT @@sql_mode;
 
 ---
 
-## Мини‑пример: корректный и некорректный выбор типов
+## Примеры корректного и некорректного выбора типов
+
+::: tabs
+
+@tab Плохо
 
 ```sql
--- Плохо
+-- Плохо: возраст хранится как строка
 age VARCHAR(255)
+-- Плохо: деньги в FLOAT дают погрешности
 price FLOAT
-
--- Хорошо
-age TINYINT UNSIGNED
-price DECIMAL(10,2)
+-- Плохо: фиксированный код хранится как переменная строка
+country_code VARCHAR(10)
+-- Плохо: дата/время хранится текстом
+created_at VARCHAR(50)
+-- Плохо: фиксированный набор значений хранится как текст
+status VARCHAR(20)
+-- Плохо: структурированные данные в TEXT без JSON-структуры
+attributes TEXT
+-- Плохо: двоичные данные в текстовом поле
+avatar TEXT
+-- Плохо: бинарный идентификатор в строке
+uuid_bin VARCHAR(36)
+-- Плохо: логический флаг как большое целое
+is_active INT
 ```
+
+@tab Хорошо
+
+```sql
+-- Хорошо: компактный беззнаковый целый
+age TINYINT UNSIGNED
+-- Хорошо: точный тип для денег
+price DECIMAL(10,2)
+-- Хорошо: фиксированный код из 2 символов
+country_code CHAR(2)
+-- Хорошо: дата/время с автоматическим временем
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- Хорошо: список допустимых значений
+status ENUM('new','paid','shipped','cancelled')
+-- Хорошо: структурированные данные
+attributes JSON
+-- Хорошо: двоичные данные как BLOB
+avatar BLOB
+-- Хорошо: бинарный идентификатор фиксированного размера
+uuid_bin BINARY(16)
+-- Хорошо: логический флаг
+is_active TINYINT(1)
+```
+
+:::
 
 ---
 
@@ -513,19 +553,58 @@ price DECIMAL(10,2)
 
 ## Практические задания
 
-### Задание 1. Таблица товаров
+### Задание 1. Выбор типов
 
 ::: tabs
 
 @tab Условие
 
-Создайте таблицу `products_demo` с полями:
+Подберите типы данных для полей (таблицу создавать не нужно):
+
+- `email` — электронная почта
+- `rating` — рейтинг фильма от 1 до 5
+- `bio` — текстовое описание пользователя
+- `last_login` — дата и время входа
+- `preferences` — набор настроек в формате JSON
+- `country_code` — код страны (2 символа)
+
+@tab Решение
+
+```sql
+email VARCHAR(255)
+rating TINYINT UNSIGNED
+bio TEXT
+last_login DATETIME
+preferences JSON
+country_code CHAR(2)
+```
+
+:::
+
+### Задание 2. Таблица товаров
+
+::: tabs
+
+@tab Условие
+
+Вы разрабатываете мини‑каталог товаров интернет‑магазина. Создайте таблицу `products_demo` и добавьте в неё 3 записи.
+
+Поля:
 
 - `id` (INT, автоинкремент, PK)
 - `title` (VARCHAR)
 - `price` (DECIMAL)
 - `quantity` (INT UNSIGNED)
-- `created_at` (DATETIME)
+- `created_at` (TIMESTAMP, по умолчанию текущее время)
+
+Данные для вставки (ориентируйтесь на них при выборе типов):
+
+```sql
+INSERT INTO products_demo (title, price, quantity, created_at) VALUES
+('Ноутбук', 89990.00, 5, '2025-09-01 10:00:00'),
+('Клавиатура', 4990.50, 20, '2025-09-01 12:30:00'),
+('Монитор', 29990.99, 7, '2025-09-02 09:15:00');
+```
 
 @tab Решение
 
@@ -535,32 +614,103 @@ CREATE TABLE products_demo (
   title VARCHAR(255) NOT NULL,
   price DECIMAL(10,2) NOT NULL,
   quantity INT UNSIGNED NOT NULL,
-  created_at DATETIME NOT NULL
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+INSERT INTO products_demo (title, price, quantity, created_at) VALUES
+('Ноутбук', 89990.00, 5, '2025-09-01 10:00:00'),
+('Клавиатура', 4990.50, 20, '2025-09-01 12:30:00'),
+('Монитор', 29990.99, 7, '2025-09-02 09:15:00');
 ```
 
 :::
 
-### Задание 2. Выбор типов
+### Задание 3. Пользователи и настройки
 
 ::: tabs
 
 @tab Условие
 
-Подберите типы данных для полей:
+Нужно хранить учетные записи пользователей и их настройки. Создайте таблицу `users_demo` и добавьте в неё 3 записи.
 
-- `email` — электронная почта
-- `rating` — рейтинг от 1 до 5
-- `bio` — текстовое описание пользователя
-- `last_login` — дата и время входа
+Поля:
+
+- `user_id` (INT, автоинкремент, PK)
+- `email` (VARCHAR)
+- `country_code` (CHAR(2))
+- `birthdate` (DATE)
+- `status` (ENUM)
+- `permissions` (SET)
+- `settings` (JSON)
+- `is_active` (TINYINT(1))
+
+Данные для вставки (ориентируйтесь на них при выборе типов):
+
+```sql
+INSERT INTO users_demo (email, country_code, birthdate, status, permissions, settings, is_active) VALUES
+('anna@example.com', 'RU', '2001-05-10', 'active', 'read,write', '{"theme":"dark","lang":"ru"}', 1),
+('mark@example.com', 'US', '1999-11-03', 'pending', 'read', '{"theme":"light"}', 1),
+('olga@example.com', 'KZ', '2002-02-21', 'blocked', 'read,execute', '{"notifications":false}', 0);
+```
 
 @tab Решение
 
 ```sql
-email VARCHAR(255)
-rating TINYINT UNSIGNED
-bio TEXT
-last_login DATETIME
+CREATE TABLE users_demo (
+  user_id INT AUTO_INCREMENT PRIMARY KEY,
+  email VARCHAR(255) NOT NULL,
+  country_code CHAR(2),
+  birthdate DATE,
+  status ENUM('active','blocked','pending') DEFAULT 'pending',
+  permissions SET('read','write','execute') DEFAULT 'read',
+  settings JSON,
+  is_active TINYINT(1) NOT NULL DEFAULT 1
+);
+```
+
+:::
+
+### Задание 4. Файлы и хранилище
+
+::: tabs
+
+@tab Условие
+
+Нужно хранить файлы и их свойства (тип, размер, контрольная сумма, превью). Создайте таблицу `files_demo` и добавьте в неё 3 записи.
+
+Поля:
+
+- `file_id` (BIGINT, автоинкремент, PK)
+- `file_name` (VARCHAR)
+- `mime_type` (VARCHAR)
+- `size_bytes` (BIGINT UNSIGNED)
+- `checksum` (VARBINARY)
+- `preview` (BLOB)
+- `uploaded_at` (DATETIME)
+- `flags` (BIT(3))
+
+Данные для вставки (ориентируйтесь на них при выборе типов):
+
+```sql
+INSERT INTO files_demo (file_name, mime_type, size_bytes, checksum, preview, uploaded_at, flags) VALUES
+('report.pdf', 'application/pdf', 154320, 0xA1B2C3D4A5B6C7D8A9B0C1D2E3F4A5B6A7B8C9D0E1F2A3B4C5D6E7F8A9B0, 0x25504446, '2025-09-03 14:20:00', b'101'),
+('photo.jpg', 'image/jpeg', 84567, 0x00112233445566778899AABBCCDDEEFF00112233445566778899AABBCCDDEEFF, 0xFFD8FFE0, '2025-09-03 15:10:00', b'011'),
+('archive.zip', 'application/zip', 2048000, 0xFFEEDDCCBBAA99887766554433221100FFEEDDCCBBAA99887766554433221100, 0x504B0304, '2025-09-04 09:05:00', b'001');
+```
+
+@tab Решение
+
+```sql
+CREATE TABLE files_demo (
+  file_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  file_name VARCHAR(255) NOT NULL,
+  mime_type VARCHAR(100) NOT NULL,
+  size_bytes BIGINT UNSIGNED NOT NULL,
+  checksum VARBINARY(32),
+  preview BLOB,
+  uploaded_at DATETIME NOT NULL,
+  flags BIT(3)
+);
 ```
 
 :::
