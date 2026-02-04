@@ -35,9 +35,9 @@ CREATE TABLE managers (
     commission_rate DECIMAL(5,2) NOT NULL DEFAULT 0.01
 );
 
-INSERT INTO managers (full_name, phone) VALUES
-('Иван Иванов', '8005551234'),
-('Пётр Петров', '8005555678');
+INSERT INTO managers (full_name, phone, commission_rate) VALUES
+('Иван Иванов', '8005551234', 0.01),
+('Пётр Петров', '8005555678', 0.02);
 
 CREATE TABLE orders (
     id INT AUTO_INCREMENT PRIMARY KEY,
