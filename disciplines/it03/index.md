@@ -37,7 +37,7 @@ next: '/disciplines/mdk1101/'
   - [16 - Введение в MySQL: назначение, редакции, архитектура, особенности, отличие от SQLite](./lectures/16_lecture.md)
   - [17 - MySQL Workbench: интерфейс, подключение, базовые типы и создание БД](./lectures/17_lecture.md)
   - [18 - Типы данных MySQL: выбор, объём и отличие от SQLite](./lectures/18_lecture.md)
-  - 19 - Ограничения и целостность данных (PRIMARY/UNIQUE/FOREIGN/CHECK).
+  - [19 - Ограничения и целостность данных в MySQL](./lectures/19_lecture.md)
   - 20 - Проектирование моделей БД в MySQL Workbench (ERD).
   - 21 - DDL в MySQL: CREATE, ALTER, DROP.
   - 22 - DML в MySQL: INSERT, UPDATE, DELETE.

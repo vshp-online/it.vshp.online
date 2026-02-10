@@ -1,0 +1,145 @@
+lecture_id: '19'
+lecture_title: ИТ.03 - 19 - Ограничения и целостность данных в MySQL
+questions:
+- id: IT03-19-Q01
+  text: Для чего в БД в первую очередь нужны ограничения?
+  type: single
+  answers:
+  - text: Чтобы таблицы занимали меньше места на диске
+    correct: false
+  - text: Чтобы автоматически создавать индексы для всех полей
+    correct: false
+  - text: Чтобы гарантировать корректность и согласованность данных
+    correct: true
+  - text: Чтобы запретить выполнение SELECT-запросов
+    correct: false
+
+- id: IT03-19-Q02
+  text: Какое ограничение однозначно идентифицирует строку таблицы?
+  type: single
+  answers:
+  - text: CHECK
+    correct: false
+  - text: PRIMARY KEY
+    correct: true
+  - text: FOREIGN KEY
+    correct: false
+  - text: DEFAULT
+    correct: false
+
+- id: IT03-19-Q03
+  text: В чём ключевая идея ограничения UNIQUE?
+  type: single
+  answers:
+  - text: Запретить отрицательные числа
+    correct: false
+  - text: Разрешить только текстовые значения
+    correct: false
+  - text: Запретить повторение значений в столбце или комбинации столбцов
+    correct: true
+  - text: Автоматически преобразовать NULL в 0
+    correct: false
+
+- id: IT03-19-Q04
+  text: Что контролирует FOREIGN KEY?
+  type: single
+  answers:
+  - text: Диапазон числовых значений
+    correct: false
+  - text: Наличие и корректность ссылок между таблицами
+    correct: true
+  - text: Формат даты и времени
+    correct: false
+  - text: Сортировку строк в результате запроса
+    correct: false
+
+- id: IT03-19-Q05
+  text: Какое ограничение подходит для правила "оценка от 1 до 5"?
+  type: single
+  answers:
+  - text: UNIQUE
+    correct: false
+  - text: CHECK
+    correct: true
+  - text: PRIMARY KEY
+    correct: false
+  - text: FOREIGN KEY
+    correct: false
+
+- id: IT03-19-Q06
+  text: Что делает ON DELETE CASCADE у внешнего ключа?
+  type: single
+  answers:
+  - text: При удалении родительской строки удаляет связанные дочерние строки
+    correct: true
+  - text: Запрещает удаление родительской строки в любом случае
+    correct: false
+  - text: Устанавливает в дочерних строках значение 0
+    correct: false
+  - text: Перемещает удалённые строки в архивную таблицу
+    correct: false
+
+- id: IT03-19-Q07
+  text: Какое утверждение про PRIMARY KEY верное?
+  type: single
+  answers:
+  - text: В таблице может быть несколько PRIMARY KEY
+    correct: false
+  - text: PRIMARY KEY может хранить только строки
+    correct: false
+  - text: PRIMARY KEY может быть только у таблиц без внешних ключей
+    correct: false
+  - text: PRIMARY KEY не допускает NULL и дубли
+    correct: true
+
+- id: IT03-19-Q08
+  text: Какой практический эффект даёт ограничение UNIQUE(student_id, course_id)?
+  type: single
+  answers:
+  - text: Запрещает одинаковые значения student_id в таблице
+    correct: false
+  - text: Позволяет хранить только один курс в таблице
+    correct: false
+  - text: Не позволяет одному студенту записаться на один курс дважды
+    correct: true
+  - text: Автоматически добавляет дату записи
+    correct: false
+
+- id: IT03-19-Q09
+  text: Что нужно помнить про внешние ключи в SQLite по сравнению с MySQL?
+  type: single
+  answers:
+  - text: В SQLite они обычно работают без дополнительной настройки
+    correct: false
+  - text: В SQLite их нужно явно включать через PRAGMA foreign_keys
+    correct: true
+  - text: В SQLite внешних ключей нет вообще
+    correct: false
+  - text: В SQLite внешние ключи работают только для TEXT
+    correct: false
+
+- id: IT03-19-Q10
+  text: Какой набор ограничений лучше всего описывает "email обязателен и уникален"?
+  type: single
+  answers:
+  - text: CHECK + FOREIGN KEY
+    correct: false
+  - text: PRIMARY KEY + DEFAULT
+    correct: false
+  - text: NOT NULL + UNIQUE
+    correct: true
+  - text: AUTO_INCREMENT + CHECK
+    correct: false
+
+- id: IT03-19-Q11
+  text: Когда применяется DEFAULT в MySQL?
+  type: single
+  answers:
+  - text: Когда столбец не указан в INSERT
+    correct: true
+  - text: Только при нарушении FOREIGN KEY
+    correct: false
+  - text: Только если столбец является PRIMARY KEY
+    correct: false
+  - text: Всегда, даже если значение задано явно
+    correct: false
