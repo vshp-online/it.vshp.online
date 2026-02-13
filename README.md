@@ -39,7 +39,7 @@ yarn build
 # Запуск собранной статики на http://localhost:3000
 yarn serve
 
-# Развертывание текущей версии на GithubPages
+# Ручное развертывание текущей версии на GitHub Pages
 yarn deploy
 
 # Для интерактивного обновления зависимостей
@@ -48,6 +48,22 @@ yarn upgrade-interactive
 # Запуск сквозных тестов (поднимает dev-сервер автоматически)
 yarn test:e2e
 ```
+
+---
+
+## Автодеплой (GitHub Actions)
+
+- Для `push` в `main` настроен workflow: `.github/workflows/deploy-pages.yml`.
+- Пайплайн выполняет:
+  - установку зависимостей (`yarn install --frozen-lockfile`);
+  - сборку статики (`yarn clean:all` + `npx vuepress build .`);
+  - публикацию `.vuepress/dist` в GitHub Pages через `actions/deploy-pages`.
+- Добавлена защита от параллельных деплоев (`concurrency`) и ограничение времени job.
+
+### Разовая настройка репозитория
+
+- В `Settings -> Pages` выбрать `Build and deployment -> Source: GitHub Actions`.
+- Убедиться, что workflow имеет права `pages: write` и `id-token: write` (заданы в файле workflow).
 
 ---
 
