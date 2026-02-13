@@ -70,33 +70,46 @@
           </div>
         </section>
 
-        <section class="hw-card hw-card--wide">
-          <h3>{{ assignmentTitle }}</h3>
-          <p v-if="assignmentPrompt" class="hw-prompt">{{ assignmentPrompt }}</p>
+        <section class="hw-card hw-card--wide hw-task">
+          <h3 class="hw-task__title">{{ assignmentTitle }}</h3>
 
-          <div v-if="accessBadge" class="hw-access" :class="accessBadge.className">
-            {{ accessBadge.label }}
+          <div class="hw-task__tabs" role="tablist" aria-label="Задание">
+            <span class="hw-task__tab hw-task__tab--active">Условие</span>
+            <span class="hw-task__tab">Решение</span>
           </div>
 
-          <label class="hw-label" for="hw-code">SQL-код</label>
-          <textarea
-            id="hw-code"
-            class="hw-editor"
-            v-model="editorCode"
-            :disabled="busy || !selectedAssignmentCode"
-            spellcheck="false"
-            placeholder="Введите SQL-запрос"
-          />
+          <div class="hw-task__body">
+            <p v-if="assignmentPrompt" class="hw-prompt">{{ assignmentPrompt }}</p>
 
-          <div class="hw-actions">
-            <button class="hw-btn" :disabled="busy || !canSave" @click="saveDraft">Сохранить черновик</button>
-            <button class="hw-btn hw-btn--primary" :disabled="busy || !canRun" @click="runCode">Запустить</button>
-            <button class="hw-btn hw-btn--success" :disabled="busy || !canSubmit" @click="submitCode">
-              Отправить на проверку
-            </button>
+            <div v-if="accessBadge" class="hw-access" :class="accessBadge.className">
+              {{ accessBadge.label }}
+            </div>
+
+            <label class="hw-label" for="hw-code">SQL-код</label>
+            <div class="hw-editor-wrap">
+              <span class="hw-editor-lang">sql</span>
+              <textarea
+                id="hw-code"
+                class="hw-editor"
+                v-model="editorCode"
+                :disabled="busy || !selectedAssignmentCode"
+                spellcheck="false"
+                placeholder="Введите SQL-запрос"
+              />
+            </div>
+
+            <p v-if="autosaveHint" class="hw-autosave" :class="autosaveClass">{{ autosaveHint }}</p>
+
+            <div class="hw-actions">
+              <button class="hw-btn" :disabled="busy || !canClear" @click="clearEditor">Очистить</button>
+              <button class="hw-btn hw-btn--primary" :disabled="busy || !canRun" @click="runCode">Запустить</button>
+              <button class="hw-btn hw-btn--success" :disabled="busy || !canSubmit" @click="submitCode">
+                Отправить на проверку
+              </button>
+            </div>
+
+            <p v-if="actionMessage" class="hw-muted">{{ actionMessage }}</p>
           </div>
-
-          <p v-if="actionMessage" class="hw-muted">{{ actionMessage }}</p>
         </section>
       </div>
 
@@ -182,15 +195,21 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from "vue";
+import { computed, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import { useAuthStore } from "../stores/auth";
 import { sandboxHomeworkApi } from "../utils/sandboxHomeworkApi";
 
 const auth = useAuthStore();
+const AUTO_SAVE_DEBOUNCE_MS = 550;
 
 const busy = ref(false);
 const loadError = ref("");
 const actionMessage = ref("");
+const autosaveState = ref("idle");
+const autosaveError = ref("");
+const autosaveUpdatedAt = ref(null);
+const suppressAutosave = ref(false);
+const lastSavedCode = ref("");
 
 const disciplines = ref([]);
 const groups = ref([]);
@@ -230,14 +249,38 @@ const accessBadge = computed(() => {
   };
 });
 
-const canSave = computed(() => !!selectedAssignmentCode.value && !!editorCode.value.trim());
 const canRun = computed(() => !!selectedAssignmentCode.value && !!editorCode.value.trim() && !!assignmentAccess.value?.canRun);
 const canSubmit = computed(
   () => !!selectedAssignmentCode.value && !!editorCode.value.trim() && !!assignmentAccess.value?.canSubmit,
 );
+const canClear = computed(() => !!selectedAssignmentCode.value && editorCode.value.length > 0);
 
 const lastRun = computed(() => runs.value[0] || null);
 const lastSubmission = computed(() => submissions.value[0] || null);
+const autosaveHint = computed(() => {
+  if (!selectedAssignmentCode.value) return "";
+
+  if (autosaveState.value === "saving") return "Черновик сохраняется...";
+  if (autosaveState.value === "error") return autosaveError.value || "Не удалось сохранить черновик";
+
+  if (autosaveState.value === "saved") {
+    if (autosaveUpdatedAt.value) {
+      return `Черновик сохранен: ${formatDate(autosaveUpdatedAt.value)}`;
+    }
+    return "Черновик сохранен";
+  }
+
+  if (autosaveState.value === "dirty") return "Есть несохраненные изменения...";
+  return "";
+});
+
+const autosaveClass = computed(() => {
+  if (autosaveState.value === "saving") return "hw-autosave--saving";
+  if (autosaveState.value === "error") return "hw-autosave--error";
+  if (autosaveState.value === "saved") return "hw-autosave--saved";
+  if (autosaveState.value === "dirty") return "hw-autosave--dirty";
+  return "";
+});
 
 function formatDate(value) {
   if (!value) return "-";
@@ -275,6 +318,88 @@ function resolveErrorMessage(error, fallback) {
   return core;
 }
 
+let autosaveTimer = null;
+let autosaveController = null;
+let autosaveRequestId = 0;
+
+function resetAutosaveState(code, updatedAt) {
+  lastSavedCode.value = code;
+  autosaveUpdatedAt.value = updatedAt || null;
+  autosaveError.value = "";
+  autosaveState.value = selectedAssignmentCode.value ? "saved" : "idle";
+}
+
+function clearAutosaveTimer() {
+  if (autosaveTimer) {
+    clearTimeout(autosaveTimer);
+    autosaveTimer = null;
+  }
+}
+
+function abortAutosaveRequest() {
+  if (autosaveController) {
+    autosaveController.abort();
+    autosaveController = null;
+  }
+}
+
+async function saveDraftInternal({ force = false } = {}) {
+  if (!auth.token || !selectedAssignmentCode.value) return;
+
+  if (!force && editorCode.value === lastSavedCode.value) {
+    if (autosaveState.value === "dirty") {
+      autosaveState.value = "saved";
+    }
+    return;
+  }
+
+  abortAutosaveRequest();
+  autosaveController = new AbortController();
+  const requestId = ++autosaveRequestId;
+
+  autosaveState.value = "saving";
+  autosaveError.value = "";
+
+  try {
+    const result = await sandboxHomeworkApi.saveDraft(selectedAssignmentCode.value, editorCode.value, {
+      token: auth.token,
+      signal: autosaveController.signal,
+    });
+
+    if (requestId !== autosaveRequestId) {
+      return;
+    }
+
+    lastSavedCode.value = editorCode.value;
+    autosaveUpdatedAt.value = result?.data?.updatedAt || null;
+    autosaveState.value = "saved";
+  } catch (error) {
+    if (error?.name === "AbortError") {
+      return;
+    }
+
+    autosaveState.value = "error";
+    autosaveError.value = resolveErrorMessage(error, "Не удалось сохранить черновик");
+  } finally {
+    if (requestId === autosaveRequestId) {
+      autosaveController = null;
+    }
+  }
+}
+
+function scheduleAutosave() {
+  clearAutosaveTimer();
+  autosaveTimer = setTimeout(() => {
+    autosaveTimer = null;
+    void saveDraftInternal();
+  }, AUTO_SAVE_DEBOUNCE_MS);
+}
+
+async function flushAutosave() {
+  clearAutosaveTimer();
+  await saveDraftInternal();
+}
+
 async function reloadAll() {
   if (!auth.token) return;
 
@@ -293,6 +418,8 @@ async function reloadAll() {
       selectedAssignmentCode.value = "";
       assignment.value = null;
       editorCode.value = "";
+      resetAutosaveState("", null);
+      autosaveState.value = "idle";
       runs.value = [];
       submissions.value = [];
       return;
@@ -316,6 +443,8 @@ async function reloadGroups() {
     assignments.value = [];
     selectedGroupCode.value = "";
     selectedAssignmentCode.value = "";
+    resetAutosaveState("", null);
+    autosaveState.value = "idle";
     return;
   }
 
@@ -330,6 +459,8 @@ async function reloadGroups() {
     selectedAssignmentCode.value = "";
     assignment.value = null;
     editorCode.value = "";
+    resetAutosaveState("", null);
+    autosaveState.value = "idle";
     runs.value = [];
     submissions.value = [];
     return;
@@ -346,6 +477,8 @@ async function reloadAssignments() {
   if (!auth.token || !selectedGroupCode.value) {
     assignments.value = [];
     selectedAssignmentCode.value = "";
+    resetAutosaveState("", null);
+    autosaveState.value = "idle";
     return;
   }
 
@@ -358,6 +491,8 @@ async function reloadAssignments() {
     selectedAssignmentCode.value = "";
     assignment.value = null;
     editorCode.value = "";
+    resetAutosaveState("", null);
+    autosaveState.value = "idle";
     runs.value = [];
     submissions.value = [];
     return;
@@ -374,6 +509,8 @@ async function reloadAssignmentState() {
   if (!auth.token || !selectedAssignmentCode.value) {
     assignment.value = null;
     editorCode.value = "";
+    resetAutosaveState("", null);
+    autosaveState.value = "idle";
     runs.value = [];
     submissions.value = [];
     return;
@@ -391,29 +528,18 @@ async function reloadAssignmentState() {
     ]);
 
     assignment.value = assignmentRes;
-    editorCode.value = draftRes?.data?.code || assignmentRes?.data?.templateSql || "";
+
+    suppressAutosave.value = true;
+    const loadedCode = draftRes?.data?.code ?? assignmentRes?.data?.templateSql ?? "";
+    editorCode.value = loadedCode;
+    resetAutosaveState(loadedCode, draftRes?.data?.updatedAt || null);
+    suppressAutosave.value = false;
+
     runs.value = Array.isArray(runsRes?.data) ? runsRes.data : [];
     submissions.value = Array.isArray(submissionsRes?.data) ? submissionsRes.data : [];
   } catch (error) {
+    suppressAutosave.value = false;
     setActionMessage(resolveErrorMessage(error, "Не удалось загрузить данные задания"));
-  } finally {
-    busy.value = false;
-  }
-}
-
-async function saveDraft() {
-  if (!auth.token || !selectedAssignmentCode.value) return;
-
-  busy.value = true;
-  setActionMessage("");
-
-  try {
-    await sandboxHomeworkApi.saveDraft(selectedAssignmentCode.value, editorCode.value, {
-      token: auth.token,
-    });
-    setActionMessage("Черновик сохранен");
-  } catch (error) {
-    setActionMessage(resolveErrorMessage(error, "Не удалось сохранить черновик"));
   } finally {
     busy.value = false;
   }
@@ -421,6 +547,8 @@ async function saveDraft() {
 
 async function runCode() {
   if (!auth.token || !selectedAssignmentCode.value) return;
+
+  await flushAutosave();
 
   busy.value = true;
   setActionMessage("");
@@ -444,6 +572,8 @@ async function runCode() {
 
 async function submitCode() {
   if (!auth.token || !selectedAssignmentCode.value) return;
+
+  await flushAutosave();
 
   busy.value = true;
   setActionMessage("");
@@ -498,39 +628,72 @@ async function onAssignmentChange() {
   await reloadAssignmentState();
 }
 
+function clearEditor() {
+  if (!selectedAssignmentCode.value || !editorCode.value.length) return;
+
+  const shouldClear = window.confirm("Очистить SQL-код в редакторе?");
+  if (!shouldClear) return;
+
+  editorCode.value = "";
+  setActionMessage("");
+}
+
+watch(editorCode, () => {
+  if (suppressAutosave.value) return;
+  if (!auth.isAuthorized || !auth.token || !selectedAssignmentCode.value) return;
+
+  autosaveState.value = "dirty";
+  autosaveError.value = "";
+  scheduleAutosave();
+});
+
+watch(selectedAssignmentCode, () => {
+  clearAutosaveTimer();
+  abortAutosaveRequest();
+});
+
 onMounted(async () => {
   auth.init();
   if (!auth.isAuthorized) return;
   await reloadAll();
+});
+
+onBeforeUnmount(() => {
+  clearAutosaveTimer();
+  abortAutosaveRequest();
 });
 </script>
 
 <style scoped>
 .hw-test {
   display: grid;
-  gap: 1rem;
+  gap: 1.1rem;
 }
 
 .hw-test__header h2 {
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.35rem;
+  font-size: clamp(1.9rem, 3.1vw, 2.25rem);
+  line-height: 1.18;
 }
 
 .hw-test__header p {
   margin: 0;
-  color: #4b5563;
+  color: #52515f;
+  font-size: 1.02rem;
 }
 
 .hw-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
+  gap: 1.05rem;
 }
 
 .hw-card {
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  border-radius: 0.75rem;
-  padding: 1rem;
+  border: 1px solid #d1d3da;
+  border-radius: 1rem;
+  padding: 1.05rem;
   background: #fff;
+  box-shadow: 0 1px 0 rgba(12, 14, 20, 0.02);
 }
 
 .hw-card--wide {
@@ -538,101 +701,118 @@ onMounted(async () => {
 }
 
 .hw-muted {
-  color: #6b7280;
+  color: #66687a;
   font-size: 0.92rem;
 }
 
 .hw-label {
   display: block;
-  margin-top: 0.75rem;
-  margin-bottom: 0.25rem;
+  margin-top: 0.8rem;
+  margin-bottom: 0.3rem;
   font-weight: 600;
 }
 
 .hw-select,
 .hw-editor {
   width: 100%;
-  border-radius: 0.5rem;
-  border: 1px solid rgba(0, 0, 0, 0.18);
+  border-radius: 0.7rem;
+  border: 1px solid #cdd0d9;
   padding: 0.55rem 0.65rem;
   font: inherit;
+  background: #fff;
 }
 
 .hw-editor {
-  min-height: 220px;
+  min-height: 320px;
+  padding: 1rem 1.05rem;
+  border: 0;
+  border-radius: 0.85rem;
+  background: #d8dfeb;
+  color: #2b2f3a;
   font-family: "Fira Code", monospace;
-  font-size: 0.92rem;
-  line-height: 1.45;
+  font-size: 1.02rem;
+  line-height: 1.5;
   resize: vertical;
 }
 
 .hw-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 0.75rem;
+  gap: 0.65rem;
+  margin-top: 0.95rem;
 }
 
 .hw-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 0.5rem;
-  border: 1px solid rgba(0, 0, 0, 0.22);
-  background: #f3f4f6;
-  color: #111827;
-  padding: 0.45rem 0.75rem;
+  border-radius: 0.85rem;
+  border: 1px solid #bcc1cc;
+  background: #eef0f6;
+  color: #323646;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 0.57rem 1.05rem;
   cursor: pointer;
   text-decoration: none;
+  transition: transform 0.12s ease, filter 0.12s ease;
+}
+
+.hw-btn:hover:not(:disabled) {
+  filter: brightness(0.97);
+  transform: translateY(-1px);
 }
 
 .hw-btn:disabled {
-  opacity: 0.55;
+  opacity: 0.58;
   cursor: not-allowed;
 }
 
 .hw-btn--primary {
-  background: #1d4ed8;
-  border-color: #1d4ed8;
+  background: #2457d5;
+  border-color: #2457d5;
   color: #fff;
 }
 
 .hw-btn--success {
-  background: #047857;
-  border-color: #047857;
+  background: #078166;
+  border-color: #078166;
   color: #fff;
 }
 
 .hw-banner {
-  border-radius: 0.75rem;
-  padding: 0.9rem 1rem;
+  border-radius: 0.95rem;
+  padding: 0.95rem 1.05rem;
 }
 
 .hw-banner--info {
-  border: 1px solid rgba(37, 99, 235, 0.3);
-  background: rgba(59, 130, 246, 0.12);
+  border: 1px solid rgba(38, 93, 176, 0.28);
+  background: rgba(54, 107, 196, 0.12);
 }
 
 .hw-banner--error {
-  border: 1px solid rgba(185, 28, 28, 0.35);
+  border: 1px solid rgba(170, 24, 24, 0.34);
   background: rgba(239, 68, 68, 0.12);
 }
 
 .hw-prompt {
-  margin-top: 0;
+  margin: 0.1rem 0 0.95rem;
+  color: #3e404c;
+  font-size: 1.12rem;
+  line-height: 1.55;
   white-space: pre-wrap;
 }
 
 .hw-access {
-  margin: 0.5rem 0 0.75rem;
-  padding: 0.4rem 0.65rem;
-  border-radius: 0.45rem;
+  margin: 0.2rem 0 0.9rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.7rem;
   font-size: 0.92rem;
 }
 
 .hw-access--ok {
-  background: rgba(16, 185, 129, 0.14);
-  border: 1px solid rgba(16, 185, 129, 0.35);
+  background: rgba(12, 166, 116, 0.12);
+  border: 1px solid rgba(12, 166, 116, 0.34);
 }
 
 .hw-access--warn {
@@ -652,24 +832,111 @@ onMounted(async () => {
 
 .hw-table th,
 .hw-table td {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid rgba(38, 42, 51, 0.08);
   text-align: left;
-  padding: 0.45rem 0.35rem;
+  padding: 0.5rem 0.4rem;
   font-size: 0.92rem;
 }
 
 pre {
-  margin-top: 0.5rem;
-  border-radius: 0.5rem;
+  margin-top: 0.55rem;
+  border-radius: 0.7rem;
   background: #0f172a;
   color: #e2e8f0;
-  padding: 0.65rem;
+  padding: 0.75rem;
   overflow: auto;
+}
+
+.hw-task {
+  overflow: hidden;
+  padding: 0;
+  background: #ececf1;
+}
+
+.hw-task__title {
+  margin: 0;
+  padding: 1.15rem 1.25rem 0.9rem;
+  font-size: clamp(1.8rem, 2.7vw, 2.15rem);
+  line-height: 1.2;
+}
+
+.hw-task__tabs {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.22rem;
+  padding: 0 1rem;
+  background: #d7d8df;
+}
+
+.hw-task__tab {
+  display: inline-flex;
+  padding: 0.68rem 1.02rem;
+  border-radius: 0.85rem 0.85rem 0 0;
+  color: #343744;
+  font-size: 1.08rem;
+  font-weight: 700;
+}
+
+.hw-task__tab--active {
+  background: #ececf1;
+}
+
+.hw-task__body {
+  padding: 1.05rem 1.1rem 1.2rem;
+}
+
+.hw-editor-wrap {
+  position: relative;
+}
+
+.hw-editor-lang {
+  position: absolute;
+  top: 0.65rem;
+  right: 0.9rem;
+  font-size: 1.65rem;
+  line-height: 1;
+  color: rgba(50, 54, 70, 0.9);
+}
+
+.hw-autosave {
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+  font-size: 0.9rem;
+}
+
+.hw-autosave--saving,
+.hw-autosave--dirty {
+  color: #4f586f;
+}
+
+.hw-autosave--saved {
+  color: #0b7a60;
+}
+
+.hw-autosave--error {
+  color: #b01d1d;
 }
 
 @media (max-width: 980px) {
   .hw-grid {
     grid-template-columns: 1fr;
+  }
+
+  .hw-editor {
+    min-height: 230px;
+    font-size: 0.94rem;
+  }
+
+  .hw-task__title {
+    font-size: 1.75rem;
+  }
+
+  .hw-task__tab {
+    font-size: 1rem;
+  }
+
+  .hw-editor-lang {
+    font-size: 1.2rem;
   }
 }
 </style>
