@@ -10,6 +10,7 @@ import BlogPostMeta from "./components/BlogPostMeta.vue";
 import BlogIndexPage from "./pages/BlogIndexPage.vue";
 import AuthPage from "./pages/AuthPage.vue";
 import AccountPage from "./pages/AccountPage.vue";
+import HomeworkTestPage from "./components/HomeworkTestPage.vue";
 
 import Prism from "prismjs";
 import "prismjs/components/prism-python";
@@ -59,6 +60,7 @@ export default defineClientConfig({
     app.component("Quiz", Quiz);
     app.component("BlogIndexPage", BlogIndexPage);
     app.component("BlogPostMeta", BlogPostMeta);
+    app.component("HomeworkTestPage", HomeworkTestPage);
 
     if (isClient) {
       router.afterEach(() =>

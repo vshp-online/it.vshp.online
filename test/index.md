@@ -5,6 +5,7 @@ sitemap: false
 
 # Раздел тестирования возможностей системы
 
+- [Домашние задания ИТ.03 (sandbox API)](./homework-it03.md)
 - [Квизы (Markdown-плагин)](./quiz.md)
 - [Интеграция codapi](./markdown-codapi.md)
 - [Расширенные возможности Markdown](./markdown-ext.md)
