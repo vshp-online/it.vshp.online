@@ -24,7 +24,7 @@
     "predeploy": "npm run clean:all && yarn build",
     "deploy": "gh-pages -d ./.vuepress/dist",
     "post:create": "node scripts/create-blog-post.js",
-    "test:e2e": "start-server-and-test dev http://localhost:8080 cy:run",
+    "test:e2e": "start-server-and-test \"vuepress dev . --port 8090\" http://localhost:8090 \"cypress run --config baseUrl=http://localhost:8090\"",
     "clean:cache": "rimraf .vuepress/.cache",
     "clean:temp": "rimraf .vuepress/.temp",
     "clean:dist": "rimraf .vuepress/dist",

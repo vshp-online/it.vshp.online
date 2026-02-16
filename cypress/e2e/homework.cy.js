@@ -123,6 +123,19 @@ function mockHomeworkApi() {
 }
 
 describe("Домашние задания ИТ.03 (smoke)", () => {
+  it("показывает баннер авторизации для неавторизованного пользователя", () => {
+    cy.visit("/test/homework-it03.html");
+
+    cy.contains("h3", "Для выполнения домашних заданий нужна авторизация").should("be.visible");
+    cy.contains("a", "Перейти к авторизации")
+      .should("be.visible")
+      .and("have.attr", "href")
+      .and("include", "/auth/");
+
+    cy.contains("button", "Запустить").should("not.exist");
+    cy.contains("button", "Отправить на проверку").should("not.exist");
+  });
+
   it("проходит поток run -> submit на тестовой странице", () => {
     mockHomeworkApi();
 
