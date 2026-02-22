@@ -18,3 +18,6 @@ public/data/blog-posts.json
 
 # Temporary markdown files
 *.tmp.md
+
+# Local Codex instructions
+AGENTS.md
