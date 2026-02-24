@@ -5,10 +5,10 @@ questions:
   text: Для чего в первую очередь нужен индекс в БД?
   type: single
   answers:
-  - text: Чтобы ускорять поиск и выборку строк
-    correct: true
   - text: Чтобы автоматически удалять дубликаты во всех столбцах
     correct: false
+  - text: Чтобы ускорять поиск и выборку строк
+    correct: true
   - text: Чтобы заменить первичный ключ
     correct: false
   - text: Чтобы отключить сортировку в запросах
@@ -20,21 +20,21 @@ questions:
   answers:
   - text: Полный перебор всей таблицы
     correct: false
-  - text: Поиск по подходящему индексу
-    correct: true
   - text: Удаление индекса перед запросом
     correct: false
   - text: Повторный CREATE TABLE
     correct: false
+  - text: Поиск по подходящему индексу
+    correct: true
 
 - id: IT03-20-Q03
   text: Что делает UNIQUE INDEX?
   type: single
   answers:
-  - text: Разрешает хранить только числа
-    correct: false
   - text: Запрещает повторяющиеся значения в индексируемом поле
     correct: true
+  - text: Разрешает хранить только числа
+    correct: false
   - text: Запрещает SELECT по таблице
     correct: false
   - text: Автоматически добавляет внешний ключ
@@ -44,12 +44,12 @@ questions:
   text: Какая команда добавляет неуникальный индекс в MySQL?
   type: single
   answers:
-  - text: ALTER TABLE users ADD INDEX idx_users_city (city);
-    correct: true
   - text: ALTER TABLE users ADD CONSTRAINT idx_users_city (city);
     correct: false
   - text: CREATE TABLE users INDEX city;
     correct: false
+  - text: ALTER TABLE users ADD INDEX idx_users_city (city);
+    correct: true
   - text: SHOW INDEX FROM users;
     correct: false
 
@@ -57,10 +57,10 @@ questions:
   text: Какая команда показывает существующие индексы таблицы?
   type: single
   answers:
-  - text: SHOW INDEX FROM users;
-    correct: true
   - text: DESCRIBE INDEX users;
     correct: false
+  - text: SHOW INDEX FROM users;
+    correct: true
   - text: EXPLAIN INDEX users;
     correct: false
   - text: SELECT INDEXES FROM users;
@@ -70,14 +70,14 @@ questions:
   text: Какая команда удаляет индекс по имени?
   type: single
   answers:
-  - text: ALTER TABLE users DROP INDEX idx_users_city;
-    correct: true
   - text: DROP TABLE users.idx_users_city;
     correct: false
   - text: DELETE INDEX idx_users_city FROM users;
     correct: false
   - text: REMOVE INDEX idx_users_city;
     correct: false
+  - text: ALTER TABLE users DROP INDEX idx_users_city;
+    correct: true
 
 - id: IT03-20-Q07
   text: Что обычно происходит с INSERT/UPDATE при большом количестве индексов?
@@ -96,12 +96,12 @@ questions:
   text: Какой инструмент в MySQL используют для базовой проверки плана запроса?
   type: single
   answers:
-  - text: EXPLAIN
-    correct: true
   - text: COMMIT
     correct: false
   - text: CHECK TABLE
     correct: false
+  - text: EXPLAIN
+    correct: true
   - text: ANALYZE ONLY
     correct: false
 
@@ -111,34 +111,21 @@ questions:
   answers:
   - text: rows
     correct: false
-  - text: type
-    correct: false
   - text: key
     correct: true
+  - text: type
+    correct: false
   - text: id
     correct: false
 
 - id: IT03-20-Q10
-  text: В чем базовое отличие MySQL и SQLite в контексте курса?
-  type: single
-  answers:
-  - text: MySQL работает как серверная СУБД, SQLite как встраиваемая
-    correct: true
-  - text: SQLite поддерживает только сетевые подключения
-    correct: false
-  - text: MySQL не поддерживает индексы
-    correct: false
-  - text: У них всегда одинаковый план выполнения
-    correct: false
-
-- id: IT03-20-Q11
   text: Какой практический подход к индексам наиболее корректен?
   type: single
   answers:
-  - text: Индексировать каждое поле во всех таблицах
-    correct: false
   - text: Добавлять индексы под реальные частые запросы и проверять EXPLAIN
     correct: true
+  - text: Индексировать каждое поле во всех таблицах
+    correct: false
   - text: Использовать только UNIQUE и никогда обычные INDEX
     correct: false
   - text: Всегда удалять индексы после каждого запроса
