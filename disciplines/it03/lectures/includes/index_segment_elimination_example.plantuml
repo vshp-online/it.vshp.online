@@ -1,0 +1,24 @@
+@startuml Пошаговое исключение сегментов при поиске
+top to bottom direction
+skinparam defaultTextAlignment center
+skinparam rectangle {
+  BackgroundColor #F7F7F7
+  BorderColor #666666
+  RoundCorner 8
+}
+skinparam ArrowColor #666666
+
+rectangle "Шаг 1\nКорень индекса по фамилии\nСегменты: [А-Е] [Ж-Л] [М-Р] [С-Я]" as S1
+rectangle "Шаг 2\nИщем 'Сидоров'\nОтбрасываем [А-Е], [Ж-Л], [М-Р]\nОставляем только [С-Я]" as S2
+rectangle "Шаг 3\nВнутренний узел [С-Я]\nПодсегменты: [С-Т], [У-Х], [Ц-Я]\nОставляем [С-Т]" as S3
+rectangle "Шаг 4\nЛист индекса\nСидоров -> id=3\nПереход к строке таблицы" as S4
+
+S1 --> S2
+S2 --> S3
+S3 --> S4
+
+note bottom
+Каждый шаг уменьшает область поиска.
+Поэтому индексный поиск быстрее полного перебора.
+end note
+@enduml

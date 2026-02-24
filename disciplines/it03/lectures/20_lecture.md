@@ -119,20 +119,32 @@ flowchart LR
 
 <!-- @include: ./includes/index_lookup_compare.plantuml -->
 
-Мини-пример на словах:
+Пример с конкретными `ID` и фамилиями:
 
-- ищем пользователя с `email = 'anna@example.com'`;
-- без индекса сервер проверяет много строк подряд;
-- с индексом сервер идет по дереву ключей и быстро попадает в нужный лист;
-- затем читает только нужную строку.
+<!-- @include: ./includes/index_surname_id_example.plantuml -->
+
+::: note
+Таблица хранит строки в своем порядке (здесь по `id`), а индекс хранит ключи в другом порядке (например по `last_name`). Поэтому порядок данных и порядок индекса обычно не совпадают.
+:::
+
+Пошаговое исключение сегментов при поиске фамилии:
+
+<!-- @include: ./includes/index_segment_elimination_example.plantuml -->
+
+Короткий разбор примера:
+
+- выполняем запрос `WHERE last_name = 'Сидоров'`;
+- в индексе находим ключ `Сидоров -> id=1`;
+- по `id=1` переходим к нужной строке таблицы;
+- без индекса пришлось бы проверять много строк подряд.
 
 ---
 
 ## Учебная база для примеров
 
-Создадим компактную таблицу пользователей:
+Создадим учебную таблицу пользователей и заполним ее данными на 100 человек:
 
-```sql
+```sql :collapsed-lines=10
 CREATE DATABASE IF NOT EXISTS index_demo;
 USE index_demo;
 
@@ -142,18 +154,32 @@ CREATE TABLE users (
   id INT AUTO_INCREMENT PRIMARY KEY,
   email VARCHAR(255) NOT NULL,
   first_name VARCHAR(100) NOT NULL,
+  last_name VARCHAR(100) NOT NULL,
   city VARCHAR(100) NOT NULL,
   age TINYINT UNSIGNED NOT NULL
 );
 
-INSERT INTO users (email, first_name, city, age) VALUES
-('anna@example.com', 'Анна', 'Москва', 19),
-('ivan@example.com', 'Иван', 'Казань', 20),
-('olga@example.com', 'Ольга', 'Москва', 18),
-('petr@example.com', 'Петр', 'Томск', 21),
-('maria@example.com', 'Мария', 'Казань', 19),
-('sergey@example.com', 'Сергей', 'Пермь', 20),
-('nina@example.com', 'Нина', 'Москва', 22);
+INSERT INTO users (email, first_name, last_name, city, age)
+SELECT
+  CONCAT('student', LPAD(n, 3, '0'), '@example.com') AS email,
+  ELT(1 + ((n - 1) % 10), 'Анна', 'Иван', 'Ольга', 'Петр', 'Мария', 'Сергей', 'Елена', 'Дмитрий', 'Нина', 'Алексей') AS first_name,
+  ELT(1 + ((n - 1) % 20), 'Иванов', 'Петров', 'Сидоров', 'Кузнецов', 'Смирнов', 'Попов', 'Васильев', 'Новиков', 'Федоров', 'Морозов', 'Волков', 'Соловьев', 'Лебедев', 'Козлов', 'Николаев', 'Егоров', 'Павлов', 'Семенов', 'Голубев', 'Виноградов') AS last_name,
+  ELT(1 + ((n - 1) % 10), 'Москва', 'Казань', 'Томск', 'Пермь', 'Самара', 'Уфа', 'Тула', 'Омск', 'Сочи', 'Тверь') AS city,
+  18 + ((n - 1) % 8) AS age
+FROM (
+  SELECT ones.n + tens.n * 10 + 1 AS n
+  FROM (
+    SELECT 0 AS n UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4
+    UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9
+  ) AS ones
+  CROSS JOIN (
+    SELECT 0 AS n UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4
+    UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9
+  ) AS tens
+) AS seq
+WHERE n <= 100;
+
+SELECT COUNT(*) AS total_users FROM users;
 ```
 
 ---
@@ -164,10 +190,10 @@ INSERT INTO users (email, first_name, city, age) VALUES
 
 ```sql
 ALTER TABLE users
-ADD INDEX idx_users_first_name (first_name);
+ADD INDEX idx_users_last_name (last_name);
 ```
 
-Индекс поможет при частом поиске по `first_name`.
+Индекс поможет при частом поиске по `last_name`.
 
 ### Уникальный индекс
 
@@ -200,7 +226,7 @@ SHOW INDEX FROM users;
 
 ```sql
 ALTER TABLE users
-DROP INDEX idx_users_first_name;
+DROP INDEX idx_users_last_name;
 ```
 
 Удалять индексы полезно, если они больше не нужны и только замедляют запись.
@@ -215,7 +241,7 @@ DROP INDEX idx_users_first_name;
 EXPLAIN
 SELECT *
 FROM users
-WHERE first_name = 'Анна';
+WHERE last_name = 'Иванов';
 ```
 
 Для старта достаточно смотреть три поля:
@@ -314,8 +340,8 @@ WHERE city = 'Москва';
 ALTER TABLE users
 ADD UNIQUE INDEX uq_users_email (email);
 
-INSERT INTO users (email, first_name, city, age)
-VALUES ('anna@example.com', 'Анна2', 'Москва', 19);
+INSERT INTO users (email, first_name, last_name, city, age)
+VALUES ('student001@example.com', 'Анна', 'Иванова', 'Москва', 19);
 ```
 
 Ожидаемый результат: ошибка из-за нарушения уникальности.

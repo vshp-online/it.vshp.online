@@ -1,5 +1,5 @@
 @startuml B-Tree структура индекса MySQL
-left to right direction
+top to bottom direction
 skinparam defaultTextAlignment center
 skinparam rectangle {
   BackgroundColor #F7F7F7
@@ -8,23 +8,42 @@ skinparam rectangle {
 }
 skinparam ArrowColor #666666
 
-rectangle "Корень\n(диапазоны ключей)\n[A-M] [N-Z]" as ROOT
-rectangle "Внутренний узел\n[A-F] [G-M]" as N1
-rectangle "Внутренний узел\n[N-T] [U-Z]" as N2
+rectangle "Корень\n[A-Z]" as ROOT
+rectangle "Внутренний узел\n[А-Е]" as N_AE
+rectangle "Внутренний узел\n[Ж-Л]" as N_JL
+rectangle "Внутренний узел\n[М-Р]" as N_MR
+rectangle "Внутренний узел\n[С-Я]" as N_SY
 
-rectangle "Лист\nanna@example.com -> id=1\nivan@example.com -> id=2" as L1
-rectangle "Лист\nolga@example.com -> id=3\npetr@example.com -> id=4" as L2
-rectangle "Лист\nsergey@example.com -> id=5\nzoe@example.com -> id=6" as L3
+rectangle "Лист [А-Е]\nАндреев -> id=2\nБелов -> id=4" as L_AE
+rectangle "Лист [Ж-Л]\nИванов -> id=6\nКузнецов -> id=7" as L_JL
+rectangle "Лист [М-Р]\nОрлова -> id=3\nПетров -> id=5" as L_MR
+rectangle "Лист [С-Я]\nСидоров -> id=1" as L_SY
 
-ROOT --> N1
-ROOT --> N2
-N1 --> L1
-N1 --> L2
-N2 --> L3
+ROOT --> N_AE
+ROOT --> N_JL
+ROOT --> N_MR
+ROOT --> N_SY
+
+N_AE --> L_AE
+N_JL --> L_JL
+N_MR --> L_MR
+N_SY --> L_SY
+
+N_AE -[hidden]right-> N_JL
+N_JL -[hidden]right-> N_MR
+N_MR -[hidden]right-> N_SY
+L_AE -[hidden]right-> L_JL
+L_JL -[hidden]right-> L_MR
+L_MR -[hidden]right-> L_SY
 
 note bottom of ROOT
 Идея B-Tree простыми словами:
 на каждом уровне отбрасываем лишние диапазоны,
 пока не дойдем до нужного листа.
+end note
+
+note bottom
+Если для диапазона пока нет значений,
+на листе можно показать NULL.
 end note
 @enduml

@@ -1,0 +1,55 @@
+@startuml Пример таблицы и индекса по фамилии
+top to bottom direction
+skinparam defaultTextAlignment left
+skinparam linetype ortho
+skinparam rectangle {
+  BackgroundColor #F7F7F7
+  BorderColor #666666
+  RoundCorner 8
+}
+skinparam ArrowColor #666666
+
+package "Таблица students (данные)" as PT {
+  rectangle "id=1 | Сидоров" as T1
+  rectangle "id=2 | Андреев" as T2
+  rectangle "id=3 | Орлова" as T3
+  rectangle "id=4 | Белов" as T4
+  rectangle "id=5 | Петров" as T5
+  rectangle "id=6 | Иванов" as T6
+  rectangle "id=7 | Кузнецов" as T7
+
+  T1 -[hidden]down-> T2
+  T2 -[hidden]down-> T3
+  T3 -[hidden]down-> T4
+  T4 -[hidden]down-> T5
+  T5 -[hidden]down-> T6
+  T6 -[hidden]down-> T7
+}
+
+package "Индекс idx_students_last_name (ключ -> id)" as PI {
+  rectangle "Андреев -> 2" as I1
+  rectangle "Белов -> 4" as I2
+  rectangle "Иванов -> 6" as I3
+  rectangle "Кузнецов -> 7" as I4
+  rectangle "Орлова -> 3" as I5
+  rectangle "Петров -> 5" as I6
+  rectangle "Сидоров -> 1" as I7
+
+  I1 -[hidden]down-> I2
+  I2 -[hidden]down-> I3
+  I3 -[hidden]down-> I4
+  I4 -[hidden]down-> I5
+  I5 -[hidden]down-> I6
+  I6 -[hidden]down-> I7
+}
+
+PT -[hidden]right-> PI
+
+I1 --> T2
+I2 --> T4
+I3 --> T6
+I4 --> T7
+I5 --> T3
+I6 --> T5
+I7 --> T1
+@enduml
