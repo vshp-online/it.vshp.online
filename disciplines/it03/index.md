@@ -38,7 +38,7 @@ next: '/disciplines/mdk1101/'
   - [17 - MySQL Workbench: интерфейс, подключение, базовые типы и создание БД](./lectures/17_lecture.md)
   - [18 - Типы данных MySQL: выбор, объём и отличие от SQLite](./lectures/18_lecture.md)
   - [19 - Ограничения и целостность данных в MySQL](./lectures/19_lecture.md)
-  - 20 - Индексы и производительность в MySQL.
+  - [20 - Индексы и производительность в MySQL](./lectures/20_lecture.md)
   - 21 - Запросы в MySQL: DDL и DML.
   - 22 - Операции JOIN и представления (VIEW) в MySQL.
   - 23 - Практикум: запросы (DDL/DML), JOIN, VIEW и ограничения.

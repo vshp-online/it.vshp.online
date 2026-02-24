@@ -1,0 +1,30 @@
+@startuml B-Tree структура индекса MySQL
+left to right direction
+skinparam defaultTextAlignment center
+skinparam rectangle {
+  BackgroundColor #F7F7F7
+  BorderColor #666666
+  RoundCorner 8
+}
+skinparam ArrowColor #666666
+
+rectangle "Корень\n(диапазоны ключей)\n[A-M] [N-Z]" as ROOT
+rectangle "Внутренний узел\n[A-F] [G-M]" as N1
+rectangle "Внутренний узел\n[N-T] [U-Z]" as N2
+
+rectangle "Лист\nanna@example.com -> id=1\nivan@example.com -> id=2" as L1
+rectangle "Лист\nolga@example.com -> id=3\npetr@example.com -> id=4" as L2
+rectangle "Лист\nsergey@example.com -> id=5\nzoe@example.com -> id=6" as L3
+
+ROOT --> N1
+ROOT --> N2
+N1 --> L1
+N1 --> L2
+N2 --> L3
+
+note bottom of ROOT
+Идея B-Tree простыми словами:
+на каждом уровне отбрасываем лишние диапазоны,
+пока не дойдем до нужного листа.
+end note
+@enduml

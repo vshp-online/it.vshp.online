@@ -1,0 +1,37 @@
+@startuml Поиск без индекса и с индексом
+left to right direction
+skinparam defaultTextAlignment center
+skinparam rectangle {
+  BackgroundColor #F7F7F7
+  BorderColor #666666
+  RoundCorner 8
+}
+skinparam ArrowColor #666666
+
+package "Без индекса (FULL SCAN)" {
+  rectangle "Строка 1" as F1
+  rectangle "Строка 2" as F2
+  rectangle "Строка 3" as F3
+  rectangle "..." as F4
+  rectangle "Строка N" as F5
+  F1 --> F2
+  F2 --> F3
+  F3 --> F4
+  F4 --> F5
+}
+
+package "С индексом (SEEK)" {
+  rectangle "Корень индекса" as I1
+  rectangle "Нужная ветка" as I2
+  rectangle "Нужный лист" as I3
+  rectangle "Нужная строка" as I4
+  I1 --> I2
+  I2 --> I3
+  I3 --> I4
+}
+
+note bottom
+Смысл: без индекса читаем почти все строки,
+с индексом идем по короткому маршруту.
+end note
+@enduml
