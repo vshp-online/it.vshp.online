@@ -1,5 +1,6 @@
 @startuml Поиск без индекса и с индексом
-left to right direction
+' left to right direction
+top to bottom direction
 skinparam defaultTextAlignment center
 skinparam rectangle {
   BackgroundColor #F7F7F7
@@ -29,9 +30,4 @@ package "С индексом (SEEK)" {
   I2 --> I3
   I3 --> I4
 }
-
-note bottom
-Смысл: без индекса читаем почти все строки,
-с индексом идем по короткому маршруту.
-end note
 @enduml

@@ -1,55 +1,53 @@
 @startuml Пример таблицы и индекса по фамилии
 top to bottom direction
-skinparam defaultTextAlignment left
 skinparam linetype ortho
+skinparam defaultTextAlignment center
 skinparam rectangle {
-  BackgroundColor #F7F7F7
+  BackgroundColor #efefef
   BorderColor #666666
   RoundCorner 8
 }
 skinparam ArrowColor #666666
 
-package "Таблица students (данные)" as PT {
-  rectangle "id=1 | Сидоров" as T1
-  rectangle "id=2 | Андреев" as T2
-  rectangle "id=3 | Орлова" as T3
-  rectangle "id=4 | Белов" as T4
-  rectangle "id=5 | Петров" as T5
-  rectangle "id=6 | Иванов" as T6
-  rectangle "id=7 | Кузнецов" as T7
+rectangle "Индекс по фамилии" as IDX #fcfcfc {
+  rectangle "Андреев" as L1
+  rectangle "Белов" as L2
+  rectangle "Иванов" as L3
+  rectangle "Кузнецов" as L4
+  rectangle "Орлова" as L5
+  rectangle "Петров" as L6
+  rectangle "Сидоров" as L7
 
-  T1 -[hidden]down-> T2
-  T2 -[hidden]down-> T3
-  T3 -[hidden]down-> T4
-  T4 -[hidden]down-> T5
-  T5 -[hidden]down-> T6
-  T6 -[hidden]down-> T7
+  L1 -[hidden]down-> L2
+  L2 -[hidden]down-> L3
+  L3 -[hidden]down-> L4
+  L4 -[hidden]down-> L5
+  L5 -[hidden]down-> L6
+  L6 -[hidden]down-> L7
 }
 
-package "Индекс idx_students_last_name (ключ -> id)" as PI {
-  rectangle "Андреев -> 2" as I1
-  rectangle "Белов -> 4" as I2
-  rectangle "Иванов -> 6" as I3
-  rectangle "Кузнецов -> 7" as I4
-  rectangle "Орлова -> 3" as I5
-  rectangle "Петров -> 5" as I6
-  rectangle "Сидоров -> 1" as I7
+rectangle "Ссылки на ключи" as TBL #fcfcfc {
+  rectangle "id=2" as R1
+  rectangle "id=4" as R2
+  rectangle "id=6" as R3
+  rectangle "id=7" as R4
+  rectangle "id=3" as R5
+  rectangle "id=5" as R6
+  rectangle "id=1" as R7
 
-  I1 -[hidden]down-> I2
-  I2 -[hidden]down-> I3
-  I3 -[hidden]down-> I4
-  I4 -[hidden]down-> I5
-  I5 -[hidden]down-> I6
-  I6 -[hidden]down-> I7
+  R1 -[hidden]down-> R2
+  R2 -[hidden]down-> R3
+  R3 -[hidden]down-> R4
+  R4 -[hidden]down-> R5
+  R5 -[hidden]down-> R6
+  R6 -[hidden]down-> R7
 }
 
-PT -[hidden]right-> PI
-
-I1 --> T2
-I2 --> T4
-I3 --> T6
-I4 --> T7
-I5 --> T3
-I6 --> T5
-I7 --> T1
+L1 -[norank]-> R1
+L2 -[norank]-> R2
+L3 -[norank]-> R3
+L4 -[norank]-> R4
+L5 -[norank]-> R5
+L6 -[norank]-> R6
+L7 -[norank]-> R7
 @enduml
