@@ -1,0 +1,184 @@
+lecture_id: '21'
+lecture_title: 'ИТ.03 - 21 - Запросы в MySQL: DDL и DML'
+questions:
+- id: IT03-21-Q01
+  text: Что в первую очередь относится к DDL?
+  type: single
+  answers:
+  - text: Изменение строк в таблице
+    correct: false
+  - text: Изменение структуры объектов БД
+    correct: true
+  - text: Только чтение данных через SELECT
+    correct: false
+  - text: Настройка прав пользователей
+    correct: false
+
+- id: IT03-21-Q02
+  text: Что относится к DML?
+  type: single
+  answers:
+  - text: CREATE TABLE
+    correct: false
+  - text: ALTER TABLE
+    correct: false
+  - text: DROP TABLE
+    correct: false
+  - text: UPDATE строк таблицы
+    correct: true
+
+- id: IT03-21-Q03
+  text: Какой запрос корректно добавляет новый столбец в MySQL?
+  type: single
+  answers:
+  - text: ALTER TABLE students ADD COLUMN phone VARCHAR(20);
+    correct: true
+  - text: UPDATE TABLE students ADD phone VARCHAR(20);
+    correct: false
+  - text: INSERT COLUMN phone INTO students;
+    correct: false
+  - text: CREATE COLUMN phone ON students;
+    correct: false
+
+- id: IT03-21-Q04
+  text: Что делает команда MODIFY в ALTER TABLE?
+  type: single
+  answers:
+  - text: Удаляет таблицу
+    correct: false
+  - text: Вставляет новую строку
+    correct: false
+  - text: Меняет описание существующего столбца
+    correct: true
+  - text: Создает индекс автоматически
+    correct: false
+
+- id: IT03-21-Q05
+  text: Какая конструкция используется в MySQL для upsert?
+  type: single
+  answers:
+  - text: INSERT OR IGNORE
+    correct: false
+  - text: INSERT ... ON DUPLICATE KEY UPDATE
+    correct: true
+  - text: REPLACE OR UPDATE
+    correct: false
+  - text: UPSERT INTO ... VALUES
+    correct: false
+
+- id: IT03-21-Q06
+  text: Почему UPDATE без WHERE опасен?
+  type: single
+  answers:
+  - text: Он работает только для пустых таблиц
+    correct: false
+  - text: Он автоматически удаляет индексы
+    correct: false
+  - text: Он превращается в SELECT
+    correct: false
+  - text: Он может изменить все строки таблицы
+    correct: true
+
+- id: IT03-21-Q07
+  text: Какое утверждение про TRUNCATE TABLE верное для MySQL?
+  type: single
+  answers:
+  - text: Очищает строки таблицы и обычно сбрасывает AUTO_INCREMENT
+    correct: true
+  - text: Удаляет только одну строку по id
+    correct: false
+  - text: Работает только с временными таблицами
+    correct: false
+  - text: Всегда требует WHERE
+    correct: false
+
+- id: IT03-21-Q08
+  text: Какой запрос удобен для проверки актуальной структуры таблицы в MySQL?
+  type: single
+  answers:
+  - text: SELECT STRUCTURE FROM students;
+    correct: false
+  - text: DESCRIBE FULL students TABLE;
+    correct: false
+  - text: SHOW CREATE TABLE students;
+    correct: true
+  - text: EXPLAIN TABLE students;
+    correct: false
+
+- id: IT03-21-Q09
+  text: В чем важное отличие MySQL от SQLite в теме upsert?
+  type: single
+  answers:
+  - text: В MySQL upsert возможен только для числовых полей
+    correct: false
+  - text: В MySQL типовой синтаксис — ON DUPLICATE KEY UPDATE, в SQLite — ON CONFLICT/OR IGNORE
+    correct: true
+  - text: В SQLite upsert поддерживается, а в MySQL — нет
+    correct: false
+  - text: Синтаксис upsert в MySQL и SQLite полностью одинаков
+    correct: false
+
+- id: IT03-21-Q10
+  text: Какая команда относится к DDL, а не к DML?
+  type: single
+  answers:
+  - text: INSERT INTO students ...
+    correct: false
+  - text: UPDATE students SET ...
+    correct: false
+  - text: DELETE FROM students ...
+    correct: false
+  - text: ALTER TABLE students ...
+    correct: true
+
+- id: IT03-21-Q11
+  text: Что обычно ожидает safe update mode в MySQL Workbench?
+  type: single
+  answers:
+  - text: Условие WHERE по ключевому столбцу (или иное безопасное ограничение)
+    correct: true
+  - text: Обязательное использование GROUP BY
+    correct: false
+  - text: Только команды SELECT
+    correct: false
+  - text: Явный COMMIT перед UPDATE
+    correct: false
+
+- id: IT03-21-Q12
+  text: Для чего обычно используют IF EXISTS в DROP TABLE?
+  type: single
+  answers:
+  - text: Чтобы удалить только первую строку
+    correct: false
+  - text: Чтобы превратить DROP в TRUNCATE
+    correct: false
+  - text: Чтобы не получать ошибку, если таблица уже отсутствует
+    correct: true
+  - text: Чтобы автоматически создать таблицу после удаления
+    correct: false
+
+- id: IT03-21-Q13
+  text: В каком случае логично использовать INSERT ... SELECT?
+  type: single
+  answers:
+  - text: Когда нужно перенести/скопировать набор строк из одной таблицы в другую
+    correct: true
+  - text: Когда нужно изменить тип столбца
+    correct: false
+  - text: Когда нужно удалить таблицу и ее структуру
+    correct: false
+  - text: Когда нужно посмотреть план запроса через EXPLAIN
+    correct: false
+
+- id: IT03-21-Q14
+  text: Что дает UPDATE ... JOIN в MySQL?
+  type: single
+  answers:
+  - text: Возможность только читать данные из двух таблиц
+    correct: false
+  - text: Автоматическое создание внешних ключей
+    correct: false
+  - text: Полную замену INSERT в любой ситуации
+    correct: false
+  - text: Обновление строк одной таблицы на основе данных другой таблицы
+    correct: true
