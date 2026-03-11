@@ -1,0 +1,131 @@
+lecture_id: '22'
+lecture_title: 'ИТ.03 - 22 - Операции JOIN и представления (VIEW) в MySQL'
+questions:
+- id: IT03-22-Q01
+  text: Чем отличается способы комманды `JOIN` в MySQL и SQLite?
+  type: single
+  answers:
+  - text: Отличается `CROSS JOIN`, `RIGHT JOIN` и `OUTER JOIN`
+    correct: false
+  - text: Отличается `RIGHT JOIN` и `OUTER JOIN`
+    correct: true
+  - text: Отличается `INNER JOIN и `CROSS JOIN`
+    correct: false
+  - text: Ничем не отличается
+    correct: false
+
+- id: IT03-22-Q02
+  text: Как реализуется `OUTER JOIN` в SQL?
+  type: single
+  answers:
+  - text: При помощи `LEFT JOIN` и `RIGHT JOIN`
+    correct: false
+  - text: При помощи команды `FULL OUTER JOIN`
+    correct: false
+  - text: При помощи `LEFT JOIN`, `RIGHT JOIN` и `UNION`
+    correct: true
+  - text: При помощи команды `INNER JOIN`, `OUTER JOIN` и `UNION`
+    correct: false
+
+- id: IT03-22-Q03
+  text: Какой тип соединения возвращает декартово произведение строк из двух таблиц в MySQL?
+  type: single
+  answers:
+  - text: INNER JOIN
+    correct: false
+  - text: LEFT JOIN
+    correct: false
+  - text: CROSS JOIN
+    correct: true
+  - text: RIGHT JOIN
+    correct: false
+
+- id: IT03-22-Q04
+  text: Что такое VIEW в MySQL?
+  type: single
+  answers:
+  - text: Физическая таблица, хранящая данные.
+    correct: false
+  - text: Виртуальная таблица, основанная на результате SQL‑запроса.
+    correct: true
+  - text: Специальный тип индекса для ускорения запросов.
+    correct: false
+  - text: Процедура для выполнения сложных вычислений.
+    correct: false
+
+- id: IT03-22-Q05
+  text: Какая команда используется для создания представления в MySQL?
+  type: single
+  answers:
+  - text: CREATE TABLE VIEW
+    correct: false
+  - text: MAKE VIEW
+    correct: false
+  - text: CREATE VIEW
+    correct: true
+  - text: NEW VIEW
+    correct: false
+
+- id: IT03-22-Q06
+  text: Какая команда удаляет представление?
+  type: single
+  answers:
+  - text: DELETE VIEW
+    correct: false
+  - text: REMOVE VIEW
+    correct: false
+  - text: ERASE VIEW
+    correct: false
+  - text: DROP VIEW
+    correct: true
+
+- id: IT03-22-Q07
+  text: Что произойдёт, если базовая таблица, на которой основано VIEW, будет удалена?
+  type: single
+  answers:
+  - text: VIEW останется, но станет нерабочим
+    correct: true
+  - text: VIEW автоматически удалится
+    correct: false
+  - text: MySQL создаст новую таблицу с тем же именем
+    correct: false
+  - text: VIEW продолжит работать, так как хранит данные физически
+    correct: false
+
+- id: IT03-22-Q08
+  text: Какой синтаксис корректен для создания VIEW?
+  type: single
+  answers:
+  - text: CREATE VIEW my_view SELECT * FROM users;
+    correct: false
+  - text: CREATE VIEW my_view AS SELECT * FROM users;
+    correct: true
+  - text: MAKE VIEW my_view FROM SELECT * FROM users;
+    correct: false
+  - text: CREATE VIEW my_view USING SELECT * FROM users;
+    correct: false
+
+- id: IT03-22-Q09
+  text: Какой тип VIEW отсутствует в чистом MySQL?
+  type: single
+  answers:
+  - text: Обычное VIEW
+    correct: false
+  - text: Обновляемое VIEW
+    correct: false
+  - text: Представления с `JOIN`
+    correct: false
+  - text: Материализованное VIEW
+    correct: true
+
+- id: IT03-22-Q10
+  text: Какое преимущество предоставляют VIEW?
+  type: single
+  answers:
+  - text: Ускорение выполнения всех запросов в 10 раз.
+    correct: false
+  - text: Упрощение сложных запросов и логическая изоляция данных.
+    correct: true
+  - text: Автоматическое резервное копирование данных.
+    correct: false
+  - text: Возможность хранить данные в зашифрованном виде.

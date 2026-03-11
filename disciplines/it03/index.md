@@ -40,7 +40,7 @@ next: '/disciplines/mdk1101/'
   - [19 - Ограничения и целостность данных в MySQL](./lectures/19_lecture.md)
   - [20 - Индексы и производительность в MySQL](./lectures/20_lecture.md)
   - [21 - Запросы в MySQL: DDL и DML](./lectures/21_lecture.md)
-  - 22 - Операции JOIN и представления (VIEW) в MySQL.
+  - [22 - Операции JOIN и представления (VIEW) в MySQL](./lectures/22_lecture.md)
   - 23 - Практикум: запросы (DDL/DML), JOIN, VIEW и ограничения.
   - 24 - Проектирование схем БД в MySQL Workbench (ERD).
   - 25 - Практикум: проектирование схемы БД в MySQL Workbench.
