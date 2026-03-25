@@ -1,0 +1,132 @@
+lecture_id: '24'
+lecture_title: 'ИТ.03 - 24 - Проектирование схем БД в MySQL Workbench (ERD)'
+questions:
+- id: IT03-24-Q01
+  text: Какой элемент ERD описывает объект реального мира, информацию о котором хранят в БД?
+  type: single
+  answers:
+  - text: Сущность (Entity)
+    correct: true
+  - text: Атрибут (Attribute)
+    correct: false
+  - text: Связь (Relationship)
+    correct: false
+  - text: Индекс (Index)
+    correct: false
+
+- id: IT03-24-Q02
+  text: Связь «один‑ко‑многим» между таблицами `authors` и `books` (один автор — много книг) в физической модели реализуется через
+  type: single
+  answers:
+  - text: Добавление внешнего ключа в таблицу `books`, ссылающегося на `authors.id`
+    correct: true
+  - text: Создание промежуточной таблицы `author_books`
+    correct: false
+  - text: Добавление внешнего ключа в таблицу `authors`, ссылающегося на `books.id`
+    correct: false
+  - text: Использование триггера
+    correct: false
+
+- id: IT03-24-Q03
+  text: Какой тип связи изображён на диаграмме между `books` и `borrowings`?
+  type: single
+  answers:
+  - text: Один‑к‑одному
+    correct: false
+  - text: Один‑ко‑многим
+    correct: true
+  - text: Многие‑ко‑многим
+    correct: false
+  - text: Наследование
+    correct: false
+
+- id: IT03-24-Q04
+  text: Что позволяет сделать MySQL Workbench с готовой ER‑диаграммой?
+  type: single
+  answers:
+  - text: Только сохранить её как изображение
+    correct: false
+  - text: Сгенерировать SQL‑скрипт для создания таблиц
+    correct: true
+  - text: Автоматически заполнить таблицы тестовыми данными
+    correct: false
+  - text: Все перечисленное
+    correct: false
+
+- id: IT03-24-Q05
+  text: Правило CASCADE для внешнего ключа означает
+  type: single
+  answers:
+  - text: Запретить удаление родительской записи, если есть дочерние
+    correct: false
+  - text: Удалить дочерние записи при удалении родительской
+    correct: true
+  - text: Установить NULL в дочерних записях при удалении родительской
+    correct: false
+  - text: Игнорировать связь при удалении
+    correct: false
+
+- id: IT03-24-Q06
+  text: Какой из перечисленных элементов НЕ является частью ERD?
+  type: single
+  answers:
+  - text: Сущность
+    correct: false
+  - text: Атрибут
+    correct: false
+  - text: Связь
+    correct: false
+  - text: Триггер
+    correct: true
+
+- id: IT03-24-Q07
+  text: Для связи «многие‑ко‑многим» между `students` и `courses` в физической модели требуется
+  type: single
+  answers:
+  - text: Добавить внешний ключ в таблицу `students`
+    correct: false
+  - text: Добавить внешний ключ в таблицу `courses`
+    correct: false
+  - text: Создать промежуточную таблицу `student_courses`
+    correct: true
+  - text: Использовать правило CASCADE
+    correct: false
+
+- id: IT03-24-Q08
+  text: Какой инструмент MySQL Workbench используется для создания ER‑диаграмм?
+  type: single
+  answers:
+  - text: Query Editor
+    correct: false
+  - text: Modeling
+    correct: true
+  - text: Administration
+    correct: false
+  - text: Migration
+    correct: false
+
+- id: IT03-24-Q09
+  text: Что такое «нотация Crow’s Foot»?
+  type: single
+  answers:
+  - text: Способ изображения связей в ERD, где «ноготь ворона» обозначает сторону «многие»
+    correct: true
+  - text: Тип индекса в MySQL
+    correct: false
+  - text: Метод нормализации базы данных
+    correct: false
+  - text: Алгоритм шифрования паролей
+    correct: false
+
+- id: IT03-24-Q10
+  text: Какой из следующих шагов НЕ является частью процесса проектирования БД в MySQL Workbench?
+  type: single
+  answers:
+  - text: Добавление таблиц и столбцов на диаграмму
+    correct: false
+  - text: Настройка внешних ключей и правил ссылочной целостности
+    correct: false
+  - text: Написание PHP‑кода для веб‑интерфейса
+    correct: true
+  - text: Генерация SQL‑скрипта из диаграммы
+    correct: false

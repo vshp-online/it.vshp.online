@@ -42,7 +42,7 @@ next: '/disciplines/mdk1101/'
   - [21 - Запросы в MySQL: DDL и DML](./lectures/21_lecture.md)
   - [22 - Операции JOIN и представления (VIEW) в MySQL](./lectures/22_lecture.md)
   - [23 - Практикум: запросы (DDL/DML), JOIN, VIEW и ограничения.](./lectures/23_lecture.md)
-  - 24 - Проектирование схем БД в MySQL Workbench (ERD).
+  - [24 - Проектирование схем БД в MySQL Workbench (ERD).](./lectures/24_lecture.md)
   - 25 - Практикум: проектирование схемы БД в MySQL Workbench.
   - 26 - Транзакции: введение.
   - 27 - Расширенные транзакции и уровни изоляции.
