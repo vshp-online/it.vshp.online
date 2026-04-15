@@ -44,7 +44,7 @@ next: '/disciplines/mdk1101/'
   - [23 - Практикум: запросы (DDL/DML), JOIN, VIEW и ограничения.](./lectures/23_lecture.md)
   - [24 - Проектирование схем БД в MySQL Workbench (ERD).](./lectures/24_lecture.md)
   - [25 - Практикум: проектирование схемы БД в MySQL Workbench.](./lectures/25_lecture.md)
-  - 26 - Транзакции: введение.
+  - [26 - Транзакции: введение.](./lectures/26_lecture.md)
   - 27 - Расширенные транзакции и уровни изоляции.
   - 28 - Переменные в MySQL.
   - 29 - Хранимые процедуры.

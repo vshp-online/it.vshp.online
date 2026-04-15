@@ -1,0 +1,87 @@
+lecture_id: '26'
+lecture_title: "ИТ.03 - 26 - Транзакции: введение в MySQL"
+questions:
+- id: IT03-26-Q01
+  text: Что такое транзакция в контексте баз данных?
+  type: single
+  answers:
+  - text: Любой запрос SELECT к базе данных
+    correct: false
+  - text: Последовательность операций SQL, представляющая единую логическую задачу, которая должна быть выполнена как целое
+    correct: true
+  - text: Процедура автоматического обновления индексов
+    correct: false
+  - text: Механизм резервного копирования данных
+    correct: false
+- id: IT03-26-Q02
+  text: Какое из свойств ACID гарантирует, что транзакция либо выполнится полностью, либо не выполнится вовсе?
+  type: single
+  answers:
+  - text: Изолированность (Isolation)
+    correct: false
+  - text: Согласованность (Consistency)
+    correct: false
+  - text: Атомарность (Atomicity)
+    correct: true
+  - text: Долговечность (Durability)
+    correct: false
+- id: IT03-26-Q03
+  text: Какая команда в MySQL используется для фиксации изменений транзакции?
+  type: single
+  answers:
+  - text: START TRANSACTION
+    correct: false
+  - text: SAVEPOINT
+    correct: false
+  - text: COMMIT
+    correct: true
+  - text: ROLLBACK
+    correct: false
+- id: IT03-26-Q04
+  text: Что произойдет, если после START TRANSACTION выполнить ROLLBACK?
+  type: single
+  answers:
+  - text: Транзакция будет приостановлена до следующего COMMIT
+    correct: false
+  - text: Изменения будут сохранены, но транзакция будет завершена
+    correct: false
+  - text: Все изменения, сделанные в рамках текущей транзакции, будут отменены
+    correct: true
+  - text: База данных вернется к состоянию последнего бекапа
+    correct: false
+- id: IT03-26-Q05
+  text: Какой уровень изоляции транзакций является стандартным (по умолчанию) в MySQL?
+  type: single
+  answers:
+  - text: READ UNCOMMITTED
+    correct: false
+  - text: SERIALIZABLE
+    correct: false
+  - text: REPEATABLE READ
+    correct: true
+  - text: READ COMMITTED
+    correct: false
+- id: IT03-26-Q06
+  text: Какое свойство ACID гарантирует, что успешно завершенная транзакция останется сохраненной даже после сбоя системы?
+  type: single
+  answers:
+  - text: Атомарность (Atomicity)
+    correct: false
+  - text: Изолированность (Isolation)
+    correct: false
+  - text: Согласованность (Consistency)
+    correct: false
+  - text: Долговечность (Durability)
+    correct: true
+- id: IT03-26-Q07
+  text: В каком сценарии использование транзакций наиболее критично?
+  type: single
+  answers:
+  - text: Экспорт данных в CSV-файл
+    correct: false
+  - text: Чтение новостной ленты
+    correct: false
+  - text: Перевод денег между банковскими счетами
+    correct: true
+  - text: Создание резервной копии таблицы
+    correct: false
