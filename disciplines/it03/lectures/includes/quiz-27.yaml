@@ -1,0 +1,123 @@
+lecture_id: '27'
+lecture_title: "ИТ.03 - 27 - Расширенные транзакции и уровни изоляции"
+questions:
+- id: IT03-27-Q01
+  text: Какой уровень изоляции транзакций в MySQL позволяет читать незафиксированные изменения других транзакций?
+  type: single
+  answers:
+  - text: READ COMMITTED
+    correct: false
+  - text: REPEATABLE READ
+    correct: false
+  - text: SERIALIZABLE
+    correct: false
+  - text: READ UNCOMMITTED
+    correct: true
+- id: IT03-27-Q02
+  text: Какая аномалия параллельного доступа возникает, когда транзакция читает данные, которые были изменены другой транзакцией, но ещё не зафиксированы, и та транзакция затем откатывается?
+  type: single
+  answers:
+  - text: Неповторяющееся чтение
+    correct: false
+  - text: Чтение фантомов
+    correct: false
+  - text: Потерянное обновление
+    correct: false
+  - text: «Грязное» чтение
+    correct: true
+- id: IT03-27-Q03
+  text: Какой уровень изоляции в MySQL гарантирует, что в рамках одной транзакции повторное чтение одних и тех же данных даст одинаковый результат, даже если другие транзакции изменили эти данные?
+  type: single
+  answers:
+  - text: READ UNCOMMITTED
+    correct: false
+  - text: READ COMMITTED
+    correct: false
+  - text: REPEATABLE READ
+    correct: true
+  - text: SERIALIZABLE
+    correct: false
+- id: IT03-27-Q04
+  text: Какая команда используется для создания точки сохранения внутри транзакции, к которой можно later откатиться?
+  type: single
+  answers:
+  - text: COMMIT
+    correct: false
+  - text: ROLLBACK
+    correct: false
+  - text: SAVEPOINT
+    correct: true
+  - text: START TRANSACTION
+    correct: false
+- id: IT03-27-Q05
+  text: Что такое deadlock (взаимная блокировка) в контексте транзакций?
+  type: single
+  answers:
+  - text: Ситуация, когда транзакция ожидает освобождения ресурса, который никогда не будет освобождён
+    correct: false
+  - text: Ситуация, когда две или более транзакции взаимно блокируют друг друга, каждая ожидает ресурс, занятый другой
+    correct: true
+  - text: Ситуация, когда транзакция выполняется слишком долго и превышает таймаут
+    correct: false
+  - text: Ситуация, когда транзакция не может быть завершена из-за нарушения ограничений целостности
+    correct: false
+- id: IT03-27-Q06
+  text: Какой уровень изоляции полностью исключает все аномалии параллельного доступа (грязное чтение, неповторяющееся чтение, чтение фантомов), но существенно снижает параллелизм?
+  type: single
+  answers:
+  - text: READ COMMITTED
+    correct: false
+  - text: REPEATABLE READ
+    correct: false
+  - text: READ UNCOMMITTED
+    correct: false
+  - text: SERIALIZABLE
+    correct: true
+- id: IT03-27-Q07
+  text: Какая команда позволяет явно заблокировать строку для обновления, чтобы другие транзакции не могли её изменить до завершения текущей транзакции?
+  type: single
+  answers:
+  - text: SELECT ... LOCK IN SHARE MODE
+    correct: false
+  - text: SELECT ... FOR UPDATE
+    correct: true
+  - text: SELECT ... WITH LOCK
+    correct: false
+  - text: SELECT ... EXCLUSIVE LOCK
+    correct: false
+- id: IT03-27-Q08
+  text: Что произойдет, если в MySQL обнаруживается deadlock между двумя транзакциями?
+  type: single
+  answers:
+  - text: Обе транзакции будут приостановлены до ручного вмешательства администратора
+    correct: false
+  - text: MySQL автоматически откатывает одну из транзакций (обычно ту, которая потребовала меньше ресурсов)
+    correct: true
+  - text: MySQL завершает работу сервера для предотвращения повреждения данных
+    correct: false
+  - text: MySQL игнорирует deadlock и позволяет транзакциям продолжать ожидание
+    correct: false
+- id: IT03-27-Q09
+  text: Какая аномалия характеризуется ситуацией, когда повторный запрос в рамках одной транзакции возвращает другой набор строк из-за вставки или удаления строк другими транзакциями?
+  type: single
+  answers:
+  - text: Неповторяющееся чтение
+    correct: false
+  - text: «Грязное» чтение
+    correct: false
+  - text: Потерянное обновление
+    correct: false
+  - text: Чтение фантомов
+    correct: true
+- id: IT03-27-Q10
+  text: Как можно освободить точку сохранения, которая больше не нужна, внутри транзакции?
+  type: single
+  answers:
+  - text: DROP SAVEPOINT
+    correct: false
+  - text: DELETE SAVEPOINT
+    correct: false
+  - text: RELEASE SAVEPOINT
+    correct: true
+  - text: REMOVE SAVEPOINT
+    correct: false
