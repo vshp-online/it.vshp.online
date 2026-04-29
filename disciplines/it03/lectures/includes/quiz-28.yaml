@@ -1,0 +1,123 @@
+lecture_id: '28'
+lecture_title: "ИТ.03 - 28 - Переменные в MySQL"
+questions:
+- id: IT03-28-Q01
+  text: Какой префикс используется для обозначения пользовательских переменных в MySQL?
+  type: single
+  answers:
+  - text: "#"
+    correct: false
+  - text: "$"
+    correct: false
+  - text: "@"
+    correct: true
+  - text: "@@"
+    correct: false
+- id: IT03-28-Q02
+  text: Каким оператором присваивания нужно пользоваться при установке значения пользовательской переменной внутри оператора SELECT?
+  type: single
+  answers:
+  - text: =
+    correct: false
+  - text: :=
+    correct: true
+  - text: ==
+    correct: false
+  - text: =>
+    correct: false
+- id: IT03-28-Q03
+  text: Где должны быть объявлены локальные переменные внутри хранимой процедуры?
+  type: single
+  answers:
+  - text: В любом месте между BEGIN и END
+    correct: false
+  - text: В начале блока, до любых исполняемых операторов
+    correct: true
+  - text: Только после первого оператора SELECT
+    correct: false
+  - text: Вне блока BEGIN...END
+    correct: false
+- id: IT03-28-Q04
+  text: Какой тип переменных используется для хранения настроек сервера MySQL, таких как time_zone или max_connections?
+  type: single
+  answers:
+  - text: Пользовательские переменные (@var)
+    correct: false
+  - text: Локальные переменные (DECLARE)
+    correct: false
+  - text: Системные переменные (@@var)
+    correct: true
+  - text: Глобальные константы
+    correct: false
+- id: IT03-28-Q05
+  text: Какая команда используется для изменения значения системной переменной только для текущей сессии?
+  type: single
+  answers:
+  - text: SET GLOBAL var_name = value
+    correct: false
+  - text: SET SESSION var_name = value
+    correct: true
+  - text: ALTER SYSTEM var_name = value
+    correct: false
+  - text: UPDATE @@var_name = value
+    correct: false
+- id: IT03-28-Q06
+  text: Какой из перечисленных типов переменных имеет строгую типизацию (тип указывается при объявлении)?
+  type: single
+  answers:
+  - text: Пользовательские переменные
+    correct: false
+  - text: Локальные переменные в хранимых процедурах
+    correct: true
+  - text: Системные переменные
+    correct: false
+  - text: Все перечисленные
+    correct: false
+- id: IT03-28-Q07
+  text: Что произойдет, если попытаться использовать пользовательскую переменную без предварительного присваивания значения?
+  type: single
+  answers:
+  - text: Будет ошибка "Variable not defined"
+    correct: false
+  - text: Переменная будет иметь значение NULL
+    correct: true
+  - text: Переменная будет иметь значение 0
+    correct: false
+  - text: MySQL автоматически создаст переменную со случайным значением
+    correct: false
+- id: IT03-28-Q08
+  text: Какой оператор используется для объявления локальной переменной в хранимой процедуре?
+  type: single
+  answers:
+  - text: SET
+    correct: false
+  - text: DECLARE
+    correct: true
+  - text: DEFINE
+    correct: false
+  - text: VAR
+    correct: false
+- id: IT03-28-Q09
+  text: Какая из перечисленных переменных будет доступна после закрытия соединения с сервером MySQL?
+  type: single
+  answers:
+  - text: Пользовательская переменная @total
+    correct: false
+  - text: Локальная переменная count внутри процедуры
+    correct: false
+  - text: Системная переменная @@global.max_connections
+    correct: true
+  - text: Все перечисленные
+    correct: false
+- id: IT03-28-Q10
+  text: Как правильно присвоить результат запроса SELECT локальной переменной в хранимой процедуре?
+  type: single
+  answers:
+  - text: SET var = SELECT column FROM table;
+    correct: false
+  - text: SELECT column INTO var FROM table;
+    correct: true
+  - text: EXECUTE var = SELECT column FROM table;
+    correct: false
+  - text: FETCH column INTO var FROM table;
+    correct: false
