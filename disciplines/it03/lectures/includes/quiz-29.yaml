@@ -1,0 +1,123 @@
+lecture_id: '29'
+lecture_title: "ИТ.03 - 29 - Хранимые процедуры в MySQL"
+questions:
+- id: IT03-29-Q01
+  text: Что такое хранимая процедура в MySQL?
+  type: single
+  answers:
+  - text: Временная таблица для хранения промежуточных результатов
+    correct: false
+  - text: Предварительно скомпилированный блок SQL-кода, хранящийся в базе данных и выполняемый на сервере
+    correct: true
+  - text: Индекс, ускоряющий выполнение запросов
+    correct: false
+  - text: Внешний ключ, обеспечивающий ссылочную целостность
+    correct: false
+- id: IT03-29-Q02
+  text: Какой оператор используется для вызова хранимой процедуры в MySQL?
+  type: single
+  answers:
+  - text: EXECUTE
+    correct: false
+  - text: RUN
+    correct: false
+  - text: CALL
+    correct: true
+  - text: START
+    correct: false
+- id: IT03-29-Q03
+  text: Какой тип параметра хранимой процедуры позволяет передать значение в процедуру, но не возвращает изменённое значение обратно?
+  type: single
+  answers:
+  - text: IN
+    correct: true
+  - text: OUT
+    correct: false
+  - text: INOUT
+    correct: false
+  - text: RETURN
+    correct: false
+- id: IT03-29-Q04
+  text: Для чего используется конструкция DELIMITER $$ при создании хранимой процедуры?
+  type: single
+  answers:
+  - text: Для объявления начала процедуры
+    correct: false
+  - text: Для временного изменения разделителя, чтобы точка с запятой внутри процедуры не прерывала создание
+    correct: true
+  - text: Для указания кодировки символов
+    correct: false
+  - text: Для определения возвращаемого типа процедуры
+    correct: false
+- id: IT03-29-Q05
+  text: Какое ключевое слово используется для объявления локальной переменной внутри хранимой процедуры?
+  type: single
+  answers:
+  - text: VAR
+    correct: false
+  - text: SET
+    correct: false
+  - text: DECLARE
+    correct: true
+  - text: DEFINE
+    correct: false
+- id: IT03-29-Q06
+  text: Какая управляющая конструкция НЕ поддерживается в хранимых процедурах MySQL?
+  type: single
+  answers:
+  - text: IF ... THEN ... ELSE
+    correct: false
+  - text: WHILE ... DO
+    correct: false
+  - text: FOR ... IN
+    correct: true
+  - text: CASE ... WHEN
+    correct: false
+- id: IT03-29-Q07
+  text: Какой оператор позволяет сгенерировать пользовательскую ошибку внутри хранимой процедуры?
+  type: single
+  answers:
+  - text: RAISE
+    correct: false
+  - text: THROW
+    correct: false
+  - text: SIGNAL
+    correct: true
+  - text: ERROR
+    correct: false
+- id: IT03-29-Q08
+  text: Какое из перечисленных утверждений является преимуществом хранимых процедур?
+  type: single
+  answers:
+  - text: Увеличивают сетевой трафик между клиентом и сервером
+    correct: false
+  - text: Позволяют инкапсулировать бизнес-логику на уровне базы данных
+    correct: true
+  - text: Усложняют миграцию между разными СУБД
+    correct: false
+  - text: Требуют перекомпиляции при каждом вызове
+    correct: false
+- id: IT03-29-Q09
+  text: Чем хранимая процедура отличается от хранимой функции в MySQL?
+  type: single
+  answers:
+  - text: Процедура всегда возвращает значение, а функция — нет
+    correct: false
+  - text: Функция вызывается оператором CALL, а процедура — как часть выражения
+    correct: false
+  - text: Процедура может возвращать несколько значений через параметры OUT/INOUT, а функция возвращает одно скалярное значение
+    correct: true
+  - text: Функция может содержать операторы изменения данных, а процедура — нет
+    correct: false
+- id: IT03-29-Q10
+  text: Какой оператор используется для удаления хранимой процедуры?
+  type: single
+  answers:
+  - text: DELETE PROCEDURE
+    correct: false
+  - text: REMOVE PROCEDURE
+    correct: false
+  - text: DROP PROCEDURE
+    correct: true
+  - text: ERASE PROCEDURE
+    correct: false
