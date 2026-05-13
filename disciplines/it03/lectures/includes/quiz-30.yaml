@@ -1,0 +1,158 @@
+lecture_id: '30'
+lecture_title: "ИТ.03 - 30 - Условия и переменные в хранимых процедурах MySQL"
+questions:
+- id: IT03-30-Q01
+  text: Какое ключевое слово используется для объявления локальной переменной внутри хранимой процедуры MySQL?
+  type: single
+  answers:
+  - text: VAR
+    correct: false
+  - text: SET
+    correct: false
+  - text: DECLARE
+    correct: true
+  - text: DEFINE
+    correct: false
+- id: IT03-30-Q02
+  text: Где должны быть объявлены локальные переменные в теле хранимой процедуры?
+  type: single
+  answers:
+  - text: В любом месте между операторами SQL
+    correct: false
+  - text: Только после первого использования
+    correct: false
+  - text: В самом начале блока BEGIN ... END, перед другими операторами
+    correct: true
+  - text: Вне блока BEGIN ... END, перед CREATE PROCEDURE
+    correct: false
+- id: IT03-30-Q03
+  text: Какой оператор используется для присваивания значения локальной переменной, полученного в результате SQL-запроса?
+  type: single
+  answers:
+  - text: SET
+    correct: false
+  - text: SELECT ... INTO
+    correct: true
+  - text: ASSIGN
+    correct: false
+  - text: UPDATE ... SET
+    correct: false
+- id: IT03-30-Q04
+  text: Какой синтаксис у оператора IF в хранимых процедурах MySQL?
+  type: single
+  answers:
+  - text: IF условие THEN операторы; END IF;
+    correct: false
+  - text: IF условие THEN операторы; ELSEIF условие THEN операторы; ELSE операторы; END IF;
+    correct: false
+  - text: Оба варианта верны
+    correct: true
+  - text: IF условие { операторы } ELSE { операторы }
+    correct: false
+- id: IT03-30-Q05
+  text: Какая из перечисленных конструкций позволяет выполнить разные блоки кода в зависимости от нескольких условий, не проверяя одно выражение на равенство?
+  type: single
+  answers:
+  - text: Простая форма CASE (CASE переменная WHEN ...)
+    correct: false
+  - text: Поисковая форма CASE (CASE WHEN условие THEN ...)
+    correct: true
+  - text: Оператор IFNULL
+    correct: false
+  - text: Оператор COALESCE
+    correct: false
+- id: IT03-30-Q06
+  text: Что произойдёт, если не указать значение по умолчанию при объявлении переменной DECLARE?
+  type: single
+  answers:
+  - text: Переменная получит значение 0 (для числовых типов) или пустую строку (для строковых)
+    correct: false
+  - text: Переменная будет инициализирована значением NULL
+    correct: true
+  - text: Возникнет ошибка компиляции процедуры
+    correct: false
+  - text: Переменная будет неопределённой до первого присваивания
+    correct: false
+- id: IT03-30-Q07
+  text: Какой оператор используется для изменения значения уже объявленной переменной на результат арифметического выражения?
+  type: single
+  answers:
+  - text: SELECT ... INTO
+    correct: false
+  - text: SET
+    correct: true
+  - text: UPDATE
+    correct: false
+  - text: ALTER
+    correct: false
+- id: IT03-30-Q08
+  text: В процедуре нужно проверить, превышает ли баланс счёта 1000, и если да, вывести сообщение "Достаточно", иначе "Недостаточно". Какой фрагмент кода правильный?
+  type: single
+  answers:
+  - text: |-
+      IF balance > 1000 THEN
+        SELECT 'Достаточно';
+      ELSE
+        SELECT 'Недостаточно';
+      END IF;
+    correct: true
+  - text: |-
+      CASE balance > 1000 THEN
+        SELECT 'Достаточно';
+      ELSE
+        SELECT 'Недостаточно';
+      END CASE;
+    correct: false
+  - text: |-
+      IF balance > 1000
+        SELECT 'Достаточно';
+      ELSE
+        SELECT 'Недостаточно';
+    correct: false
+  - text: |-
+      WHEN balance > 1000 SELECT 'Достаточно';
+      OTHERWISE SELECT 'Недостаточно';
+    correct: false
+- id: IT03-30-Q09
+  text: Какое утверждение о локальных переменных в хранимых процедурах MySQL НЕВЕРНО?
+  type: single
+  answers:
+  - text: Локальные переменные видны только внутри процедуры, в которой объявлены
+    correct: false
+  - text: Локальные переменные можно использовать для хранения промежуточных результатов запросов
+    correct: false
+  - text: Локальные переменные сохраняют свои значения между вызовами процедуры
+    correct: true
+  - text: Локальные переменные должны иметь уникальное имя в пределах процедуры
+    correct: false
+- id: IT03-30-Q10
+  text: Какой из следующих примеров демонстрирует корректное использование оператора CASE в поисковой форме?
+  type: single
+  answers:
+  - text: |-
+      CASE discount_level
+        WHEN 'Gold' THEN SET bonus = 0.15;
+        WHEN 'Silver' THEN SET bonus = 0.10;
+        ELSE SET bonus = 0.05;
+      END CASE;
+    correct: false
+  - text: |-
+      CASE
+        WHEN total_amount >= 10000 THEN SET discount = 0.20;
+        WHEN total_amount >= 5000 THEN SET discount = 0.10;
+        ELSE SET discount = 0.05;
+      END CASE;
+    correct: true
+  - text: |-
+      CASE total_amount
+        >= 10000 THEN SET discount = 0.20;
+        >= 5000 THEN SET discount = 0.10;
+        ELSE SET discount = 0.05;
+      END CASE;
+    correct: false
+  - text: |-
+      IF total_amount >= 10000 THEN SET discount = 0.20;
+      ELSEIF total_amount >= 5000 THEN SET discount = 0.10;
+      ELSE SET discount = 0.05;
+      END CASE;
+    correct: false
