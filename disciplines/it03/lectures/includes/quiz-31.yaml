@@ -1,0 +1,123 @@
+lecture_id: '31'
+lecture_title: "ИТ.03 - 31 - Обработка ошибок и транзакции в процедурах"
+questions:
+- id: IT03-31-Q01
+  text: Какой оператор начинает транзакцию в хранимой процедуре MySQL?
+  type: single
+  answers:
+  - text: BEGIN TRANSACTION
+    correct: false
+  - text: START TRANSACTION
+    correct: true
+  - text: TRANSACTION START
+    correct: false
+  - text: BEGIN WORK
+    correct: false
+- id: IT03-31-Q02
+  text: Что делает оператор COMMIT?
+  type: single
+  answers:
+  - text: Откатывает все изменения, сделанные в текущей транзакции
+    correct: false
+  - text: Фиксирует все изменения, сделанные в текущей транзакции
+    correct: true
+  - text: Создает точку сохранения внутри транзакции
+    correct: false
+  - text: Завершает хранимую процедуру
+    correct: false
+- id: IT03-31-Q03
+  text: Какой тип обработчика ошибок завершает выполнение хранимой процедуры при возникновении ошибки?
+  type: single
+  answers:
+  - text: DECLARE CONTINUE HANDLER
+    correct: false
+  - text: DECLARE EXIT HANDLER
+    correct: true
+  - text: DECLARE WARNING HANDLER
+    correct: false
+  - text: DECLARE ERROR HANDLER
+    correct: false
+- id: IT03-31-Q04
+  text: Какой класс ошибок перехватывается условием SQLEXCEPTION?
+  type: single
+  answers:
+  - text: Только ошибки деления на ноль
+    correct: false
+  - text: Только нарушения ограничений целостности
+    correct: false
+  - text: Все ошибки (исключения)
+    correct: true
+  - text: Только предупреждения
+    correct: false
+- id: IT03-31-Q05
+  text: Какой оператор используется для генерации пользовательской ошибки в хранимой процедуре?
+  type: single
+  answers:
+  - text: RAISE
+    correct: false
+  - text: THROW
+    correct: false
+  - text: SIGNAL
+    correct: true
+  - text: ERROR
+    correct: false
+- id: IT03-31-Q06
+  text: Какой SQLSTATE зарезервирован для пользовательских ошибок?
+  type: single
+  answers:
+  - text: '01000'
+    correct: false
+  - text: '45000'
+    correct: true
+  - text: 'HY000'
+    correct: false
+  - text: '23000'
+    correct: false
+- id: IT03-31-Q07
+  text: Что делает оператор ROLLBACK?
+  type: single
+  answers:
+  - text: Фиксирует изменения и завершает транзакцию
+    correct: false
+  - text: Откатывает изменения, сделанные в текущей транзакции
+    correct: true
+  - text: Создает резервную копию данных
+    correct: false
+  - text: Перезапускает сервер базы данных
+    correct: false
+- id: IT03-31-Q08
+  text: Как получить текст сообщения об ошибке внутри обработчика SQLEXCEPTION?
+  type: single
+  answers:
+  - text: Использовать функцию ERROR_MESSAGE()
+    correct: false
+  - text: Использовать конструкцию GET DIAGNOSTICS ... MESSAGE_TEXT
+    correct: true
+  - text: Обратиться к системной переменной @@ERROR
+    correct: false
+  - text: Прочитать таблицу information_schema.errors
+    correct: false
+- id: IT03-31-Q09
+  text: Что произойдет, если в хранимой процедуре с DECLARE EXIT HANDLER FOR SQLEXCEPTION возникнет ошибка после START TRANSACTION, но до COMMIT?
+  type: single
+  answers:
+  - text: Транзакция будет автоматически зафиксирована
+    correct: false
+  - text: Транзакция будет откатана обработчиком, если в нём есть ROLLBACK
+    correct: true
+  - text: Транзакция останется открытой и будет ждать ручного вмешательства
+    correct: false
+  - text: Процедура завершится с ошибкой, но транзакция останется активной
+    correct: false
+- id: IT03-31-Q10
+  text: Какой оператор позволяет создать точку сохранения внутри транзакции для частичного отката?
+  type: single
+  answers:
+  - text: SAVE TRANSACTION
+    correct: false
+  - text: SAVEPOINT
+    correct: true
+  - text: CHECKPOINT
+    correct: false
+  - text: BACKUP POINT
+    correct: false
