@@ -1,0 +1,123 @@
+lecture_id: '32'
+lecture_title: "ИТ.03 - 32 - Пользовательские функции в MySQL"
+questions:
+- id: IT03-32-Q01
+  text: Что такое пользовательская функция (UDF) в MySQL?
+  type: single
+  answers:
+  - text: Встроенная функция, предоставляемая СУБД (например, SUM())
+    correct: false
+  - text: Именованный блок кода, который принимает параметры, выполняет действия и возвращает одно значение
+    correct: true
+  - text: Процедура, которая может изменять данные в таблицах
+    correct: false
+  - text: Триггер, автоматически выполняемый при изменении данных
+    correct: false
+- id: IT03-32-Q02
+  text: Какой оператор используется для создания пользовательской функции?
+  type: single
+  answers:
+  - text: CREATE PROCEDURE
+    correct: false
+  - text: CREATE FUNCTION
+    correct: true
+  - text: DEFINE FUNCTION
+    correct: false
+  - text: MAKE FUNCTION
+    correct: false
+- id: IT03-32-Q03
+  text: Какое ключевое слово указывает тип возвращаемого значения функции?
+  type: single
+  answers:
+  - text: RETURNS
+    correct: true
+  - text: RETURN TYPE
+    correct: false
+  - text: OUTPUT
+    correct: false
+  - text: BACK
+    correct: false
+- id: IT03-32-Q04
+  text: Какая характеристика функции указывает, что она всегда возвращает одинаковый результат для одних и тех же входных данных?
+  type: single
+  answers:
+  - text: NO SQL
+    correct: false
+  - text: READS SQL DATA
+    correct: false
+  - text: DETERMINISTIC
+    correct: true
+  - text: MODIFIES SQL DATA
+    correct: false
+- id: IT03-32-Q05
+  text: Что вызывает ошибку 1418 "This function has none of DETERMINISTIC, NO SQL, or READS SQL DATA"?
+  type: single
+  answers:
+  - text: Функция пытается изменить данные в таблице
+    correct: false
+  - text: Функция содержит синтаксическую ошибку
+    correct: false
+  - text: Включено бинарное журналирование, но функция не помечена характеристикой
+    correct: true
+  - text: Функция возвращает неверный тип данных
+    correct: false
+- id: IT03-32-Q06
+  text: Где можно использовать пользовательскую функцию в SQL-запросе?
+  type: single
+  answers:
+  - text: Только в выражении SELECT
+    correct: false
+  - text: Только в хранимых процедурах
+    correct: false
+  - text: В любом месте, где допустимо выражение SELECT, WHERE, HAVING, ORDER BY и т.д.
+    correct: true
+  - text: Только в операторе CALL
+    correct: false
+- id: IT03-32-Q07
+  text: Чем пользовательская функция отличается от хранимой процедуры?
+  type: single
+  answers:
+  - text: Функция может изменять данные, а процедура — нет
+    correct: false
+  - text: Функция всегда возвращает значение, процедура может не возвращать
+    correct: true
+  - text: Функцию можно вызывать только через CALL, процедуру — через SELECT
+    correct: false
+  - text: Функция поддерживает транзакции, процедура — нет
+    correct: false
+- id: IT03-32-Q08
+  text: Какой оператор внутри функции возвращает результат?
+  type: single
+  answers:
+  - text: EXIT
+    correct: false
+  - text: RETURN
+    correct: true
+  - text: OUTPUT
+    correct: false
+  - text: SELECT ... INTO
+    correct: false
+- id: IT03-32-Q09
+  text: Как удалить пользовательскую функцию?
+  type: single
+  answers:
+  - text: DELETE FUNCTION имя_функции
+    correct: false
+  - text: DROP FUNCTION имя_функции
+    correct: true
+  - text: REMOVE FUNCTION имя_функции
+    correct: false
+  - text: ALTER FUNCTION ... DISABLE
+    correct: false
+- id: IT03-32-Q10
+  text: Какая характеристика должна быть у функции, которая читает данные из таблицы с помощью SELECT?
+  type: single
+  answers:
+  - text: DETERMINISTIC
+    correct: false
+  - text: NO SQL
+    correct: false
+  - text: READS SQL DATA
+    correct: true
+  - text: MODIFIES SQL DATA
+    correct: false
