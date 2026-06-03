@@ -1,0 +1,123 @@
+lecture_id: '33'
+lecture_title: "ИТ.03 - 33 - Триггеры в MySQL"
+questions:
+- id: IT03-33-Q01
+  text: Что такое триггер в MySQL?
+  type: single
+  answers:
+  - text: Хранимая процедура, которая вызывается вручную с помощью CALL
+    correct: false
+  - text: Именованный набор SQL-инструкций, который автоматически выполняется при событии INSERT, UPDATE или DELETE на таблице
+    correct: true
+  - text: Пользовательская функция, возвращающая значение
+    correct: false
+  - text: Индекс, ускоряющий выполнение запросов
+    correct: false
+- id: IT03-33-Q02
+  text: Какие события могут вызывать срабатывание триггера?
+  type: single
+  answers:
+  - text: INSERT, UPDATE, DELETE
+    correct: true
+  - text: SELECT, INSERT, UPDATE
+    correct: false
+  - text: CREATE, ALTER, DROP
+    correct: false
+  - text: INSERT, DELETE, TRUNCATE
+    correct: false
+- id: IT03-33-Q03
+  text: Какие ключевые слова определяют момент срабатывания триггера относительно операции?
+  type: single
+  answers:
+  - text: START и END
+    correct: false
+  - text: BEFORE и AFTER
+    correct: true
+  - text: PREVIOUS и NEXT
+    correct: false
+  - text: FIRST и LAST
+    correct: false
+- id: IT03-33-Q04
+  text: Какое ключевое слово используется в триггере для доступа к старым значениям столбцов (до изменения)?
+  type: single
+  answers:
+  - text: OLD
+    correct: true
+  - text: PREVIOUS
+    correct: false
+  - text: BEFORE
+    correct: false
+  - text: ORIGINAL
+    correct: false
+- id: IT03-33-Q05
+  text: В каком типе триггера можно изменять значения NEW?
+  type: single
+  answers:
+  - text: Только в триггерах AFTER
+    correct: false
+  - text: Только в триггерах BEFORE
+    correct: true
+  - text: В любом триггере
+    correct: false
+  - text: Значения NEW изменять нельзя
+    correct: false
+- id: IT03-33-Q06
+  text: Какое ключевое слово в триггере DELETE доступно для доступа к данным?
+  type: single
+  answers:
+  - text: Только OLD
+    correct: true
+  - text: Только NEW
+    correct: false
+  - text: И OLD, и NEW
+    correct: false
+  - text: Ни OLD, ни NEW
+    correct: false
+- id: IT03-33-Q07
+  text: Сколько триггеров максимально можно создать на одной таблице в MySQL?
+  type: single
+  answers:
+  - text: 3 (по одному на INSERT, UPDATE, DELETE)
+    correct: false
+  - text: 6 (BEFORE/AFTER для каждого из INSERT, UPDATE, DELETE)
+    correct: true
+  - text: Неограниченное количество
+    correct: false
+  - text: 1 (только один триггер на таблицу)
+    correct: false
+- id: IT03-33-Q08
+  text: Какой оператор используется для генерации пользовательской ошибки в триггере?
+  type: single
+  answers:
+  - text: RAISE ERROR
+    correct: false
+  - text: SIGNAL
+    correct: true
+  - text: THROW EXCEPTION
+    correct: false
+  - text: RETURN ERROR
+    correct: false
+- id: IT03-33-Q09
+  text: Как удалить триггер в MySQL?
+  type: single
+  answers:
+  - text: DELETE TRIGGER имя_триггера
+    correct: false
+  - text: DROP TRIGGER имя_триггера
+    correct: true
+  - text: REMOVE TRIGGER имя_триггера
+    correct: false
+  - text: ALTER TRIGGER имя_триггера DISABLE
+    correct: false
+- id: IT03-33-Q10
+  text: Какая операция НЕ вызывает срабатывание триггеров?
+  type: single
+  answers:
+  - text: INSERT INTO table VALUES (...)
+    correct: false
+  - text: UPDATE table SET column = value
+    correct: false
+  - text: TRUNCATE TABLE table
+    correct: true
+  - text: DELETE FROM table WHERE condition
+    correct: false
