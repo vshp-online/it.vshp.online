@@ -1,0 +1,123 @@
+lecture_id: '35'
+lecture_title: "ИТ.03 - 35 - Импорт/экспорт и дампы в MySQL"
+questions:
+- id: IT03-35-Q01
+  text: Какая утилита используется для создания дампов базы данных MySQL?
+  type: single
+  answers:
+  - text: mysql
+    correct: false
+  - text: mysqldump
+    correct: true
+  - text: mysqladmin
+    correct: false
+  - text: mysqlcheck
+    correct: false
+- id: IT03-35-Q02
+  text: Какая опция mysqldump позволяет экспортировать только структуру таблиц (без данных)?
+  type: single
+  answers:
+  - text: '--no-create-info'
+    correct: false
+  - text: '--schema-only'
+    correct: false
+  - text: '--no-data'
+    correct: true
+  - text: '--structure-only'
+    correct: false
+- id: IT03-35-Q03
+  text: Какая опция mysqldump гарантирует консистентность данных для InnoDB без блокировки таблиц?
+  type: single
+  answers:
+  - text: '--lock-tables'
+    correct: false
+  - text: '--single-transaction'
+    correct: true
+  - text: '--consistent-data'
+    correct: false
+  - text: '--skip-lock-tables'
+    correct: false
+- id: IT03-35-Q04
+  text: Как импортировать дамп базы данных из файла dump.sql?
+  type: single
+  answers:
+  - text: mysql -u root -p database < dump.sql
+    correct: true
+  - text: mysqldump -u root -p database < dump.sql
+    correct: false
+  - text: mysqlimport -u root -p database dump.sql
+    correct: false
+  - text: mysql -u root -p database > dump.sql
+    correct: false
+- id: IT03-35-Q05
+  text: Какая опция mysqldump добавляет DROP TABLE IF EXISTS перед CREATE TABLE?
+  type: single
+  answers:
+  - text: '--drop-tables'
+    correct: false
+  - text: '--add-drop-table'
+    correct: true
+  - text: '--force-drop'
+    correct: false
+  - text: '--replace-tables'
+    correct: false
+- id: IT03-35-Q06
+  text: Какой оператор MySQL используется для экспорта данных в CSV-файл на сервере?
+  type: single
+  answers:
+  - text: SELECT ... INTO OUTFILE
+    correct: true
+  - text: SELECT ... INTO CSV
+    correct: false
+  - text: EXPORT ... TO FILE
+    correct: false
+  - text: SELECT ... EXPORT FILE
+    correct: false
+- id: IT03-35-Q07
+  text: Какая привилегия MySQL необходима для использования SELECT ... INTO OUTFILE?
+  type: single
+  answers:
+  - text: SELECT
+    correct: false
+  - text: FILE
+    correct: true
+  - text: SUPER
+    correct: false
+  - text: EXPORT
+    correct: false
+- id: IT03-35-Q08
+  text: Какой оператор используется для импорта данных из CSV-файла в таблицу MySQL?
+  type: single
+  answers:
+  - text: IMPORT DATA INFILE
+    correct: false
+  - text: LOAD DATA INFILE
+    correct: true
+  - text: INSERT FROM FILE
+    correct: false
+  - text: READ DATA INFILE
+    correct: false
+- id: IT03-35-Q09
+  text: Какая команда внутри mysql-клиента позволяет выполнить SQL-инструкции из файла?
+  type: single
+  answers:
+  - text: EXECUTE
+    correct: false
+  - text: SOURCE
+    correct: true
+  - text: RUN
+    correct: false
+  - text: IMPORT
+    correct: false
+- id: IT03-35-Q10
+  text: Какая опция mysqldump позволяет включить в дамп хранимые процедуры?
+  type: single
+  answers:
+  - text: '--procedures'
+    correct: false
+  - text: '--routines'
+    correct: true
+  - text: '--functions'
+    correct: false
+  - text: '--stored-procedures'
+    correct: false
