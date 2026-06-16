@@ -10,7 +10,7 @@ sidebar: false
 - [02 - Выполнение сложных запросов SELECT к базе `world`](./practicals/02_practical.md)
 - [03 - Модификация данных в базе `world`](./practicals/03_practical.md)
 - [04 - Анализ структуры базы данных `employee`](./practicals/04_practical.md)
-- 05 - Выполнение сложных запросов SELECT к базе `employee`
+- [05 - Выполнение сложных запросов SELECT к базе `employee`](./practicals/05_practical.md)
 - 06 - Модификация данных в базе `employee`
 ## Документы
 
