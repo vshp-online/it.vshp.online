@@ -111,7 +111,7 @@ WHERE status = 'cancelled' OR status = 'returned';
 :::
 
 **Результат:**
-Отбираются все отменённые (`cancelled`) и возвращённые (`returned`) заказы.
+Отбираются заказы со статусом `cancelled` или `returned`.
 
 ## Оператор NOT
 
@@ -332,7 +332,7 @@ WHERE status = 'cancelled';
 SELECT *
 FROM orders
 WHERE
-  status = "new"
+  status = 'new'
     AND
   price >= 1500
 ```
@@ -365,9 +365,9 @@ WHERE
 SELECT *
 FROM orders
 WHERE
-  status = "cancelled"
+  status = 'cancelled'
     OR
-  status = "returned"
+  status = 'returned'
 ```
 
 :::
@@ -398,7 +398,7 @@ WHERE
 SELECT *
 FROM orders
 WHERE
-  status NOT IN("delivery", "in_progress")
+  status NOT IN ('delivery', 'in_progress')
 ```
 
 :::
