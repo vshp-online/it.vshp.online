@@ -1,0 +1,123 @@
+lecture_id: '39'
+lecture_title: "ИТ.03 - 39 - Введение в оконные функции"
+questions:
+- id: IT03-39-Q01
+  text: В какой версии MySQL появились оконные функции?
+  type: single
+  answers:
+  - text: 5.7
+    correct: false
+  - text: 8.0
+    correct: true
+  - text: 5.6
+    correct: false
+  - text: 9.0
+    correct: false
+- id: IT03-39-Q02
+  text: Что такое оконная функция?
+  type: single
+  answers:
+  - text: Функция, которая объединяет строки в группы и возвращает одну строку на группу
+    correct: false
+  - text: Функция, которая вычисляет значение по набору строк (окну), связанному с текущей строкой, не схлопывая строки результата
+    correct: true
+  - text: Функция, которая выполняется автоматически при изменении данных в таблице
+    correct: false
+  - text: Функция, которая шифрует значения столбцов при выборке
+    correct: false
+- id: IT03-39-Q03
+  text: Какая конструкция превращает обычную агрегатную функцию в оконную?
+  type: single
+  answers:
+  - text: GROUP BY (...)
+    correct: false
+  - text: HAVING (...)
+    correct: false
+  - text: OVER (...)
+    correct: true
+  - text: WINDOW_FUNC (...)
+    correct: false
+- id: IT03-39-Q04
+  text: За что отвечает секция PARTITION BY внутри OVER()?
+  type: single
+  answers:
+  - text: За сортировку строк внутри окна
+    correct: false
+  - text: За разбиение строк на группы, внутри каждой из которых оконная функция вычисляется отдельно
+    correct: true
+  - text: За ограничение количества строк в результате запроса
+    correct: false
+  - text: За фильтрацию строк по условию
+    correct: false
+- id: IT03-39-Q05
+  text: Какая функция присваивает каждой строке окна уникальный последовательный номер, даже если значения сортировки совпадают?
+  type: single
+  answers:
+  - text: RANK()
+    correct: false
+  - text: DENSE_RANK()
+    correct: false
+  - text: ROW_NUMBER()
+    correct: true
+  - text: NTILE()
+    correct: false
+- id: IT03-39-Q06
+  text: Чем RANK() отличается от DENSE_RANK() при одинаковых значениях сортировки?
+  type: single
+  answers:
+  - text: RANK() не присваивает ранги одинаковым значениям, а DENSE_RANK() присваивает
+    correct: false
+  - text: RANK() пропускает номера после группы одинаковых значений, а DENSE_RANK() не пропускает
+    correct: true
+  - text: RANK() работает только в MySQL 8, а DENSE_RANK() в любой версии
+    correct: false
+  - text: Ничем — это полные синонимы
+    correct: false
+- id: IT03-39-Q07
+  text: Что вернёт LAG(salary) OVER (ORDER BY hire_date) для самой первой строки окна?
+  type: single
+  answers:
+  - text: 0
+    correct: false
+  - text: Значение зарплаты текущей строки
+    correct: false
+  - text: NULL
+    correct: true
+  - text: Ошибку выполнения запроса
+    correct: false
+- id: IT03-39-Q08
+  text: В каких секциях запроса НЕЛЬЗЯ использовать оконные функции?
+  type: single
+  answers:
+  - text: В списке SELECT и в ORDER BY
+    correct: false
+  - text: В WHERE, GROUP BY и HAVING
+    correct: true
+  - text: Только в WHERE
+    correct: false
+  - text: Только в HAVING
+    correct: false
+- id: IT03-39-Q09
+  text: Что вернёт выражение SUM(salary) OVER (ORDER BY hire_date)?
+  type: single
+  answers:
+  - text: Сумму всех зарплат, одинаковую для всех строк
+    correct: false
+  - text: Накопительную (бегущую) сумму зарплат от начала окна до текущей строки
+    correct: true
+  - text: Максимальную зарплату среди всех сотрудников
+    correct: false
+  - text: Среднюю зарплату по каждому отделу
+    correct: false
+- id: IT03-39-Q10
+  text: Какой механизм позволяет переиспользовать одно и то же окно несколькими оконными функциями в одном запросе?
+  type: single
+  answers:
+  - text: WITH ... AS (...)
+    correct: false
+  - text: WINDOW w AS (...) с последующим использованием OVER w
+    correct: true
+  - text: CREATE WINDOW ...
+    correct: false
+  - text: OVER (w)
+    correct: false
