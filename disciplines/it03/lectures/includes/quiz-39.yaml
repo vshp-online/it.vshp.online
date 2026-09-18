@@ -77,11 +77,11 @@ questions:
   text: Что вернёт LAG(salary) OVER (ORDER BY hire_date) для самой первой строки окна?
   type: single
   answers:
-  - text: 0
+  - text: "0"
     correct: false
   - text: Значение зарплаты текущей строки
     correct: false
-  - text: NULL
+  - text: "NULL"
     correct: true
   - text: Ошибку выполнения запроса
     correct: false
