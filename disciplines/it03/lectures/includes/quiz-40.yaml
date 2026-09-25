@@ -1,0 +1,123 @@
+lecture_id: '40'
+lecture_title: "ИТ.03 - 40 - Оконные функции в MySQL: продвинутый уровень"
+questions:
+- id: IT03-40-Q01
+  text: Что такое рамка окна (window frame) в оконных функциях?
+  type: single
+  answers:
+  - text: Подмножество строк партиции, относительно которого вычисляется функция для каждой текущей строки
+    correct: true
+  - text: Ограничение на количество партиций в запросе
+    correct: false
+  - text: Фильтр строк по условию WHERE
+    correct: false
+  - text: Набор столбцов, которые попадают в результат запроса
+    correct: false
+- id: IT03-40-Q02
+  text: Какая рамка действует по умолчанию для агрегатной оконной функции, если в окне задан ORDER BY?
+  type: single
+  answers:
+  - text: ROWS BETWEEN 1 PRECEDING AND CURRENT ROW
+    correct: false
+  - text: RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+    correct: true
+  - text: ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+    correct: false
+  - text: Рамка не задаётся, функция всегда вычисляется по всей партиции
+    correct: false
+- id: IT03-40-Q03
+  text: Какой синтаксис задаёт рамку «две предыдущие строки плюс текущая»?
+  type: single
+  answers:
+  - text: ROWS BETWEEN 2 PRECEDING AND 1 FOLLOWING
+    correct: false
+  - text: ROWS BETWEEN 2 PRECEDING AND CURRENT ROW
+    correct: true
+  - text: RANGE BETWEEN 2 PRECEDING AND CURRENT ROW
+    correct: false
+  - text: ROWS BETWEEN CURRENT ROW AND 2 FOLLOWING
+    correct: false
+- id: IT03-40-Q04
+  text: Чем рамка RANGE отличается от рамки ROWS?
+  type: single
+  answers:
+  - text: RANGE включает в рамку все строки с тем же значением ключа сортировки, что и у текущей
+    correct: true
+  - text: RANGE работает только со столбцами типа DATE
+    correct: false
+  - text: ROWS учитывает только первую строку окна
+    correct: false
+  - text: Ничем — это полные синонимы
+    correct: false
+- id: IT03-40-Q05
+  text: Какое значение примет CUME_DIST() для строки с максимальным значением сортировки при ORDER BY ... ASC?
+  type: single
+  answers:
+  - text: "0"
+    correct: false
+  - text: "0.5"
+    correct: false
+  - text: "1"
+    correct: true
+  - text: "NULL"
+    correct: false
+- id: IT03-40-Q06
+  text: Какое значение принимает PERCENT_RANK() для самой первой строки окна?
+  type: single
+  answers:
+  - text: "0"
+    correct: true
+  - text: "1"
+    correct: false
+  - text: "0.5"
+    correct: false
+  - text: "NULL"
+    correct: false
+- id: IT03-40-Q07
+  text: Что возвращает NTH_VALUE(salary, 2) OVER (ORDER BY salary DESC ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING)?
+  type: single
+  answers:
+  - text: Вторую по величине зарплату в окне
+    correct: true
+  - text: Сумму двух наибольших зарплат
+    correct: false
+  - text: Зарплату сотрудника с id, равным 2
+    correct: false
+  - text: Второй по счёту столбец таблицы
+    correct: false
+- id: IT03-40-Q08
+  text: Как правильно получить топ-3 сотрудников с наибольшей зарплатой в каждом отделе?
+  type: single
+  answers:
+  - text: Написать WHERE ROW_NUMBER() OVER (...) <= 3 прямо в основном запросе
+    correct: false
+  - text: Обернуть запрос с ROW_NUMBER() в CTE или подзапрос и отфильтровать WHERE rn <= 3
+    correct: true
+  - text: Добавить LIMIT 3 в конец запроса
+    correct: false
+  - text: Добавить HAVING ROW_NUMBER() <= 3
+    correct: false
+- id: IT03-40-Q09
+  text: Какая оконная функция чаще всего применяется для поиска и удаления дубликатов строк?
+  type: single
+  answers:
+  - text: RANK()
+    correct: false
+  - text: NTILE()
+    correct: false
+  - text: ROW_NUMBER()
+    correct: true
+  - text: FIRST_VALUE()
+    correct: false
+- id: IT03-40-Q10
+  text: Как с помощью оконных функций вычислить медианную зарплату сотрудников?
+  type: single
+  answers:
+  - text: Пронумеровать строки через ROW_NUMBER(), посчитать их количество через COUNT(*) OVER () и усреднить значения, попавшие на средние позиции
+    correct: true
+  - text: Взять MAX(salary) OVER ()
+    correct: false
+  - text: Взять AVG(salary) OVER (ORDER BY salary ROWS BETWEEN 2 PRECEDING AND CURRENT ROW)
+    correct: false
+  - text: Использовать MEDIAN(salary) OVER ()
+    correct: false
