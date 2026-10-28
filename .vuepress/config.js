@@ -145,6 +145,9 @@ export default defineUserConfig({
       },
     },
     viteOptions: {
+      server: {
+         allowedHosts: ["it.vshp.online"]
+      },
       publicDir: "public",
       define: {
         __APP_VERSION__: JSON.stringify(APP_VERSION),

@@ -16,7 +16,7 @@
     "cy:open": "cypress open",
     "cy:run": "cypress run",
     "license:update": "node scripts/license-update.js",
-    "dev": "vuepress dev .",
+    "dev": "vuepress dev . --port 80",
     "prebuild": "npm run clean:all && GIT_MERGE_AUTOEDIT=no yarn license:update",
     "build": "vuepress build .",
     "preserve": "npm run clean:all && yarn build",

@@ -61,3 +61,4 @@ next: '/disciplines/mdk1101/'
   - [39 - Введение в оконные функции.](./lectures/39_lecture.md)
   - [40 - Оконные функции.](./lectures/40_lecture.md)
   - [41 - Практикум: оконные функции.](./lectures/41_lecture.md)
+  - [42 - Обобщённые табличные выражения (CTE) в MySQL](./lectures/42_lecture.md)
