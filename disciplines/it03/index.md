@@ -63,3 +63,4 @@ next: '/disciplines/mdk1101/'
   - [41 - Практикум: оконные функции.](./lectures/41_lecture.md)
   - [42 - Обобщённые табличные выражения (CTE) в MySQL](./lectures/42_lecture.md)
   - [43 - Защита баз данных: пользователи, права и роли в MySQL](./lectures/43_lecture.md)
+  - [44 - Защита баз данных: шифрование данных и логирование изменений в MySQL](./lectures/44_lecture.md)
